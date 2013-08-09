@@ -19,5 +19,13 @@ module SampleApi
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    # 
+    config.generators.stylesheets = false
+    config.generators.javascripts = false
+    config.generators.helper = false
+    config.generators.view_specs = false
+    config.generators.helper_specs = false
+    config.generators.model_specs = false
+    config.generators.controller_specs = false
   end
 end
