@@ -22,11 +22,16 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1A017D9317B6145B00614DE1 /* ANObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017D9117B6145B00614DE1 /* ANObject.h */; };
+		1A017D9417B6145B00614DE1 /* ANObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9217B6145B00614DE1 /* ANObject.m */; };
+		1A017D9617B615ED00614DE1 /* Anode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9517B615ED00614DE1 /* Anode.m */; };
+		1A017D9917B6196000614DE1 /* ANQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017D9717B6196000614DE1 /* ANQuery.h */; };
+		1A017D9A17B6196000614DE1 /* ANQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9817B6196000614DE1 /* ANQuery.m */; };
+		1A017D9D17B6238E00614DE1 /* ANUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017D9B17B6238E00614DE1 /* ANUser.h */; };
+		1A017D9E17B6238E00614DE1 /* ANUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9C17B6238E00614DE1 /* ANUser.m */; };
 		674F5E9417B572DC00D8A066 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674F5E9317B572DC00D8A066 /* Foundation.framework */; };
 		674F5E9917B572DC00D8A066 /* Anode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 674F5E9817B572DC00D8A066 /* Anode.h */; };
 		674F5EA217B5739C00D8A066 /* Anode.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F5E9817B572DC00D8A066 /* Anode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		674F5EA617B575DC00D8A066 /* Widget.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F5EA417B575DC00D8A066 /* Widget.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		674F5EA717B575DC00D8A066 /* Widget.m in Sources */ = {isa = PBXBuildFile; fileRef = 674F5EA517B575DC00D8A066 /* Widget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,12 +58,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A017D9117B6145B00614DE1 /* ANObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANObject.h; sourceTree = "<group>"; };
+		1A017D9217B6145B00614DE1 /* ANObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANObject.m; sourceTree = "<group>"; };
+		1A017D9517B615ED00614DE1 /* Anode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Anode.m; sourceTree = "<group>"; };
+		1A017D9717B6196000614DE1 /* ANQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANQuery.h; sourceTree = "<group>"; };
+		1A017D9817B6196000614DE1 /* ANQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANQuery.m; sourceTree = "<group>"; };
+		1A017D9B17B6238E00614DE1 /* ANUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANUser.h; sourceTree = "<group>"; };
+		1A017D9C17B6238E00614DE1 /* ANUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANUser.m; sourceTree = "<group>"; };
 		674F5E9017B572DC00D8A066 /* libAnode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnode.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		674F5E9317B572DC00D8A066 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		674F5E9717B572DC00D8A066 /* Anode-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Anode-Prefix.pch"; sourceTree = "<group>"; };
 		674F5E9817B572DC00D8A066 /* Anode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anode.h; sourceTree = "<group>"; };
-		674F5EA417B575DC00D8A066 /* Widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Widget.h; sourceTree = "<group>"; };
-		674F5EA517B575DC00D8A066 /* Widget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Widget.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +113,13 @@
 			children = (
 				674F5E9617B572DC00D8A066 /* Supporting Files */,
 				674F5E9817B572DC00D8A066 /* Anode.h */,
-				674F5EA417B575DC00D8A066 /* Widget.h */,
-				674F5EA517B575DC00D8A066 /* Widget.m */,
+				1A017D9517B615ED00614DE1 /* Anode.m */,
+				1A017D9117B6145B00614DE1 /* ANObject.h */,
+				1A017D9217B6145B00614DE1 /* ANObject.m */,
+				1A017D9717B6196000614DE1 /* ANQuery.h */,
+				1A017D9817B6196000614DE1 /* ANQuery.m */,
+				1A017D9B17B6238E00614DE1 /* ANUser.h */,
+				1A017D9C17B6238E00614DE1 /* ANUser.m */,
 			);
 			path = Anode;
 			sourceTree = "<group>";
@@ -125,7 +140,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				674F5EA217B5739C00D8A066 /* Anode.h in Headers */,
-				674F5EA617B575DC00D8A066 /* Widget.h in Headers */,
+				1A017D9317B6145B00614DE1 /* ANObject.h in Headers */,
+				1A017D9917B6196000614DE1 /* ANQuery.h in Headers */,
+				1A017D9D17B6238E00614DE1 /* ANUser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +230,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				674F5EA717B575DC00D8A066 /* Widget.m in Sources */,
+				1A017D9417B6145B00614DE1 /* ANObject.m in Sources */,
+				1A017D9617B615ED00614DE1 /* Anode.m in Sources */,
+				1A017D9A17B6196000614DE1 /* ANQuery.m in Sources */,
+				1A017D9E17B6238E00614DE1 /* ANUser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +373,7 @@
 				674F5EAB17B5766900D8A066 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
