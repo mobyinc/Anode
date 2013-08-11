@@ -6,9 +6,13 @@
 //  Copyright (c) 2013 Moby, Inc. All rights reserved.
 //
 
-#import "Anode.h"
+#import "BlockTypes.h"
 
 @interface ANObject : NSObject
+{
+    NSMutableDictionary* _attributes;
+    NSMutableSet* _dirtyAttributes;
+}
 
 @property (nonatomic, strong, readonly) NSString* type;
 @property (nonatomic, strong, readonly) NSNumber* objectId;
@@ -22,8 +26,8 @@
 -(void)removeObjectForKey:(NSString*)key;
 -(id)objectForKey:(NSString*)key;
 
--(void)saveAsynchronously;
--(void)saveAsynchronouslyWithBlock:(CompletionBlock)block;
+-(void)save;
+-(void)saveWithBlock:(CompletionBlock)block;
 -(void)reloadWithBlock:(CompletionBlock)block;
 
 @end

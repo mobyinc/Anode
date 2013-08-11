@@ -8,6 +8,12 @@
 
 #import "ANQuery.h"
 
+@interface ANQuery ()
+
+@property (nonatomic, strong) NSString* type;
+
+@end
+
 @implementation ANQuery
 
 @end

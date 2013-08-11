@@ -8,6 +8,28 @@
 
 #import "ANUser.h"
 
+static ANUser* sharedUser = nil;
+
 @implementation ANUser
+
++(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block
+{
+    
+}
+
++(void)restoreLoginWithBlock:(LoginBlock)block
+{
+    
+}
+
++(void)logout
+{
+    
+}
+
++(ANUser*)currentUser
+{
+    return sharedUser;
+}
 
 @end

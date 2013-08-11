@@ -8,18 +8,39 @@
 
 #import "Anode.h"
 
-static NSString* _clientToken;
+static Anode* sharedAnodeInstance = nil;
+
+@interface Anode ()
+
+@property (nonatomic, retain) NSString* token;
+@property (nonatomic, retain) NSString* baseUrl;
+
+@end
 
 @implementation Anode
 
-+(void)setClientToken:(NSString *)token
-{
-    _clientToken = token;
++(Anode*)sharedInstance {
+    if (!sharedAnodeInstance) {
+        sharedAnodeInstance = [[Anode alloc] init];
+    }
+    
+    return sharedAnodeInstance;
 }
 
-+(NSString *)clientToken
++(void)setBaseUrl:(NSString *)url token:(NSString *)token
 {
-    return _clientToken;
+    [Anode sharedInstance].baseUrl = url;
+    [Anode sharedInstance].token = token;
+}
+
++(NSString *)baseUrl
+{
+    return [Anode sharedInstance].baseUrl;
+}
+
++(NSString *)token
+{
+    return [Anode sharedInstance].token;
 }
 
 @end
