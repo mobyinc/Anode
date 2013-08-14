@@ -17,7 +17,7 @@
 @interface Anode : NSObject
 
 +(void)setBaseUrl:(NSString*)url token:(NSString*)token;
-+(NSString*)baseUrl;
++(NSURL*)baseUrl;
 +(NSString*)token;
 
 @end

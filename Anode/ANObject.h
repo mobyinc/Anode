@@ -11,7 +11,7 @@
 @interface ANObject : NSObject
 {
     NSMutableDictionary* _attributes;
-    NSMutableSet* _dirtyAttributes;
+    BOOL _dirty;
 }
 
 @property (nonatomic, strong, readonly) NSString* type;

@@ -33,9 +33,9 @@ static Anode* sharedAnodeInstance = nil;
     [Anode sharedInstance].token = token;
 }
 
-+(NSString *)baseUrl
++(NSURL *)baseUrl
 {
-    return [Anode sharedInstance].baseUrl;
+    return [NSURL URLWithString:[Anode sharedInstance].baseUrl];
 }
 
 +(NSString *)token

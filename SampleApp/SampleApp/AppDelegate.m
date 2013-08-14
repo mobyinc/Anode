@@ -17,6 +17,8 @@
 //    self.window.backgroundColor = [UIColor whiteColor];
 //    [self.window makeKeyAndVisible];
     
+    [Anode setBaseUrl:@"http://localhost:3000/api/v1/" token:@""];
+    
     return YES;
 }
 

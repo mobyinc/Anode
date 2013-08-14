@@ -7,11 +7,22 @@
 //
 
 #import "ANObject.h"
-#import "ANObject+Private.h"
 #import "Anode.h"
 
 // TODO: better constant for this?
 #define NIL_INDICATOR @"<nil>"
+
+@interface ANObject ()
+
+@property (nonatomic, strong) NSString* type;
+@property (nonatomic, strong) NSNumber* objectId;
+@property (nonatomic, strong) NSDate* createdAt;
+@property (nonatomic, strong) NSDate* updatedAt;
+@property (nonatomic, assign) BOOL emptyObject;
+
+-(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
+
+@end
 
 @implementation ANObject
 
@@ -39,7 +50,7 @@
     
     if (self) {
         _attributes = [NSMutableDictionary dictionaryWithCapacity:10];
-        _dirtyAttributes = [NSMutableSet setWithCapacity:10];
+        _dirty = NO;
     }
     
     return self;
@@ -50,7 +61,7 @@
     id existingValue = _attributes[key];
     
     if (![existingValue isEqual:object]) {
-        [_dirtyAttributes addObject:key];
+        _dirty = YES;
         _attributes[key] = object;
     }
 }
@@ -80,17 +91,48 @@
     NSString* verb = self.objectId ? @"PUT" : @"POST";
     NSMutableURLRequest* request = [self requestForVerb:verb];
     
-    // what do we post back to server? serialized object?
+    NSError* error = nil;
+    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:_attributes options:0 error:&error];
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        NSLog(@"App.net Global Stream: %@", JSON);
-    } failure:nil];
+        if (block) block(nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(error);
+    }];
+    
     [operation start];
 }
 
 -(void)reloadWithBlock:(CompletionBlock)block
 {
 #warning TODO: Implement
+}
+
+#pragma mark - Private
+
+-(NSMutableURLRequest *)requestForVerb:(NSString *)verb
+{
+    NSString* typeSegment = [[self.type lowercaseString] stringByAppendingString:@"s"]; // TODO: better pluralization
+    NSURL* baseUrl = [Anode baseUrl];
+    NSString* path = nil;
+    NSURL* url = nil;
+    
+    if ([verb isEqualToString:@"POST"]) {
+        path = typeSegment;
+    } else if ([verb isEqualToString:@"PUT"]) {
+        path = [NSString stringWithFormat:@"%@/%@", typeSegment, self.objectId];
+    } else {
+        @throw @"invalid http verb";
+    }
+    
+    url = [NSURL URLWithString:path relativeToURL:baseUrl];
+    
+    NSMutableURLRequest* request = [NSURLRequest requestWithURL:url];
+    [request addValue:[NSString stringWithFormat:@"Token token=%@", [Anode token]] forHTTPHeaderField:@"Authorization"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = verb;
+    
+    return request;
 }
 
 @end
