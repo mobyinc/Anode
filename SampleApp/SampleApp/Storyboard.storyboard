@@ -37,7 +37,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="createProductAction:" destination="Xg6-jc-zcC" eventType="touchUpInside" id="HBf-ZS-a83"/>
+                                    <segue destination="vJi-0N-UlA" kind="push" identifier="createProductSegue" id="Ns2-eF-T8q"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -53,16 +53,73 @@
             </objects>
             <point key="canvasLocation" x="394" y="-44"/>
         </scene>
+        <!--Product View Controller - Title-->
+        <scene sceneID="djR-aa-zZc">
+            <objects>
+                <viewController id="vJi-0N-UlA" customClass="ProductViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="x4W-V6-kAN">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Widget" borderStyle="roundedRect" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fPA-Yy-ovH">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="A cool widget" borderStyle="roundedRect" placeholder="Description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gPu-6q-KoE">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="15.95" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rmC-hN-rRm">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gPu-6q-KoE" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Jmw-HQ-Oh5"/>
+                            <constraint firstItem="gPu-6q-KoE" firstAttribute="top" secondItem="fPA-Yy-ovH" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="KAH-cw-y3F"/>
+                            <constraint firstAttribute="trailing" secondItem="gPu-6q-KoE" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="LXE-hw-eIq"/>
+                            <constraint firstItem="rmC-hN-rRm" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="PGk-q0-q5g"/>
+                            <constraint firstAttribute="trailing" secondItem="fPA-Yy-ovH" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="axv-Hi-709"/>
+                            <constraint firstAttribute="trailing" secondItem="rmC-hN-rRm" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="fVc-mV-jqY"/>
+                            <constraint firstItem="rmC-hN-rRm" firstAttribute="top" secondItem="gPu-6q-KoE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="l8u-bc-VBD"/>
+                            <constraint firstItem="fPA-Yy-ovH" firstAttribute="top" secondItem="x4W-V6-kAN" secondAttribute="top" constant="20" symbolic="YES" type="default" id="oK6-al-TNI"/>
+                            <constraint firstItem="fPA-Yy-ovH" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="xrm-of-64y"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="Vm7-FY-2XC">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="hZ2-mR-JRr">
+                            <connections>
+                                <action selector="saveProductAction:" destination="vJi-0N-UlA" id="Sc7-Uv-LoC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="descriptionInput" destination="gPu-6q-KoE" id="Ifb-hC-5mH"/>
+                        <outlet property="nameInput" destination="fPA-Yy-ovH" id="fht-nf-qFc"/>
+                        <outlet property="priceInput" destination="rmC-hN-rRm" id="OoQ-gg-ulW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I32-ke-Qd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="813" y="-43"/>
+        </scene>
     </scenes>
     <classes>
         <class className="DemoViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DemoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="createProductAction:"/>
-            </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="ProductViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ProductViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="saveProductAction:"/>
+                <relationship kind="outlet" name="descriptionInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="priceInput" candidateClass="UITextField"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -8,6 +8,7 @@
 
 #import "ANObject.h"
 #import "Anode.h"
+#import "ANJSONRequestOperation.h"
 
 // TODO: better constant for this?
 #define NIL_INDICATOR @"<nil>"
@@ -94,7 +95,9 @@
     NSError* error = nil;
     request.HTTPBody = [NSJSONSerialization dataWithJSONObject:_attributes options:0 error:&error];
     
-    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    NSLog(@"%@ - %@", verb, [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);        
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         if (block) block(nil);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         if (block) block(error);
@@ -118,7 +121,7 @@
     NSURL* url = nil;
     
     if ([verb isEqualToString:@"POST"]) {
-        path = typeSegment;
+        path = [NSString stringWithFormat:@"%@/", typeSegment];
     } else if ([verb isEqualToString:@"PUT"]) {
         path = [NSString stringWithFormat:@"%@/%@", typeSegment, self.objectId];
     } else {
@@ -127,8 +130,8 @@
     
     url = [NSURL URLWithString:path relativeToURL:baseUrl];
     
-    NSMutableURLRequest* request = [NSURLRequest requestWithURL:url];
-    [request addValue:[NSString stringWithFormat:@"Token token=%@", [Anode token]] forHTTPHeaderField:@"Authorization"];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:[NSString stringWithFormat:@"Token token=%@", [Anode token]] forHTTPHeaderField:@"Authorization"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = verb;
     

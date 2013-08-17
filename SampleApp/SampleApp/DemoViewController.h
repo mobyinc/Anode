@@ -10,6 +10,4 @@
 
 @interface DemoViewController : UIViewController
 
-- (IBAction)createProductAction:(id)sender;
-
 @end

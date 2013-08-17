@@ -1,0 +1,21 @@
+//
+//  ProductViewController.h
+//  SampleApp
+//
+//  Created by James Jacoby on 8/17/13.
+//  Copyright (c) 2013 Moby, Inc. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ProductViewController : UIViewController
+
+@property (nonatomic, assign) int productId;
+
+@property (strong, nonatomic) IBOutlet UITextField *nameInput;
+@property (strong, nonatomic) IBOutlet UITextField *descriptionInput;
+@property (strong, nonatomic) IBOutlet UITextField *priceInput;
+
+- (IBAction)saveProductAction:(id)sender;
+
+@end
