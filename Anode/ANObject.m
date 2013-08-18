@@ -9,19 +9,18 @@
 #import "ANObject.h"
 #import "Anode.h"
 #import "ANJSONRequestOperation.h"
-
-// TODO: better constant for this?
-#define NIL_INDICATOR @"<nil>"
+#import "NSError+Helpers.h"
+#import "NSString+Inflection.h"
 
 @interface ANObject ()
 
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSNumber* objectId;
-@property (nonatomic, strong) NSDate* createdAt;
-@property (nonatomic, strong) NSDate* updatedAt;
 @property (nonatomic, assign) BOOL emptyObject;
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
+-(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block;
+-(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error;
 
 @end
 
@@ -30,7 +29,7 @@
 +(ANObject*)objectWithType:(NSString*)type
 {
     ANObject* object = [[ANObject alloc] init];
-    object.type = type;
+    object.type = type.lowercaseString;
     
     return object;
 }
@@ -38,9 +37,9 @@
 +(ANObject*)objectWithType:(NSString*)type objectId:(NSNumber*)objectId
 {
     ANObject* object = [[ANObject alloc] init];
-    object.type = type;
+    object.type = type.lowercaseString;
     object.objectId = objectId;
-    object.emptyObject = YES; // cannot be saved, for placeholder / relationships only
+    object.emptyObject = YES; // id was manually specified and therefore cannot be saved unless reloaded first
     
     return object;
 }
@@ -52,6 +51,7 @@
     if (self) {
         _attributes = [NSMutableDictionary dictionaryWithCapacity:10];
         _dirty = NO;
+        _emptyObject = NO;
     }
     
     return self;
@@ -69,17 +69,14 @@
 
 -(void)removeObjectForKey:(NSString*)key
 {
-    [self setObject:NIL_INDICATOR forKey:key];
+    [self setObject:[NSNull null] forKey:key];
 }
 
 -(id)objectForKey:(NSString*)key
 {
     id object = _attributes[key];
-    
-    if ([object isEqualToString:NIL_INDICATOR])
-        return nil;
-    else
-        return object;
+
+    return object;
 }
 
 -(void)save
@@ -89,43 +86,110 @@
 
 -(void)saveWithBlock:(CompletionBlock)block
 {
-    NSString* verb = self.objectId ? @"PUT" : @"POST";
-    NSMutableURLRequest* request = [self requestForVerb:verb];
+    if (!_dirty) {
+        if (block) block(self, nil);
+        return;
+    } else if (self.emptyObject) {
+        if (block) block(self, [NSError errorWithDescription:@"Cannot save an empty object. Load by id or reload first."]);
+        return;
+    }
     
-    NSError* error = nil;
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:_attributes options:0 error:&error];
+    NSString* verb = self.objectId ? @"PUT" : @"POST";    
+    NSError* serializationError = nil;
+    NSData* httpBody = nil;
+    NSMutableDictionary* attributesToSend = [NSMutableDictionary dictionaryWithDictionary:_attributes];
     
-    NSLog(@"%@ - %@", verb, [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);        
+    // strip unwanted attributes
+    [attributesToSend removeObjectForKey:@"id"];
+    [attributesToSend removeObjectForKey:@"created_at"];
+    [attributesToSend removeObjectForKey:@"updated_at"];
     
-    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        if (block) block(nil);
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        if (block) block(error);
-    }];
+    httpBody = [NSJSONSerialization dataWithJSONObject:attributesToSend options:0 error:&serializationError];
     
-    [operation start];
+    if (serializationError) {
+        if (block) block(self, [NSError errorWithDescription:@"JSON serializarion error"]);
+        return;
+    }
+    
+    [self performRequestWithVerb:verb httpBody:httpBody block:block];
+}
+
+-(void)reload
+{
+    [self reloadWithBlock:nil];
 }
 
 -(void)reloadWithBlock:(CompletionBlock)block
 {
-#warning TODO: Implement
+    if (!self.objectId) {
+        if (block) block(self, [NSError errorWithDescription:@"Cannot reload object with no object id."]);
+        return;
+    } else if (!_dirty) {
+        if (block) block(self, nil);
+        return;
+    }
+
+    [self performRequestWithVerb:@"GET" httpBody:nil block:block];
+}
+
+-(void)destroy
+{
+    [self destroyWithBlock:nil];
+}
+
+-(void)destroyWithBlock:(CompletionBlock)block
+{
+    if (!self.objectId) {
+        if (block) block(self, [NSError errorWithDescription:@"Cannot destroy object with no object id."]);
+        return;
+    }
+    
+    [self performRequestWithVerb:@"DELETE" httpBody:nil block:^(id object, NSError *error) {
+        if (!error) {
+            self.objectId = nil;
+        }
+        
+        if (block) block(self, error);
+    }];
+}
+
+#pragma mark - Special Attributes
+
+-(NSNumber*)objectId
+{
+    return [self objectForKey:@"id"];
+}
+
+-(void)setObjectId:(NSNumber*)objectId
+{
+    [self setObject:objectId forKey:@"id"];
+}
+
+-(NSDate*)createdAt
+{
+    return [self objectForKey:@"created_at"];
+}
+
+-(NSDate*)updatedAt
+{
+    return [self objectForKey:@"updated_at"];
 }
 
 #pragma mark - Private
 
--(NSMutableURLRequest *)requestForVerb:(NSString *)verb
+-(NSMutableURLRequest *)requestForVerb:(NSString*)verb
 {
-    NSString* typeSegment = [[self.type lowercaseString] stringByAppendingString:@"s"]; // TODO: better pluralization
+    NSString* typeSegment = [self.type pluralizeString];
     NSURL* baseUrl = [Anode baseUrl];
     NSString* path = nil;
     NSURL* url = nil;
     
     if ([verb isEqualToString:@"POST"]) {
         path = [NSString stringWithFormat:@"%@/", typeSegment];
-    } else if ([verb isEqualToString:@"PUT"]) {
+    } else if ([verb isEqualToString:@"GET"] || [verb isEqualToString:@"PUT"] || [verb isEqualToString:@"DELETE"]) {
         path = [NSString stringWithFormat:@"%@/%@", typeSegment, self.objectId];
     } else {
-        @throw @"invalid http verb";
+        @throw @"Invalid http verb.";
     }
     
     url = [NSURL URLWithString:path relativeToURL:baseUrl];
@@ -136,6 +200,36 @@
     request.HTTPMethod = verb;
     
     return request;
+}
+
+-(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block
+{
+    NSMutableURLRequest* request = [self requestForVerb:verb];
+    request.HTTPBody = httpBody;
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSError* error = nil;
+        [self applyAttributesWithJSONResponse:JSON error:&error];
+        
+        if (block) block(self, error);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
+}
+
+-(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error
+{
+    id object = JSON[self.type];
+    
+    if (object && object[@"id"]) {
+        _attributes = [NSMutableDictionary dictionaryWithDictionary:object];
+        _dirty = NO;
+        _emptyObject = NO;
+    } else if (error) {
+        *error = [NSError errorWithDescription:@"Missing object attributes in server response."];
+    }
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "DemoViewController.h"
+#import "ProductViewController.h"
 
 @interface DemoViewController ()
 
@@ -39,7 +40,10 @@
 {
     if ([segue.identifier isEqualToString:@"createProductSegue"]) {
         NSLog(@"segue create new product");
-    }  
+    } else if ([segue.identifier isEqualToString:@"findProductSegue"]) {
+        ProductViewController* controller = segue.destinationViewController;
+        controller.productId = [self.objectIdInput.text intValue];
+    }
 }
 
 @end

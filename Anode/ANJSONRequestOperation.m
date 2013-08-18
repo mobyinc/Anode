@@ -7,6 +7,7 @@
 //
 
 #import "ANJSONRequestOperation.h"
+#import "NSError+Helpers.h"
 
 @implementation ANJSONRequestOperation
 
@@ -23,23 +24,23 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failure) {
             id JSON = [(AFJSONRequestOperation *)operation responseJSON];
-            NSString* message = @"unknown error";
+            NSString* description = @"unknown error";
             int code = 0;
             
             if (JSON && JSON[@"error"]) {
                 @try {
-                    message = JSON[@"error"][@"message"] ? JSON[@"error"][@"message"] : @"unspecified error";
+                    description = JSON[@"error"][@"message"] ? JSON[@"error"][@"message"] : @"unspecified error";
                     code = JSON[@"error"][@"code"] ? [JSON[@"error"][@"code"] intValue] : 0;
                 }
                 @catch (NSException *exception) {
                     NSLog(@"error parsing error response");
                 }
             } else if (error && error.code == -1004) {
-                message = @"Could not connect to server";
+                description = @"Could not connect to server";
                 code = 503;
             }
             
-            NSError* friendlyError = [NSError errorWithDomain:@"Anode" code:code userInfo:@{@"NSLocalizedDescription" : message, @"ANOriginalError" : error}];
+            NSError* friendlyError = [NSError errorWithCode:code description:description originalError:error];
             
             failure(operation.request, operation.response, friendlyError, JSON);
         }

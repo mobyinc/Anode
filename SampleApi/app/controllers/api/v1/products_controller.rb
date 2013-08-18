@@ -14,6 +14,16 @@ class Api::V1::ProductsController < Api::V1::ApiController
 		end
 	end
 
+	def update
+		@product = ::Product.find(params[:id])
+
+		if @product.update_attributes(product_params)
+			render json: @product
+		else
+			client_error "validation error"
+		end
+	end
+
 private
 
 	def product_params

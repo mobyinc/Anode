@@ -10,6 +10,8 @@
 
 @interface ProductViewController ()
 
+@property (nonatomic, retain) ANObject* product;
+
 @end
 
 @implementation ProductViewController
@@ -26,7 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    if (self.productId) {
+        
+    } else {
+        self.product = [ANObject objectWithType:@"product"];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,17 +47,42 @@
     NSString* description = self.descriptionInput.text;
     NSNumber* price = [NSNumber numberWithFloat:[self.priceInput.text floatValue]];
     
-    ANObject* product = [ANObject objectWithType:@"Product"];
-    [product setObject:name forKey:@"name"];
-    [product setObject:description forKey:@"description"];
-    [product setObject:price forKey:@"price"];
+    [self.product setObject:name forKey:@"name"];
+    [self.product setObject:description forKey:@"description"];
+    [self.product setObject:price forKey:@"price"];
     
-    [product saveWithBlock:^(NSError *error) {
+    [self.product saveWithBlock:^(id object, NSError *error) {
         if (error) {
             NSString* message = [NSString stringWithFormat:@"%d - %@", error.code, error.localizedDescription];
             [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         } else {                        
             [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product saved!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        }
+    }];
+}
+
+- (IBAction)refreshProductAction:(id)sender {
+    [self.product reloadWithBlock:^(id object, NSError *error) {
+        if (error) {
+            NSString* message = [NSString stringWithFormat:@"%d - %@", error.code, error.localizedDescription];
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product refreshed!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            
+            self.nameInput.text = [object objectForKey:@"name"];
+            self.descriptionInput.text = [object objectForKey:@"description"];
+            self.priceInput.text = [object objectForKey:@"price"];
+        }
+    }];
+}
+
+- (IBAction)deleteProductAction:(id)sender {
+    [self.product destroyWithBlock:^(id object, NSError *error) {
+        if (error) {
+            NSString* message = [NSString stringWithFormat:@"%d - %@", error.code, error.localizedDescription];
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product deleted!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];        
         }
     }];
 }

@@ -9,7 +9,7 @@
 @class ANObject;
 @class ANUser;
 
-typedef void (^CompletionBlock) (NSError* error);
+typedef void (^CompletionBlock) (id object, NSError* error);
 typedef void (^ObjectResultBlock) (ANObject* object, NSError* error);
 typedef void (^ObjectsResultBlock) (NSArray* objects, NSError* error);
 typedef void (^ScalarResultBlock) (NSNumber* value, NSError* error);

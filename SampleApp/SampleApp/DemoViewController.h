@@ -10,4 +10,6 @@
 
 @interface DemoViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITextField *objectIdInput;
+
 @end

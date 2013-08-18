@@ -28,6 +28,9 @@
 
 -(void)save;
 -(void)saveWithBlock:(CompletionBlock)block;
+-(void)reload;
 -(void)reloadWithBlock:(CompletionBlock)block;
+-(void)destroy;
+-(void)destroyWithBlock:(CompletionBlock)block;
 
 @end

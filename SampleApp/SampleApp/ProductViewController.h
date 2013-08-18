@@ -17,5 +17,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *priceInput;
 
 - (IBAction)saveProductAction:(id)sender;
+- (IBAction)refreshProductAction:(id)sender;
+- (IBAction)deleteProductAction:(id)sender;
+
 
 @end

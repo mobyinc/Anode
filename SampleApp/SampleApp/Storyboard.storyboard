@@ -40,14 +40,42 @@
                                     <segue destination="vJi-0N-UlA" kind="push" identifier="createProductSegue" id="Ns2-eF-T8q"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wvG-vW-1Hg">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="95" id="AAH-EM-Kht"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Find by Id">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="vJi-0N-UlA" kind="push" identifier="findProductSegue" id="SgA-1v-DDF"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Object Id" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wxn-oY-G56">
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dVe-h4-IdG" firstAttribute="centerX" secondItem="QGv-Fj-ULe" secondAttribute="centerX" type="default" id="SQr-8m-k74"/>
+                            <constraint firstItem="dVe-h4-IdG" firstAttribute="leading" secondItem="QGv-Fj-ULe" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="4bo-iA-Kq6"/>
+                            <constraint firstAttribute="trailing" secondItem="Wxn-oY-G56" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="5Oz-NT-5CV"/>
+                            <constraint firstItem="Wxn-oY-G56" firstAttribute="leading" secondItem="wvG-vW-1Hg" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="6II-xN-cx1"/>
+                            <constraint firstItem="wvG-vW-1Hg" firstAttribute="leading" secondItem="QGv-Fj-ULe" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="6Vw-Pw-Fo0"/>
+                            <constraint firstItem="Wxn-oY-G56" firstAttribute="baseline" secondItem="wvG-vW-1Hg" secondAttribute="baseline" type="default" id="7Np-ab-TkK"/>
                             <constraint firstItem="dVe-h4-IdG" firstAttribute="top" secondItem="QGv-Fj-ULe" secondAttribute="top" constant="20" symbolic="YES" type="default" id="nyF-kF-Lal"/>
+                            <constraint firstItem="wvG-vW-1Hg" firstAttribute="top" secondItem="dVe-h4-IdG" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="xCo-0L-7ni"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Anode" id="QCs-FW-cFy"/>
+                    <connections>
+                        <outlet property="objectIdInput" destination="Wxn-oY-G56" id="pHn-yU-sFD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qds-nB-dGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -73,27 +101,75 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JZp-BM-fQ2">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="83" id="dOs-dy-MY0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="saveProductAction:" destination="vJi-0N-UlA" eventType="touchUpInside" id="0iH-v8-k7C"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MVd-aL-4dE">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="83" id="yPp-XK-N56"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Refresh">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="refreshProductAction:" destination="vJi-0N-UlA" eventType="touchUpInside" id="FIi-xy-sAc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m0t-c3-jj1">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="83" id="Oh4-Ap-kfj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteProductAction:" destination="vJi-0N-UlA" eventType="touchUpInside" id="SAC-ii-czc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="MVd-aL-4dE" firstAttribute="baseline" secondItem="JZp-BM-fQ2" secondAttribute="baseline" type="default" id="Dl6-KA-cKZ"/>
+                            <constraint firstItem="JZp-BM-fQ2" firstAttribute="top" secondItem="rmC-hN-rRm" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Jm7-cU-sN4"/>
                             <constraint firstItem="gPu-6q-KoE" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Jmw-HQ-Oh5"/>
                             <constraint firstItem="gPu-6q-KoE" firstAttribute="top" secondItem="fPA-Yy-ovH" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="KAH-cw-y3F"/>
+                            <constraint firstAttribute="trailing" secondItem="m0t-c3-jj1" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="LNf-ZV-z6G"/>
                             <constraint firstAttribute="trailing" secondItem="gPu-6q-KoE" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="LXE-hw-eIq"/>
+                            <constraint firstItem="m0t-c3-jj1" firstAttribute="baseline" secondItem="MVd-aL-4dE" secondAttribute="baseline" type="default" id="N2Y-w5-jD6"/>
                             <constraint firstItem="rmC-hN-rRm" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="PGk-q0-q5g"/>
+                            <constraint firstItem="JZp-BM-fQ2" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="RYt-LK-FcJ"/>
                             <constraint firstAttribute="trailing" secondItem="fPA-Yy-ovH" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="axv-Hi-709"/>
                             <constraint firstAttribute="trailing" secondItem="rmC-hN-rRm" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="fVc-mV-jqY"/>
                             <constraint firstItem="rmC-hN-rRm" firstAttribute="top" secondItem="gPu-6q-KoE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="l8u-bc-VBD"/>
                             <constraint firstItem="fPA-Yy-ovH" firstAttribute="top" secondItem="x4W-V6-kAN" secondAttribute="top" constant="20" symbolic="YES" type="default" id="oK6-al-TNI"/>
                             <constraint firstItem="fPA-Yy-ovH" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="xrm-of-64y"/>
+                            <constraint firstItem="MVd-aL-4dE" firstAttribute="centerX" secondItem="rmC-hN-rRm" secondAttribute="centerX" type="default" id="zsa-DD-hCN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="Vm7-FY-2XC">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="hZ2-mR-JRr">
-                            <connections>
-                                <action selector="saveProductAction:" destination="vJi-0N-UlA" id="Sc7-Uv-LoC"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Title" id="Vm7-FY-2XC"/>
                     <connections>
                         <outlet property="descriptionInput" destination="gPu-6q-KoE" id="Ifb-hC-5mH"/>
                         <outlet property="nameInput" destination="fPA-Yy-ovH" id="fht-nf-qFc"/>
@@ -108,6 +184,9 @@
     <classes>
         <class className="DemoViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DemoViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="objectIdInput" candidateClass="UITextField"/>
+            </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
@@ -115,6 +194,8 @@
         <class className="ProductViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ProductViewController.h"/>
             <relationships>
+                <relationship kind="action" name="deleteProductAction:"/>
+                <relationship kind="action" name="refreshProductAction:"/>
                 <relationship kind="action" name="saveProductAction:"/>
                 <relationship kind="outlet" name="descriptionInput" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
@@ -127,4 +208,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="SgA-1v-DDF"/>
+    </inferredMetricsTieBreakers>
 </document>
