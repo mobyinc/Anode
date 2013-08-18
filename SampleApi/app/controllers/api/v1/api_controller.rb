@@ -10,7 +10,7 @@ class Api::V1::ApiController < ApplicationController
 		end
 	end
 
-	protect_from_forgery with: :null_session, except: [:create, :update]
+	protect_from_forgery with: :null_session, except: [:create, :update, :destroy]
 
 	rescue_from Exception, with: :exception_handler
 	rescue_from ClientError, with: :client_error_handler
@@ -42,13 +42,14 @@ private
 	end
 
 	def exception_handler(e)
-		logger.error("unexpected error: #{e.to_s}")
-		render json: {error: {code: 500, message: 'unexpected error'}}, status: :internal_server_error
+		message = "unexpected error: #{e}"
+		logger.error(message)
+		render json: {error: {code: 500, message: message}}, status: :internal_server_error
 		return false
 	end
 
 	def client_error_handler(e)
-		logger.warn("client error: #{e.to_s}")	
+		logger.warn(e.message)
 		render json: {error: {code: e.code, message: e.message}}, status: e.code
 		return false
 	end

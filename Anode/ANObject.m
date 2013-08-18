@@ -10,7 +10,7 @@
 #import "Anode.h"
 #import "ANJSONRequestOperation.h"
 #import "NSError+Helpers.h"
-#import "NSString+Inflection.h"
+#import "NSString+ActiveSupportInflector.h"
 
 @interface ANObject ()
 
@@ -124,9 +124,6 @@
     if (!self.objectId) {
         if (block) block(self, [NSError errorWithDescription:@"Cannot reload object with no object id."]);
         return;
-    } else if (!_dirty) {
-        if (block) block(self, nil);
-        return;
     }
 
     [self performRequestWithVerb:@"GET" httpBody:nil block:block];
@@ -146,7 +143,7 @@
     
     [self performRequestWithVerb:@"DELETE" httpBody:nil block:^(id object, NSError *error) {
         if (!error) {
-            self.objectId = nil;
+            [self removeObjectForKey:@"id"];
         }
         
         if (block) block(self, error);
@@ -209,7 +206,10 @@
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
-        [self applyAttributesWithJSONResponse:JSON error:&error];
+        
+        if (![request.HTTPMethod isEqualToString:@"DELETE"]) {
+            [self applyAttributesWithJSONResponse:JSON error:&error];
+        }
         
         if (block) block(self, error);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {

@@ -71,7 +71,9 @@
             
             self.nameInput.text = [object objectForKey:@"name"];
             self.descriptionInput.text = [object objectForKey:@"description"];
-            self.priceInput.text = [object objectForKey:@"price"];
+            
+            NSNumber* price = [object objectForKey:@"price"];
+            self.priceInput.text = [NSString stringWithFormat:@"%@", price];
         }
     }];
 }

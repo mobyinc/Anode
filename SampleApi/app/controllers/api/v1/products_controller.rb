@@ -1,6 +1,7 @@
 class Api::V1::ProductsController < Api::V1::ApiController
-	def show
-		@product = ::Product.find(params[:id])
+	before_filter :find_product, only: [:show, :update, :destroy]
+
+	def show		
 		render json: @product
 	end
 
@@ -15,8 +16,6 @@ class Api::V1::ProductsController < Api::V1::ApiController
 	end
 
 	def update
-		@product = ::Product.find(params[:id])
-
 		if @product.update_attributes(product_params)
 			render json: @product
 		else
@@ -24,7 +23,18 @@ class Api::V1::ProductsController < Api::V1::ApiController
 		end
 	end
 
+	def destroy
+		@product.destroy
+		render json: {}
+	end
+
 private
+
+	def find_product
+		@product = ::Product.find(params[:id])
+	rescue ActiveRecord::RecordNotFound
+		client_error "object not found"
+	end
 
 	def product_params
 		params.require(:product).permit(:name,
