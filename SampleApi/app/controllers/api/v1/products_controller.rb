@@ -39,7 +39,8 @@ private
 	def product_params
 		params.require(:product).permit(:name,
 																 		:description,
-																		:price)
+																		:price,
+																		:release_date)
 	end
 
 end

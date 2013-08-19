@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSNumber* objectId;
 @property (nonatomic, assign) BOOL emptyObject;
+@property (nonatomic, strong) NSDateFormatter* dateFormatter;
+@property (nonatomic, strong) NSMutableDictionary* attributes;
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
 -(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block;
@@ -49,9 +51,13 @@
     self = [super init];
     
     if (self) {
-        _attributes = [NSMutableDictionary dictionaryWithCapacity:10];
         _dirty = NO;
-        _emptyObject = NO;
+        
+        self.emptyObject = NO;
+        self.attributes = [NSMutableDictionary dictionaryWithCapacity:10];
+        
+        self.dateFormatter = [[NSDateFormatter alloc] init];
+        [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     }
     
     return self;
@@ -63,7 +69,12 @@
     
     if (![existingValue isEqual:object]) {
         _dirty = YES;
-        _attributes[key] = object;
+        
+        if (object) {
+            self.attributes[key] = object;
+        } else {
+            [self removeObjectForKey:key];
+        }
     }
 }
 
@@ -74,7 +85,7 @@
 
 -(id)objectForKey:(NSString*)key
 {
-    id object = _attributes[key];
+    id object = self.attributes[key];
 
     return object;
 }
@@ -94,22 +105,8 @@
         return;
     }
     
-    NSString* verb = self.objectId ? @"PUT" : @"POST";    
-    NSError* serializationError = nil;
-    NSData* httpBody = nil;
-    NSMutableDictionary* attributesToSend = [NSMutableDictionary dictionaryWithDictionary:_attributes];
-    
-    // strip unwanted attributes
-    [attributesToSend removeObjectForKey:@"id"];
-    [attributesToSend removeObjectForKey:@"created_at"];
-    [attributesToSend removeObjectForKey:@"updated_at"];
-    
-    httpBody = [NSJSONSerialization dataWithJSONObject:attributesToSend options:0 error:&serializationError];
-    
-    if (serializationError) {
-        if (block) block(self, [NSError errorWithDescription:@"JSON serializarion error"]);
-        return;
-    }
+    NSString* verb = self.objectId ? @"PUT" : @"POST";
+    NSData* httpBody = [self attributesToJSON];
     
     [self performRequestWithVerb:verb httpBody:httpBody block:block];
 }
@@ -143,7 +140,7 @@
     
     [self performRequestWithVerb:@"DELETE" httpBody:nil block:^(id object, NSError *error) {
         if (!error) {
-            [self removeObjectForKey:@"id"];
+            [self.attributes removeObjectForKey:@"id"];
         }
         
         if (block) block(self, error);
@@ -224,11 +221,56 @@
     id object = JSON[self.type];
     
     if (object && object[@"id"]) {
-        _attributes = [NSMutableDictionary dictionaryWithDictionary:object];
+        self.attributes = [NSMutableDictionary dictionaryWithDictionary:object];
         _dirty = NO;
         _emptyObject = NO;
+        
+        // handle special data types
+        for (id key in self.attributes.allKeys) {
+            id value = self.attributes[key];
+            
+            if ([value isKindOfClass:[NSString class]]) {
+                NSString* dateTimeRegex = @"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}";
+                NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dateTimeRegex];
+                
+                if ([pred evaluateWithObject:value]) {
+                    NSDate* date = [self.dateFormatter dateFromString:value];
+                    [self.attributes setObject:date forKey:key];
+                }
+            }
+        }
+        
     } else if (error) {
         *error = [NSError errorWithDescription:@"Missing object attributes in server response."];
+    }
+}
+
+-(NSData*)attributesToJSON
+{
+    NSError* serializationError = nil;
+    NSMutableDictionary* attributesToSend = [NSMutableDictionary dictionaryWithDictionary:self.attributes];
+    
+    // strip unwanted attributes
+    [attributesToSend removeObjectForKey:@"id"];
+    [attributesToSend removeObjectForKey:@"created_at"];
+    [attributesToSend removeObjectForKey:@"updated_at"];
+    
+    // handle special data types
+    for (id key in attributesToSend.allKeys) {
+        id value = attributesToSend[key];
+        
+        if ([value isKindOfClass:[NSDate class]]) {
+            NSString* dateString = [self.dateFormatter stringFromDate:value];
+            [attributesToSend setObject:dateString forKey:key];
+        }
+    }
+    
+    NSData* JSON = [NSJSONSerialization dataWithJSONObject:attributesToSend options:0 error:&serializationError];
+    
+    if (serializationError) {
+        return nil;
+    } else {
+        return JSON;
     }
 }
 

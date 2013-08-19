@@ -12,7 +12,7 @@
 
 +(NSError*)errorWithDescription:(NSString*)description
 {
-    return [NSError errorWithCode:-1 description:description originalError:nil];
+    return [NSError errorWithCode:0 description:description originalError:nil];
 }
 
 +(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description
@@ -22,7 +22,10 @@
 
 +(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description originalError:(NSError*)originalError
 {
-    return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description, @"ANOriginalError" : originalError}];
+    if (originalError)
+        return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description, @"ANOriginalError" : originalError}];
+    else
+        return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description}];
 }
 
 @end

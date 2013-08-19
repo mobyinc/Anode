@@ -98,6 +98,16 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="15.95" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rmC-hN-rRm">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="131" id="GIw-Bj-Yvn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="9/21/2013 00:00" borderStyle="roundedRect" placeholder="Release Date" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tPw-bj-qz6">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="131" id="17f-8g-ozO"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -149,9 +159,20 @@
                                     <action selector="deleteProductAction:" destination="vJi-0N-UlA" eventType="touchUpInside" id="SAC-ii-czc"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Create new product" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UKS-JZ-FU8">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="wKJ-35-yGn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="tPw-bj-qz6" firstAttribute="baseline" secondItem="rmC-hN-rRm" secondAttribute="baseline" type="default" id="3fm-ug-XYZ"/>
+                            <constraint firstItem="gPu-6q-KoE" firstAttribute="centerX" secondItem="MVd-aL-4dE" secondAttribute="centerX" type="default" id="5B4-Zg-tBJ"/>
+                            <constraint firstItem="UKS-JZ-FU8" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="5xa-S0-8PH"/>
                             <constraint firstItem="MVd-aL-4dE" firstAttribute="baseline" secondItem="JZp-BM-fQ2" secondAttribute="baseline" type="default" id="Dl6-KA-cKZ"/>
                             <constraint firstItem="JZp-BM-fQ2" firstAttribute="top" secondItem="rmC-hN-rRm" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="Jm7-cU-sN4"/>
                             <constraint firstItem="gPu-6q-KoE" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Jmw-HQ-Oh5"/>
@@ -159,21 +180,24 @@
                             <constraint firstAttribute="trailing" secondItem="m0t-c3-jj1" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="LNf-ZV-z6G"/>
                             <constraint firstAttribute="trailing" secondItem="gPu-6q-KoE" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="LXE-hw-eIq"/>
                             <constraint firstItem="m0t-c3-jj1" firstAttribute="baseline" secondItem="MVd-aL-4dE" secondAttribute="baseline" type="default" id="N2Y-w5-jD6"/>
+                            <constraint firstItem="UKS-JZ-FU8" firstAttribute="top" secondItem="x4W-V6-kAN" secondAttribute="top" constant="12" id="N3b-Jr-YKN"/>
                             <constraint firstItem="rmC-hN-rRm" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="PGk-q0-q5g"/>
                             <constraint firstItem="JZp-BM-fQ2" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="RYt-LK-FcJ"/>
+                            <constraint firstAttribute="trailing" secondItem="UKS-JZ-FU8" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Sr4-fH-uXn"/>
+                            <constraint firstAttribute="trailing" secondItem="tPw-bj-qz6" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="XgU-84-lIf"/>
                             <constraint firstAttribute="trailing" secondItem="fPA-Yy-ovH" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="axv-Hi-709"/>
-                            <constraint firstAttribute="trailing" secondItem="rmC-hN-rRm" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="fVc-mV-jqY"/>
                             <constraint firstItem="rmC-hN-rRm" firstAttribute="top" secondItem="gPu-6q-KoE" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="l8u-bc-VBD"/>
-                            <constraint firstItem="fPA-Yy-ovH" firstAttribute="top" secondItem="x4W-V6-kAN" secondAttribute="top" constant="20" symbolic="YES" type="default" id="oK6-al-TNI"/>
+                            <constraint firstItem="fPA-Yy-ovH" firstAttribute="top" secondItem="UKS-JZ-FU8" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="nDR-ja-pYc"/>
                             <constraint firstItem="fPA-Yy-ovH" firstAttribute="leading" secondItem="x4W-V6-kAN" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="xrm-of-64y"/>
-                            <constraint firstItem="MVd-aL-4dE" firstAttribute="centerX" secondItem="rmC-hN-rRm" secondAttribute="centerX" type="default" id="zsa-DD-hCN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Vm7-FY-2XC"/>
                     <connections>
                         <outlet property="descriptionInput" destination="gPu-6q-KoE" id="Ifb-hC-5mH"/>
+                        <outlet property="infoLabel" destination="UKS-JZ-FU8" id="qw9-u2-876"/>
                         <outlet property="nameInput" destination="fPA-Yy-ovH" id="fht-nf-qFc"/>
                         <outlet property="priceInput" destination="rmC-hN-rRm" id="OoQ-gg-ulW"/>
+                        <outlet property="releaseDateInput" destination="tPw-bj-qz6" id="SAl-De-BQp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I32-ke-Qd7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -198,8 +222,10 @@
                 <relationship kind="action" name="refreshProductAction:"/>
                 <relationship kind="action" name="saveProductAction:"/>
                 <relationship kind="outlet" name="descriptionInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="infoLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="nameInput" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="priceInput" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="releaseDateInput" candidateClass="UITextField"/>
             </relationships>
         </class>
     </classes>

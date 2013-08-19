@@ -10,7 +10,6 @@
 
 @interface ANObject : NSObject
 {
-    NSMutableDictionary* _attributes;
     BOOL _dirty;
 }
 

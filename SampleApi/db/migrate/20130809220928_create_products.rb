@@ -4,6 +4,8 @@ class CreateProducts < ActiveRecord::Migration
     	t.string :name
     	t.string :description
     	t.float :price
+    	t.datetime :release_date
+    	
       t.timestamps
     end
   end

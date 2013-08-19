@@ -10,7 +10,8 @@
 
 @interface ProductViewController ()
 
-@property (nonatomic, retain) ANObject* product;
+@property (nonatomic, strong) ANObject* product;
+@property (nonatomic, strong) NSDateFormatter* dateFormatter;
 
 @end
 
@@ -34,6 +35,9 @@
     } else {
         self.product = [ANObject objectWithType:@"product"];
     }
+    
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"MM/dd/yyyy HH:mm"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,11 +49,13 @@
 - (IBAction)saveProductAction:(id)sender {
     NSString* name = self.nameInput.text;
     NSString* description = self.descriptionInput.text;
-    NSNumber* price = [NSNumber numberWithFloat:[self.priceInput.text floatValue]];
+    NSNumber* price = [NSNumber numberWithFloat:[self.priceInput.text floatValue]];    
+    NSDate* releaseDate = [self.dateFormatter dateFromString:self.releaseDateInput.text];
     
     [self.product setObject:name forKey:@"name"];
     [self.product setObject:description forKey:@"description"];
     [self.product setObject:price forKey:@"price"];
+    [self.product setObject:releaseDate forKey:@"release_date"];
     
     [self.product saveWithBlock:^(id object, NSError *error) {
         if (error) {
@@ -57,6 +63,7 @@
             [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         } else {                        
             [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product saved!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            [self updateInfoLabel];
         }
     }];
 }
@@ -74,6 +81,14 @@
             
             NSNumber* price = [object objectForKey:@"price"];
             self.priceInput.text = [NSString stringWithFormat:@"%@", price];
+            
+            NSDate* releaseDate = [object objectForKey:@"release_date"];
+            
+            if (releaseDate) {
+                self.releaseDateInput.text = [self.dateFormatter stringFromDate:releaseDate];
+            }
+            
+            [self updateInfoLabel];
         }
     }];
 }
@@ -84,9 +99,21 @@
             NSString* message = [NSString stringWithFormat:@"%d - %@", error.code, error.localizedDescription];
             [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product deleted!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];        
+            [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product deleted!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+            
+            [self updateInfoLabel];
         }
     }];
+}
+
+-(void)updateInfoLabel
+{
+    NSNumber* objectId = self.product.objectId;
+    NSDate* updatedAt = self.product.updatedAt;
+    
+    NSString* labelText = [NSString stringWithFormat:@"Product #%@ updated: %@", objectId, [self.dateFormatter stringFromDate:updatedAt]];
+    
+    self.infoLabel.text = labelText;
 }
 
 @end

@@ -12,9 +12,11 @@
 
 @property (nonatomic, assign) int productId;
 
+@property (strong, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) IBOutlet UITextField *nameInput;
 @property (strong, nonatomic) IBOutlet UITextField *descriptionInput;
 @property (strong, nonatomic) IBOutlet UITextField *priceInput;
+@property (strong, nonatomic) IBOutlet UITextField *releaseDateInput;
 
 - (IBAction)saveProductAction:(id)sender;
 - (IBAction)refreshProductAction:(id)sender;
