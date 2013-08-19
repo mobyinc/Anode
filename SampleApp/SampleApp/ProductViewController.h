@@ -10,7 +10,7 @@
 
 @interface ProductViewController : UIViewController
 
-@property (nonatomic, assign) int productId;
+@property (nonatomic, strong) NSNumber* productId;
 
 @property (strong, nonatomic) IBOutlet UILabel *infoLabel;
 @property (strong, nonatomic) IBOutlet UITextField *nameInput;

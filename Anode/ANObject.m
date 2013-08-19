@@ -7,24 +7,12 @@
 //
 
 #import "ANObject.h"
+#import "ANClient_Private.h"
+#import "ANObject_Private.h"
 #import "Anode.h"
 #import "ANJSONRequestOperation.h"
 #import "NSError+Helpers.h"
 #import "NSString+ActiveSupportInflector.h"
-
-@interface ANObject ()
-
-@property (nonatomic, strong) NSString* type;
-@property (nonatomic, strong) NSNumber* objectId;
-@property (nonatomic, assign) BOOL emptyObject;
-@property (nonatomic, strong) NSDateFormatter* dateFormatter;
-@property (nonatomic, strong) NSMutableDictionary* attributes;
-
--(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
--(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block;
--(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error;
-
-@end
 
 @implementation ANObject
 
@@ -55,9 +43,6 @@
         
         self.emptyObject = NO;
         self.attributes = [NSMutableDictionary dictionaryWithCapacity:10];
-        
-        self.dateFormatter = [[NSDateFormatter alloc] init];
-        [self.dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
     }
     
     return self;
@@ -171,34 +156,9 @@
 
 #pragma mark - Private
 
--(NSMutableURLRequest *)requestForVerb:(NSString*)verb
-{
-    NSString* typeSegment = [self.type pluralizeString];
-    NSURL* baseUrl = [Anode baseUrl];
-    NSString* path = nil;
-    NSURL* url = nil;
-    
-    if ([verb isEqualToString:@"POST"]) {
-        path = [NSString stringWithFormat:@"%@/", typeSegment];
-    } else if ([verb isEqualToString:@"GET"] || [verb isEqualToString:@"PUT"] || [verb isEqualToString:@"DELETE"]) {
-        path = [NSString stringWithFormat:@"%@/%@", typeSegment, self.objectId];
-    } else {
-        @throw @"Invalid http verb.";
-    }
-    
-    url = [NSURL URLWithString:path relativeToURL:baseUrl];
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-    [request setValue:[NSString stringWithFormat:@"Token token=%@", [Anode token]] forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    request.HTTPMethod = verb;
-    
-    return request;
-}
-
 -(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block
 {
-    NSMutableURLRequest* request = [self requestForVerb:verb];
+    NSMutableURLRequest* request = [self requestForVerb:verb objectId:self.objectId];
     request.HTTPBody = httpBody;
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
@@ -218,7 +178,7 @@
 
 -(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error
 {
-    id object = JSON[self.type];
+    id object = JSON[self.type] ? JSON[self.type] : JSON;
     
     if (object && object[@"id"]) {
         self.attributes = [NSMutableDictionary dictionaryWithDictionary:object];

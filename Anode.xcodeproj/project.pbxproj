@@ -49,6 +49,10 @@
 		1A017DC417B734B800614DE1 /* UIImageView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DB117B734B800614DE1 /* UIImageView+AFNetworking.h */; };
 		1A017DC517B734B800614DE1 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DB217B734B800614DE1 /* UIImageView+AFNetworking.m */; };
 		1A017DCF17B743E500614DE1 /* BlockTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DCE17B743C300614DE1 /* BlockTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A03E5F717C1CB9B0011B499 /* ANClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5F517C1CB9B0011B499 /* ANClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A03E5F817C1CB9B0011B499 /* ANClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A03E5F617C1CB9B0011B499 /* ANClient.m */; };
+		1A03E5FA17C1F5E00011B499 /* ANClient_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5F917C1CCED0011B499 /* ANClient_Private.h */; };
+		1A03E5FC17C1F6380011B499 /* ANObject_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5FB17C1F6100011B499 /* ANObject_Private.h */; };
 		1A7F9B1C17BFE2B9000BE537 /* ANJSONRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */; };
 		1A7F9B1D17BFE2B9000BE537 /* ANJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */; };
 		1A7F9B2417BFE7D5000BE537 /* NSError+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */; };
@@ -113,6 +117,10 @@
 		1A017DB117B734B800614DE1 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		1A017DB217B734B800614DE1 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		1A017DCE17B743C300614DE1 /* BlockTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockTypes.h; sourceTree = "<group>"; };
+		1A03E5F517C1CB9B0011B499 /* ANClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANClient.h; sourceTree = "<group>"; };
+		1A03E5F617C1CB9B0011B499 /* ANClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANClient.m; sourceTree = "<group>"; };
+		1A03E5F917C1CCED0011B499 /* ANClient_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANClient_Private.h; sourceTree = "<group>"; };
+		1A03E5FB17C1F6100011B499 /* ANObject_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANObject_Private.h; sourceTree = "<group>"; };
 		1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANJSONRequestOperation.h; sourceTree = "<group>"; };
 		1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANJSONRequestOperation.m; sourceTree = "<group>"; };
 		1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Helpers.h"; sourceTree = "<group>"; };
@@ -211,7 +219,11 @@
 				674F5E9617B572DC00D8A066 /* Supporting Files */,
 				674F5E9817B572DC00D8A066 /* Anode.h */,
 				1A017D9517B615ED00614DE1 /* Anode.m */,
+				1A03E5F517C1CB9B0011B499 /* ANClient.h */,
+				1A03E5F917C1CCED0011B499 /* ANClient_Private.h */,
+				1A03E5F617C1CB9B0011B499 /* ANClient.m */,
 				1A017D9117B6145B00614DE1 /* ANObject.h */,
+				1A03E5FB17C1F6100011B499 /* ANObject_Private.h */,
 				1A017D9217B6145B00614DE1 /* ANObject.m */,
 				1A017D9717B6196000614DE1 /* ANQuery.h */,
 				1A017D9817B6196000614DE1 /* ANQuery.m */,
@@ -260,6 +272,9 @@
 				1A7F9B2417BFE7D5000BE537 /* NSError+Helpers.h in Headers */,
 				1A7F9B3017C17210000BE537 /* ActiveSupportInflector.h in Headers */,
 				1A7F9B3217C17210000BE537 /* NSString+ActiveSupportInflector.h in Headers */,
+				1A03E5F717C1CB9B0011B499 /* ANClient.h in Headers */,
+				1A03E5FA17C1F5E00011B499 /* ANClient_Private.h in Headers */,
+				1A03E5FC17C1F6380011B499 /* ANObject_Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +379,7 @@
 				1A7F9B2517BFE7D5000BE537 /* NSError+Helpers.m in Sources */,
 				1A7F9B3117C17210000BE537 /* ActiveSupportInflector.m in Sources */,
 				1A7F9B3317C17210000BE537 /* NSString+ActiveSupportInflector.m in Sources */,
+				1A03E5F817C1CB9B0011B499 /* ANClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

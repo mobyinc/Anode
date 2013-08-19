@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 Moby, Inc. All rights reserved.
 //
 
-#import "BlockTypes.h"
+#import "ANClient.h"
 
 typedef enum {
-    Decending,
+    Descending,
     Ascending    
 } Direction;
 
-@interface ANQuery : NSObject
+@interface ANQuery : ANClient
 
-@property (nonatomic, retain) NSNumber* limit;
-@property (nonatomic, retain) NSNumber* skip;
-@property (nonatomic, retain) NSString* orderBy;
+@property (nonatomic, strong) NSNumber* limit;
+@property (nonatomic, strong) NSNumber* skip;
+@property (nonatomic, strong) NSString* orderBy;
 @property (nonatomic, assign) Direction orderDirection;
 
 +(ANQuery*)queryWithType:(NSString*)type;

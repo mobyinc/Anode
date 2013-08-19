@@ -42,7 +42,7 @@
         NSLog(@"segue create new product");
     } else if ([segue.identifier isEqualToString:@"findProductSegue"]) {
         ProductViewController* controller = segue.destinationViewController;
-        controller.productId = [self.objectIdInput.text intValue];
+        controller.productId = [NSNumber numberWithInt:[self.objectIdInput.text intValue]];
     }
 }
 

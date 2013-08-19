@@ -30,14 +30,28 @@
 {
     [super viewDidLoad];
     
+    self.dateFormatter = [[NSDateFormatter alloc] init];
+    [self.dateFormatter setDateFormat:@"MM/dd/yyyy HH:mm"];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
     if (self.productId) {
-        
+        ANQuery* query = [ANQuery queryWithType:@"product"];
+        [query findObjectWithId:self.productId block:^(ANObject *object, NSError *error) {
+            if (error) {
+                NSString* message = [NSString stringWithFormat:@"%d - %@", error.code, error.localizedDescription];
+                [[[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+                return;
+            }
+            
+            self.product = object;
+            
+            [self refreshProduct];
+        }];
     } else {
         self.product = [ANObject objectWithType:@"product"];
     }
-    
-    self.dateFormatter = [[NSDateFormatter alloc] init];
-    [self.dateFormatter setDateFormat:@"MM/dd/yyyy HH:mm"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,19 +90,7 @@
         } else {
             [[[UIAlertView alloc] initWithTitle:@"Success" message:@"Product refreshed!" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
             
-            self.nameInput.text = [object objectForKey:@"name"];
-            self.descriptionInput.text = [object objectForKey:@"description"];
-            
-            NSNumber* price = [object objectForKey:@"price"];
-            self.priceInput.text = [NSString stringWithFormat:@"%@", price];
-            
-            NSDate* releaseDate = [object objectForKey:@"release_date"];
-            
-            if (releaseDate) {
-                self.releaseDateInput.text = [self.dateFormatter stringFromDate:releaseDate];
-            }
-            
-            [self updateInfoLabel];
+            [self refreshProduct];
         }
     }];
 }
@@ -104,6 +106,23 @@
             [self updateInfoLabel];
         }
     }];
+}
+
+-(void)refreshProduct
+{
+    self.nameInput.text = [self.product objectForKey:@"name"];
+    self.descriptionInput.text = [self.product objectForKey:@"description"];
+    
+    NSNumber* price = [self.product objectForKey:@"price"];
+    self.priceInput.text = [NSString stringWithFormat:@"%@", price];
+    
+    NSDate* releaseDate = [self.product objectForKey:@"release_date"];
+    
+    if (releaseDate) {
+        self.releaseDateInput.text = [self.dateFormatter stringFromDate:releaseDate];
+    }
+    
+    [self updateInfoLabel];
 }
 
 -(void)updateInfoLabel

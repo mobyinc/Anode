@@ -6,14 +6,13 @@
 //  Copyright (c) 2013 Moby, Inc. All rights reserved.
 //
 
-#import "BlockTypes.h"
+#import "ANClient.h"
 
-@interface ANObject : NSObject
+@interface ANObject : ANClient
 {
     BOOL _dirty;
 }
 
-@property (nonatomic, strong, readonly) NSString* type;
 @property (nonatomic, strong, readonly) NSNumber* objectId;
 @property (nonatomic, strong, readonly) NSDate* createdAt;
 @property (nonatomic, strong, readonly) NSDate* updatedAt;

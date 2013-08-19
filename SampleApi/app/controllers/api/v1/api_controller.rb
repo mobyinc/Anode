@@ -10,7 +10,7 @@ class Api::V1::ApiController < ApplicationController
 		end
 	end
 
-	protect_from_forgery with: :null_session, except: [:create, :update, :destroy]
+	protect_from_forgery with: :null_session, except: [:create, :update, :destroy, :query]
 
 	rescue_from Exception, with: :exception_handler
 	rescue_from ClientError, with: :client_error_handler
@@ -18,9 +18,36 @@ class Api::V1::ApiController < ApplicationController
 	before_filter :authorize
 	serialization_scope :current_user
 
+	def query
+		model_name = controller_name.classify.constantize
+		table_name = controller_name.downcase.pluralize
+		left = params[:predicate][:left]
+		right = params[:predicate][:right]
+		op = params[:predicate][:operator]
+		limit = params[:limit]
+		skip = params[:skip]
+
+		query = Arel::Table.new(table_name)
+
+		method = query[left].method(op)
+
+		query = query.where(method.call(right))	
+		query.take(limit)
+		query.skip(skip)
+		query.project('*')
+
+		sql = query.to_sql
+
+		objects = model_name.find_by_sql(sql)
+
+		render json: objects
+	end
+
 private
 
 	def authorize
+		return true
+
 		authenticate_or_request_with_http_token do |token, options|
 		  api_key = ApiKey.find_by_access_token(token)
 		  
