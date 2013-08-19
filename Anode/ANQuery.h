@@ -22,6 +22,7 @@ typedef enum {
 
 +(ANQuery*)queryWithType:(NSString*)type;
 
+-(void)findObjectsWithBlock:(ObjectsResultBlock)block;
 -(void)findObjectWithId:(NSNumber*)objectId block:(ObjectResultBlock)block;
 -(void)findObjectsWithPredicate:(NSPredicate*)predicate block:(ObjectsResultBlock)block;
 -(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block;

@@ -30,6 +30,7 @@
 		674F5F0517B588C700D8A066 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 674F5EFB17B588C700D8A066 /* iTunesArtwork.png */; };
 		674F5F0617B588C700D8A066 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 674F5EFC17B588C700D8A066 /* iTunesArtwork@2x.png */; };
 		674F5F0817B58D5C00D8A066 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 674F5F0717B58D5C00D8A066 /* Storyboard.storyboard */; };
+		67FF57FB17C2A1B300908201 /* ProductTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 67FF57FA17C2A1B300908201 /* ProductTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,8 @@
 		674F5EFB17B588C700D8A066 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		674F5EFC17B588C700D8A066 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		674F5F0717B58D5C00D8A066 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		67FF57F917C2A1B300908201 /* ProductTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductTableViewController.h; sourceTree = "<group>"; };
+		67FF57FA17C2A1B300908201 /* ProductTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,8 @@
 				1A3CE9B717BB278900E56F28 /* DemoViewController.m */,
 				1A7F9B1617BFC64C000BE537 /* ProductViewController.h */,
 				1A7F9B1717BFC64C000BE537 /* ProductViewController.m */,
+				67FF57F917C2A1B300908201 /* ProductTableViewController.h */,
+				67FF57FA17C2A1B300908201 /* ProductTableViewController.m */,
 			);
 			path = SampleApp;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				674F5ECC17B577D500D8A066 /* AppDelegate.m in Sources */,
 				1A3CE9B817BB278900E56F28 /* DemoViewController.m in Sources */,
 				1A7F9B1817BFC64C000BE537 /* ProductViewController.m in Sources */,
+				67FF57FB17C2A1B300908201 /* ProductTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

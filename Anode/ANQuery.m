@@ -31,6 +31,11 @@
     return query;
 }
 
+-(void)findObjectsWithBlock:(ObjectsResultBlock)block
+{
+    [self findObjectsWithPredicate:nil block:block];
+}
+
 -(void)findObjectWithId:(NSNumber *)objectId block:(ObjectResultBlock)block
 {
     NSPredicate* pre = [NSPredicate predicateWithFormat:@"id = %@", objectId];
@@ -45,13 +50,14 @@
 
 -(void)findObjectsWithPredicate:(NSPredicate *)predicate block:(ObjectsResultBlock)block
 {
-    
+    [self findObjectsWithPredicate:predicate limit:self.limit block:block];
 }
 
 -(void)findObjectsWithPredicate:(NSPredicate *)predicate limit:(NSNumber*)limit block:(ObjectsResultBlock)block
 {
-    NSData* httpBody = [self jsonWithPredicate:predicate limit:limit skip:self.skip orderBy:self.orderBy orderDirection:self.orderDirection];
     NSMutableURLRequest* request = [self requestForVerb:@"POST" action:@"query"];
+    
+    NSData* httpBody = [self jsonWithPredicate:predicate limit:limit skip:self.skip orderBy:self.orderBy orderDirection:self.orderDirection];
     request.HTTPBody = httpBody;
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
@@ -106,8 +112,6 @@
         components[@"predicate"] = @{@"left" : left,
                                      @"operator" : operator,
                                      @"right" : right};
-    } else {
-        @throw @"Unsupported predicate type";
     }
     
     JSON = [NSJSONSerialization dataWithJSONObject:components options:0 error:&serializationError];

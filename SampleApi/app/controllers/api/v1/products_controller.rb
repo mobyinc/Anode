@@ -28,6 +28,10 @@ class Api::V1::ProductsController < Api::V1::ApiController
 		render json: {}
 	end
 
+	def released_products
+
+	end
+
 private
 
 	def find_product

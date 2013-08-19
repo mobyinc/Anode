@@ -20,25 +20,29 @@ class Api::V1::ApiController < ApplicationController
 
 	def query
 		model_name = controller_name.classify.constantize
-		table_name = controller_name.downcase.pluralize
-		left = params[:predicate][:left]
-		right = params[:predicate][:right]
-		op = params[:predicate][:operator]
+		table_name = controller_name.downcase.pluralize		
 		limit = params[:limit]
 		skip = params[:skip]
 
 		query = Arel::Table.new(table_name)
 
-		method = query[left].method(op)
+		if params[:predicate]
+			left = params[:predicate][:left]
+			right = params[:predicate][:right]
+			op = params[:predicate][:operator]
+			
+			method = query[left].method(op)
+			query = query.where(method.call(right))
+		end
 
-		query = query.where(method.call(right))	
 		query.take(limit)
 		query.skip(skip)
 		query.project('*')
 
 		sql = query.to_sql
-
 		objects = model_name.find_by_sql(sql)
+
+		# TODO ACL
 
 		render json: objects
 	end
@@ -46,17 +50,17 @@ class Api::V1::ApiController < ApplicationController
 private
 
 	def authorize
-		return true
+		return true # TODO: Remove
 
 		authenticate_or_request_with_http_token do |token, options|
-		  api_key = ApiKey.find_by_access_token(token)
-		  
-		  if api_key
-		  	@user = api_key.user
-		  	return true
-		  else
-		  	return false
-		  end
+			api_key = ApiKey.find_by_access_token(token)
+			
+			if api_key
+				@user = api_key.user
+				return true
+			else
+				return false
+			end
 		end
 	end
 
