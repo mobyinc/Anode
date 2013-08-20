@@ -31,6 +31,11 @@
     return query;
 }
 
+-(void)findAllObjectsWithBlock:(ObjectsResultBlock)block
+{
+    [self findObjectsWithPredicate:nil limit:nil block:block];
+}
+
 -(void)findObjectsWithBlock:(ObjectsResultBlock)block
 {
     [self findObjectsWithPredicate:nil block:block];
@@ -55,7 +60,12 @@
 
 -(void)findObjectsWithPredicate:(NSPredicate *)predicate limit:(NSNumber*)limit block:(ObjectsResultBlock)block
 {
-    NSMutableURLRequest* request = [self requestForVerb:@"POST" action:@"query"];
+    NSMutableURLRequest* request = nil;
+    
+    if (predicate || limit)
+        [self requestForVerb:@"POST" action:@"query"];
+    else
+        [self requestForVerb:@"GET"];
     
     NSData* httpBody = [self jsonWithPredicate:predicate limit:limit skip:self.skip orderBy:self.orderBy orderDirection:self.orderDirection];
     request.HTTPBody = httpBody;
