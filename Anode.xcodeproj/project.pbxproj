@@ -29,25 +29,6 @@
 		1A017D9A17B6196000614DE1 /* ANQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9817B6196000614DE1 /* ANQuery.m */; };
 		1A017D9D17B6238E00614DE1 /* ANUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017D9B17B6238E00614DE1 /* ANUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A017D9E17B6238E00614DE1 /* ANUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017D9C17B6238E00614DE1 /* ANUser.m */; };
-		1A017DB317B734B800614DE1 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DA017B734B800614DE1 /* AFHTTPClient.h */; };
-		1A017DB417B734B800614DE1 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DA117B734B800614DE1 /* AFHTTPClient.m */; };
-		1A017DB517B734B800614DE1 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DA217B734B800614DE1 /* AFHTTPRequestOperation.h */; };
-		1A017DB617B734B800614DE1 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DA317B734B800614DE1 /* AFHTTPRequestOperation.m */; };
-		1A017DB717B734B800614DE1 /* AFImageRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DA417B734B800614DE1 /* AFImageRequestOperation.h */; };
-		1A017DB817B734B800614DE1 /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DA517B734B800614DE1 /* AFImageRequestOperation.m */; };
-		1A017DB917B734B800614DE1 /* AFJSONRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DA617B734B800614DE1 /* AFJSONRequestOperation.h */; };
-		1A017DBA17B734B800614DE1 /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DA717B734B800614DE1 /* AFJSONRequestOperation.m */; };
-		1A017DBB17B734B800614DE1 /* AFNetworkActivityIndicatorManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DA817B734B800614DE1 /* AFNetworkActivityIndicatorManager.h */; };
-		1A017DBC17B734B800614DE1 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DA917B734B800614DE1 /* AFNetworkActivityIndicatorManager.m */; };
-		1A017DBD17B734B800614DE1 /* AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DAA17B734B800614DE1 /* AFNetworking.h */; };
-		1A017DBE17B734B800614DE1 /* AFPropertyListRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DAB17B734B800614DE1 /* AFPropertyListRequestOperation.h */; };
-		1A017DBF17B734B800614DE1 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DAC17B734B800614DE1 /* AFPropertyListRequestOperation.m */; };
-		1A017DC017B734B800614DE1 /* AFURLConnectionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DAD17B734B800614DE1 /* AFURLConnectionOperation.h */; };
-		1A017DC117B734B800614DE1 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DAE17B734B800614DE1 /* AFURLConnectionOperation.m */; };
-		1A017DC217B734B800614DE1 /* AFXMLRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DAF17B734B800614DE1 /* AFXMLRequestOperation.h */; };
-		1A017DC317B734B800614DE1 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DB017B734B800614DE1 /* AFXMLRequestOperation.m */; };
-		1A017DC417B734B800614DE1 /* UIImageView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DB117B734B800614DE1 /* UIImageView+AFNetworking.h */; };
-		1A017DC517B734B800614DE1 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A017DB217B734B800614DE1 /* UIImageView+AFNetworking.m */; };
 		1A017DCF17B743E500614DE1 /* BlockTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A017DCE17B743C300614DE1 /* BlockTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A03E5F717C1CB9B0011B499 /* ANClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5F517C1CB9B0011B499 /* ANClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A03E5F817C1CB9B0011B499 /* ANClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A03E5F617C1CB9B0011B499 /* ANClient.m */; };
@@ -257,16 +238,6 @@
 				1A017D9317B6145B00614DE1 /* ANObject.h in Headers */,
 				1A017D9917B6196000614DE1 /* ANQuery.h in Headers */,
 				1A017D9D17B6238E00614DE1 /* ANUser.h in Headers */,
-				1A017DB317B734B800614DE1 /* AFHTTPClient.h in Headers */,
-				1A017DB517B734B800614DE1 /* AFHTTPRequestOperation.h in Headers */,
-				1A017DB717B734B800614DE1 /* AFImageRequestOperation.h in Headers */,
-				1A017DB917B734B800614DE1 /* AFJSONRequestOperation.h in Headers */,
-				1A017DBB17B734B800614DE1 /* AFNetworkActivityIndicatorManager.h in Headers */,
-				1A017DBD17B734B800614DE1 /* AFNetworking.h in Headers */,
-				1A017DBE17B734B800614DE1 /* AFPropertyListRequestOperation.h in Headers */,
-				1A017DC017B734B800614DE1 /* AFURLConnectionOperation.h in Headers */,
-				1A017DC217B734B800614DE1 /* AFXMLRequestOperation.h in Headers */,
-				1A017DC417B734B800614DE1 /* UIImageView+AFNetworking.h in Headers */,
 				1A017DCF17B743E500614DE1 /* BlockTypes.h in Headers */,
 				1A7F9B1C17BFE2B9000BE537 /* ANJSONRequestOperation.h in Headers */,
 				1A7F9B2417BFE7D5000BE537 /* NSError+Helpers.h in Headers */,
@@ -366,15 +337,6 @@
 				1A017D9617B615ED00614DE1 /* Anode.m in Sources */,
 				1A017D9A17B6196000614DE1 /* ANQuery.m in Sources */,
 				1A017D9E17B6238E00614DE1 /* ANUser.m in Sources */,
-				1A017DB417B734B800614DE1 /* AFHTTPClient.m in Sources */,
-				1A017DB617B734B800614DE1 /* AFHTTPRequestOperation.m in Sources */,
-				1A017DB817B734B800614DE1 /* AFImageRequestOperation.m in Sources */,
-				1A017DBA17B734B800614DE1 /* AFJSONRequestOperation.m in Sources */,
-				1A017DBC17B734B800614DE1 /* AFNetworkActivityIndicatorManager.m in Sources */,
-				1A017DBF17B734B800614DE1 /* AFPropertyListRequestOperation.m in Sources */,
-				1A017DC117B734B800614DE1 /* AFURLConnectionOperation.m in Sources */,
-				1A017DC317B734B800614DE1 /* AFXMLRequestOperation.m in Sources */,
-				1A017DC517B734B800614DE1 /* UIImageView+AFNetworking.m in Sources */,
 				1A7F9B1D17BFE2B9000BE537 /* ANJSONRequestOperation.m in Sources */,
 				1A7F9B2517BFE7D5000BE537 /* NSError+Helpers.m in Sources */,
 				1A7F9B3117C17210000BE537 /* ActiveSupportInflector.m in Sources */,
