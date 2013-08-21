@@ -33,7 +33,7 @@
 
 -(void)findAllObjectsWithBlock:(ObjectsResultBlock)block
 {
-    [self findObjectsWithPredicate:nil limit:nil block:block];
+    [self findObjectsWithPredicate:nil skip:nil limit:nil block:block];
 }
 
 -(void)findObjectsWithBlock:(ObjectsResultBlock)block
@@ -44,7 +44,7 @@
 -(void)findObjectWithId:(NSNumber *)objectId block:(ObjectResultBlock)block
 {
     NSPredicate* pre = [NSPredicate predicateWithFormat:@"id = %@", objectId];
-    [self findObjectsWithPredicate:pre limit:[NSNumber numberWithInt:1] block:^(NSArray *objects, NSError *error) {
+    [self findObjectsWithPredicate:pre skip:@(0) limit:@(1) block:^(NSArray *objects, NSError *error) {
         if (objects && objects.count == 1) {
             block(objects[0], nil);
         } else {
@@ -55,20 +55,32 @@
 
 -(void)findObjectsWithPredicate:(NSPredicate *)predicate block:(ObjectsResultBlock)block
 {
-    [self findObjectsWithPredicate:predicate limit:self.limit block:block];
+    [self findObjectsWithPredicate:predicate skip:self.skip limit:self.limit block:block];
 }
 
--(void)findObjectsWithPredicate:(NSPredicate *)predicate limit:(NSNumber*)limit block:(ObjectsResultBlock)block
+-(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block
+{
+    
+}
+
+-(void)countObjectsWithPredicate:(NSPredicate*)predicate block:(ScalarResultBlock)block
+{
+    
+}
+
+
+#pragma mark - Private
+
+-(void)findObjectsWithPredicate:(NSPredicate *)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit block:(ObjectsResultBlock)block
 {
     NSMutableURLRequest* request = nil;
     
-    if (predicate || limit)
-        [self requestForVerb:@"POST" action:@"query"];
-    else
-        [self requestForVerb:@"GET"];
-    
-    NSData* httpBody = [self jsonWithPredicate:predicate limit:limit skip:self.skip orderBy:self.orderBy orderDirection:self.orderDirection];
-    request.HTTPBody = httpBody;
+    if (predicate || limit) {
+        request = [self requestForVerb:@"POST" action:@"query"];        
+        request.HTTPBody = [self jsonWithPredicate:predicate skip:skip limit:limit orderBy:self.orderBy orderDirection:self.orderDirection];
+    } else {
+        request = [self requestForVerb:@"GET"];
+    }
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
@@ -94,19 +106,16 @@
     }];
     
     [operation start];
-    
 }
 
-#pragma mark - Private
-
--(NSData*)jsonWithPredicate:(NSPredicate*)predicate limit:(NSNumber*)limit skip:(NSNumber*)skip orderBy:(NSString*)orderBy orderDirection:(Direction)orderDirection
+-(NSData*)jsonWithPredicate:(NSPredicate*)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit orderBy:(NSString*)orderBy orderDirection:(Direction)orderDirection
 {
     NSError* serializationError = nil;
     NSMutableDictionary* components = [NSMutableDictionary dictionary];
     NSData* JSON = nil;
     
-    components[@"limit"] = limit;
-    components[@"skip"] = skip;
+    if (limit) components[@"limit"] = limit;
+    if (skip) components[@"skip"] = skip;
     
     if (orderBy) {
         components[@"order_by"] = orderBy;
