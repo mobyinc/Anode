@@ -1,6 +1,11 @@
 class Api::V1::ProductsController < Api::V1::ApiController
 	before_filter :find_product, only: [:show, :update, :destroy]
 
+	def index
+		@products = ::Product.all
+		render json: @products
+	end
+
 	def show		
 		render json: @product
 	end
