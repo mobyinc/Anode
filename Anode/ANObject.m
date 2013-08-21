@@ -185,10 +185,10 @@
         _dirty = NO;
         _emptyObject = NO;
         
-        // handle special data types
         for (id key in self.attributes.allKeys) {
             id value = self.attributes[key];
             
+            // check for date objects
             if ([value isKindOfClass:[NSString class]]) {
                 NSString* dateTimeRegex = @"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}";
                 NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dateTimeRegex];
@@ -197,6 +197,9 @@
                     NSDate* date = [self.dateFormatter dateFromString:value];
                     [self.attributes setObject:date forKey:key];
                 }
+            }
+            else if ([value isKindOfClass:[NSArray class]]) {
+                NSLog(@"hurray, an array");
             }
         }
         

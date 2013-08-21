@@ -12,10 +12,11 @@
 
 @property (nonatomic, strong) NSString* type;
 @property (nonatomic, strong) NSDateFormatter* dateFormatter;
+@property (nonatomic, readonly) AFHTTPClient* client;
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber*)objectId;
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb action:(NSString*)action;
--(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action;
+-(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters;
 
 @end

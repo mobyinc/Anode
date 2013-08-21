@@ -9,7 +9,10 @@
 #import "ANClient.h"
 #import "ANClient_Private.h"
 #import "Anode.h"
+#import "ANJSONRequestOperation.h"
 #import "NSString+ActiveSupportInflector.h"
+
+static AFHTTPClient* sharedClient = nil;
 
 @implementation ANClient
 
@@ -25,27 +28,38 @@
     return self;
 }
 
+-(AFHTTPClient *)client
+{
+    if (!sharedClient) {
+        sharedClient = [[AFHTTPClient alloc] initWithBaseURL:[Anode baseUrl]];
+        [sharedClient registerHTTPOperationClass:[ANJSONRequestOperation class]];
+        [sharedClient setDefaultHeader:@"Accept" value:@"application/json"];
+        [sharedClient setDefaultHeader:@"Content-Type" value:@"application/json"];
+        [sharedClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Token token=%@", [Anode token]]];
+    }
+    
+    return sharedClient;
+}
+
 -(NSMutableURLRequest *)requestForVerb:(NSString*)verb
 {
-    return [self requestForVerb:verb objectId:nil action:nil];
+    return [self requestForVerb:verb objectId:nil action:nil parameters:nil];
 }
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber*)objectId
 {
-    return [self requestForVerb:verb objectId:objectId action:nil];
+    return [self requestForVerb:verb objectId:objectId action:nil parameters:nil];
 }
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb action:(NSString*)action
 {
-    return [self requestForVerb:verb objectId:nil action:action];
+    return [self requestForVerb:verb objectId:nil action:action parameters:nil];
 }
 
--(NSMutableURLRequest *)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action
+-(NSMutableURLRequest *)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters
 {
     NSString* typeSegment = [self.type pluralizeString];
-    NSURL* baseUrl = [Anode baseUrl];
     NSString* path = nil;
-    NSURL* url = nil;
     
     if (action && objectId) {
         path = [NSString stringWithFormat:@"%@/%@/%@", typeSegment, objectId, action];
@@ -55,14 +69,9 @@
         path = [NSString stringWithFormat:@"%@/%@", typeSegment, action];
     } else {
         path = [NSString stringWithFormat:@"%@/", typeSegment];
-    }
+    }    
     
-    url = [NSURL URLWithString:path relativeToURL:baseUrl];
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
-    [request setValue:[NSString stringWithFormat:@"Token token=%@", [Anode token]] forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    request.HTTPMethod = verb;
+    NSMutableURLRequest* request = [self.client requestWithMethod:verb path:path parameters:parameters];
     
     return request;
 }

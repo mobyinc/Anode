@@ -11,6 +11,7 @@
 #import "ANObject_Private.h"
 #import "ANJSONRequestOperation.h"
 #import "NSString+ActiveSupportInflector.h"
+#import "NSError+Helpers.h"
 
 @interface ANQuery ()
 
@@ -60,7 +61,9 @@
 
 -(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block
 {
+    NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:nil action:methodName parameters:parameters];
     
+    [self fetchObjectsWithRequest:request block:block];
 }
 
 -(void)countObjectsWithPredicate:(NSPredicate*)predicate block:(ScalarResultBlock)block
@@ -82,6 +85,11 @@
         request = [self requestForVerb:@"GET"];
     }
     
+    [self fetchObjectsWithRequest:request block:block];
+}
+
+-(void)fetchObjectsWithRequest:(NSURLRequest*)request block:(ObjectsResultBlock)block
+{
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
         NSString* key = [self.type pluralizeString];
@@ -89,12 +97,19 @@
         id objectsInfo = JSON[key];
         
         for (id objectInfo in objectsInfo) {
-            ANObject* object = [ANObject objectWithType:self.type];
-            [object applyAttributesWithJSONResponse:objectInfo error:&error];
+            NSString* type = objectInfo[@"__type"];
+            ANObject* object = nil;
+            
+            if (type) {
+                object = [ANObject objectWithType:type];
+                [object applyAttributesWithJSONResponse:objectInfo error:&error];
+            } else {
+                error = [NSError errorWithDescription:@"Invalid object response"];
+            }
             
             if (error) {
-                continue;
-            } else {
+                if (block) block(nil, error);
+            } else if (object) {
                 [objects addObject:object];
             }
         }
