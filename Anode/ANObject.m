@@ -12,6 +12,7 @@
 #import "Anode.h"
 #import "ANJSONRequestOperation.h"
 #import "NSError+Helpers.h"
+#import "NSString+TypeDetection.h"
 #import "NSString+ActiveSupportInflector.h"
 
 @implementation ANObject
@@ -32,6 +33,20 @@
     object.emptyObject = YES; // id was manually specified and therefore cannot be saved unless reloaded first
     
     return object;
+}
+
++(ANObject*)objectWithJSON:(NSDictionary *)node error:(NSError**)error
+{
+    NSString* type = node[@"__type"];
+    
+    if (type) {
+        ANObject* object = [ANObject objectWithType:type];
+        [ANObject applyAttributesWithDictionary:node toObject:object error:error];
+        return object;
+    } else {
+        *error = [NSError errorWithDescription:@"Missing type attribute in server response."];
+        return nil;
+    }
 }
 
 -(id)init
@@ -176,35 +191,48 @@
     [operation start];
 }
 
--(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error
+-(void)applyAttributesWithJSONResponse:(id)rootNode error:(NSError**)error
 {
-    id object = JSON[self.type] ? JSON[self.type] : JSON;
+    if (rootNode && [rootNode isKindOfClass:[NSDictionary class]] && rootNode[@"id"]) {        
+        [ANObject applyAttributesWithDictionary:rootNode toObject:self error:error];
+    } else if (error) {
+        *error = [NSError errorWithDescription:@"Missing object root node in server response."];
+    }
+}
+
++(void)applyAttributesWithDictionary:(NSDictionary*)node toObject:(ANObject*)object error:(NSError**)error
+{
+    object.attributes = [NSMutableDictionary dictionary];
+    object.dirty = NO;
+    object.emptyObject = NO;
     
-    if (object && object[@"id"]) {
-        self.attributes = [NSMutableDictionary dictionaryWithDictionary:object];
-        _dirty = NO;
-        _emptyObject = NO;
+    for (id key in node.allKeys) {
+        id value = node[key];
         
-        for (id key in self.attributes.allKeys) {
-            id value = self.attributes[key];
-            
-            // check for date objects
-            if ([value isKindOfClass:[NSString class]]) {
-                NSString* dateTimeRegex = @"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}";
-                NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dateTimeRegex];
+        // handle special types
+        // others pass straight through
+        if ([value isKindOfClass:[NSString class]]) {
+            if ([value isDate]) {
+                value = [object.dateFormatter dateFromString:value];
+            }
+        } else if ([value isKindOfClass:[NSArray class]]) {
+            NSMutableArray* newArray = [NSMutableArray arrayWithCapacity:[value count]];
+            for (NSDictionary* childNode in value) {
+                ANObject* newObject = [ANObject objectWithJSON:childNode error:error];
                 
-                if ([pred evaluateWithObject:value]) {
-                    NSDate* date = [self.dateFormatter dateFromString:value];
-                    [self.attributes setObject:date forKey:key];
+                if (!*error && newObject) {
+                    [newArray addObject:newObject];
+                } else {
+                    break;
                 }
             }
-            else if ([value isKindOfClass:[NSArray class]]) {
-                NSLog(@"hurray, an array");
-            }
+            
+            value = newArray;
         }
         
-    } else if (error) {
-        *error = [NSError errorWithDescription:@"Missing object attributes in server response."];
+        if (*error) return;
+        
+        object.attributes[key] = value;
     }
 }
 

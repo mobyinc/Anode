@@ -9,9 +9,6 @@
 #import "ANClient.h"
 
 @interface ANObject : ANClient
-{
-    BOOL _dirty;
-}
 
 @property (nonatomic, strong, readonly) NSNumber* objectId;
 @property (nonatomic, strong, readonly) NSDate* createdAt;

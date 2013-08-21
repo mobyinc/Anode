@@ -44,8 +44,9 @@
 
 -(void)findObjectWithId:(NSNumber *)objectId block:(ObjectResultBlock)block
 {
-    NSPredicate* pre = [NSPredicate predicateWithFormat:@"id = %@", objectId];
-    [self findObjectsWithPredicate:pre skip:@(0) limit:@(1) block:^(NSArray *objects, NSError *error) {
+    NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:objectId action:nil parameters:nil];
+    
+    [self fetchObjectsWithRequest:request block:^(NSArray *objects, NSError *error) {
         if (objects && objects.count == 1) {
             block(objects[0], nil);
         } else {
@@ -92,26 +93,27 @@
 {
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
-        NSString* key = [self.type pluralizeString];
-        NSMutableArray* objects = [NSMutableArray array];
-        id objectsInfo = JSON[key];
         
-        for (id objectInfo in objectsInfo) {
-            NSString* type = objectInfo[@"__type"];
-            ANObject* object = nil;
-            
-            if (type) {
-                object = [ANObject objectWithType:type];
-                [object applyAttributesWithJSONResponse:objectInfo error:&error];
-            } else {
-                error = [NSError errorWithDescription:@"Invalid object response"];
+        NSMutableArray* objects = [NSMutableArray array];
+        
+        if ([JSON isKindOfClass:[NSArray class]]) {
+            for (id node in JSON) {
+                ANObject* object = [ANObject objectWithJSON:node error:&error];
+                
+                if (!error && object) {
+                    [objects addObject:object];
+                } else {
+                    break;
+                }
             }
+        } else if ([JSON isKindOfClass:[NSDictionary class]]) {
+            ANObject* object = [ANObject objectWithJSON:JSON error:&error];
             
-            if (error) {
-                if (block) block(nil, error);
-            } else if (object) {
+            if (!error && object) {
                 [objects addObject:object];
             }
+        } else {
+            error = [NSError errorWithDescription:@"Unexpected root node in server response."];
         }
         
         if (block) block(objects, error);

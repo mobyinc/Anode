@@ -12,7 +12,10 @@
 
 @property (nonatomic, strong) NSNumber* objectId;
 @property (nonatomic, assign) BOOL emptyObject;
+@property (nonatomic, assign) BOOL dirty;
 @property (nonatomic, strong) NSMutableDictionary* attributes;
+
++(ANObject*)objectWithJSON:(NSDictionary*)node error:(NSError**)error;
 
 -(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block;
 -(void)applyAttributesWithJSONResponse:(id)JSON error:(NSError**)error;
