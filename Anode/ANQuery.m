@@ -100,7 +100,13 @@
         [self fetchObjectsFromNetworkWithRequest:request block:^(NSArray *objects, NSError *error) {
             if (error) {
                 if (error.code == kANStatusCodeServiceUnavailable) {
-                    [self fetchObjectsFromNetworkWithRequest:request block:block];
+                    id objects = [self fetchObjectsFromCacheWithRequest:request];
+                    
+                    if (objects && block) {
+                        block(objects, nil);
+                    } else if (block) {
+                        block(nil, error);
+                    }
                 } else if (block) {
                     block(nil, error);
                 }
