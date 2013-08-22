@@ -8,6 +8,7 @@
 
 #import "Anode.h"
 #import "Anode_Private.h"
+#import "ANUser_Private.h"
 
 NSString *const ANErrorKey = @"ANErrorKey";
 NSString *const ANErrorOriginalError = @"ANErrorOriginalError";
@@ -30,7 +31,7 @@ static Anode* sharedAnodeInstance = nil;
     [Anode sharedInstance].clientToken = token;
     
     if ([ANUser currentUser]) {
-        [Anode sharedInstance].userToken = [[ANUser currentUser] objectForKey:@"__token"];
+        [Anode sharedInstance].userToken = [[ANUser currentUser] token];
     }    
 }
 

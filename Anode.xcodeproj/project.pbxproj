@@ -119,6 +119,7 @@
 		1A7F9B2F17C17210000BE537 /* NSString+ActiveSupportInflector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ActiveSupportInflector.m"; sourceTree = "<group>"; };
 		1AB04B0117C475E5003EE5F5 /* NSString+TypeDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TypeDetection.h"; sourceTree = "<group>"; };
 		1AB04B0217C475E5003EE5F5 /* NSString+TypeDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TypeDetection.m"; sourceTree = "<group>"; };
+		1AC3C76017C5E48E006A7364 /* ANUser_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANUser_Private.h; sourceTree = "<group>"; };
 		673788BD17C540770088ECA8 /* Anode_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anode_Private.h; sourceTree = "<group>"; };
 		673788BE17C545D20088ECA8 /* ANCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANCache.h; sourceTree = "<group>"; };
 		673788BF17C545D20088ECA8 /* ANCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANCache.m; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 				1A017D9717B6196000614DE1 /* ANQuery.h */,
 				1A017D9817B6196000614DE1 /* ANQuery.m */,
 				1A017D9B17B6238E00614DE1 /* ANUser.h */,
+				1AC3C76017C5E48E006A7364 /* ANUser_Private.h */,
 				1A017D9C17B6238E00614DE1 /* ANUser.m */,
 				673788BE17C545D20088ECA8 /* ANCache.h */,
 				673788BF17C545D20088ECA8 /* ANCache.m */,

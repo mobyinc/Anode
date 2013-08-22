@@ -19,7 +19,7 @@
 
 +(ANObject*)objectWithType:(NSString*)type
 {
-    ANObject* object = [[ANObject alloc] init];
+    ANObject* object = [[self alloc] init];
     object.type = type.lowercaseString;
     
     return object;
@@ -27,7 +27,7 @@
 
 +(ANObject*)objectWithType:(NSString*)type objectId:(NSNumber*)objectId
 {
-    ANObject* object = [[ANObject alloc] init];
+    ANObject* object = [[self alloc] init];
     object.type = type.lowercaseString;
     object.objectId = objectId;
     object.emptyObject = YES; // id was manually specified and therefore cannot be saved unless reloaded first
@@ -40,7 +40,7 @@
     NSString* type = node[@"__type"];
     
     if (type) {
-        ANObject* object = [ANObject objectWithType:type];
+        ANObject* object = [self objectWithType:type];
         [ANObject applyAttributesWithDictionary:node toObject:object error:error];
         return object;
     } else {

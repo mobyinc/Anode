@@ -43,6 +43,7 @@ static ANCache* sharedCache = nil;
         
         if (![[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
             [[NSFileManager defaultManager] createDirectoryAtPath:self.cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:[self.cachePath stringByAppendingPathComponent:@"/user/"] withIntermediateDirectories:YES attributes:nil error:nil];
         }
     }
     

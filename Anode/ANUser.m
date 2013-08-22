@@ -8,16 +8,18 @@
 
 
 #import "ANUser.h"
+#import "Anode.h"
+#import "ANCache.h"
+#import "ANUser_Private.h"
 #import "ANObject_Private.h"
 #import "ANClient_Private.h"
-#import "Anode.h"
 #import "Anode_Private.h"
-#import "ANCache.h"
 #import "ANJSONRequestOperation.h"
 #import "NSError+Helpers.h"
 
 static ANUser* sharedCurrentUser = nil;
 
+#define CURRENT_USER_CACHE_KEY @"/user/current_user"
 
 @implementation ANUser
 
@@ -32,6 +34,12 @@ static ANUser* sharedCurrentUser = nil;
     NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"login" parameters:parameters];
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSError* error = nil;
+        ANUser* user = (ANUser*)[ANUser objectWithJSON:JSON error:&error];
+        [[ANCache sharedInstance] setObject:user forKey:CURRENT_USER_CACHE_KEY];
+        [Anode sharedInstance].userToken = [user token];
+        
+        if (block) block(user, nil);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         if (block) block(nil, error);
     }];
@@ -49,27 +57,37 @@ static ANUser* sharedCurrentUser = nil;
     [ANUser loginWithUsername:nil password:nil block:block];
 }
 
-+(void)registerDeviceTokenWithData:(NSData *)data
++(void)registerDeviceTokenWithData:(NSData *)data block:(CompletionBlock)block
 {
     if (![ANUser currentUser]) {
         NSLog(@"Cannot register device token without current user.");
         return;
     }
     
-#warning @"implement
+    NSString* token = [[data description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+
+    NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"register_device_token" parameters:@{@"device_token":token}];
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        if (block) block(nil, nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
 }
 
 +(void)logout
 {
     sharedCurrentUser = nil;
     [Anode sharedInstance].userToken = nil;
-    [[ANCache sharedInstance] clearObjectForKey:@"/user/current_user"];
+    [[ANCache sharedInstance] clearObjectForKey:CURRENT_USER_CACHE_KEY];
 }
 
 +(ANUser*)currentUser
 {
     if (!sharedCurrentUser) {
-        sharedCurrentUser = [[ANCache sharedInstance] objectForKey:@"/user/current_user"];
+        sharedCurrentUser = [[ANCache sharedInstance] objectForKey:CURRENT_USER_CACHE_KEY];
     }
     
     return sharedCurrentUser;
@@ -95,6 +113,13 @@ static ANUser* sharedCurrentUser = nil;
 -(void)setPassword:(NSString *)password
 {
     [self setObject:password forKey:@"password"];
+}
+
+#pragma mark - Private
+
+-(NSString *)token
+{
+    return [self.attributes objectForKey:@"__token"];
 }
 
 @end
