@@ -9,16 +9,24 @@
 #import "ANClient.h"
 
 typedef enum {
-    Descending,
-    Ascending    
-} Direction;
+    kANOrderDirectionDescending,
+    kANOrderDirectionAscending
+} ANOrderDirection;
+
+typedef enum {
+    kANCachePolicyIgnoreCache,
+    kANCachePolicyCacheElseNetwork,
+    kANCachePolicyNetworkElseCache,
+    
+} ANCachePolicy;
 
 @interface ANQuery : ANClient
 
 @property (nonatomic, strong) NSNumber* limit;
 @property (nonatomic, strong) NSNumber* skip;
 @property (nonatomic, strong) NSString* orderBy;
-@property (nonatomic, assign) Direction orderDirection;
+@property (nonatomic, assign) ANOrderDirection orderDirection;
+@property (nonatomic, assign) ANCachePolicy cachePolicy;
 
 +(ANQuery*)queryWithType:(NSString*)type;
 

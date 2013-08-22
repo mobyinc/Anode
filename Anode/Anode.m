@@ -7,15 +7,9 @@
 //
 
 #import "Anode.h"
+#import "Anode_Private.h"
 
 static Anode* sharedAnodeInstance = nil;
-
-@interface Anode ()
-
-@property (nonatomic, retain) NSString* token;
-@property (nonatomic, retain) NSString* baseUrl;
-
-@end
 
 @implementation Anode
 
@@ -42,5 +36,7 @@ static Anode* sharedAnodeInstance = nil;
 {
     return [Anode sharedInstance].token;
 }
+
+
 
 @end

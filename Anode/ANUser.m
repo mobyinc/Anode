@@ -7,8 +7,9 @@
 //
 
 #import "ANUser.h"
+#import "Anode.h"
 
-static ANUser* sharedUser = nil;
+static ANUser* sharedCurrentUser = nil;
 
 @implementation ANUser
 
@@ -17,7 +18,7 @@ static ANUser* sharedUser = nil;
     
 }
 
-+(void)restoreLoginWithBlock:(LoginBlock)block
++(void)refreshLoginWithBlock:(LoginBlock)block
 {
     
 }
@@ -29,7 +30,29 @@ static ANUser* sharedUser = nil;
 
 +(ANUser*)currentUser
 {
-    return sharedUser;
+    return sharedCurrentUser;
+}
+
+#pragma mark - Special Properties
+
+-(NSString *)username
+{
+    return [self objectForKey:@"username"];
+}
+
+-(void)setUsername:(NSString *)username
+{
+    [self setObject:username forKey:@"username"];
+}
+
+-(NSString *)password
+{
+    return [self objectForKey:@"password"];
+}
+
+-(void)setPassword:(NSString *)password
+{
+    [self setObject:password forKey:@"password"];
 }
 
 @end

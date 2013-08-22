@@ -54,14 +54,32 @@
     self = [super init];
     
     if (self) {
-        _dirty = NO;
-        
+        self.dirty = NO;
         self.emptyObject = NO;
         self.attributes = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     
     return self;
 }
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super init]) {
+        self.dirty = NO;
+        self.emptyObject = NO;
+        self.attributes = [[decoder decodeObjectForKey:@"attributes"] mutableCopy];
+    }
+    return self;
+}
+
+-(void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.attributes forKey:@"attributes"];
+}
+
+#pragma mark - Public
 
 -(void)setObject:(id)object forKey:(NSString*)key
 {

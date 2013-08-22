@@ -7,11 +7,13 @@
 //
 
 #import "ANQuery.h"
+#import "ANCache.h"
 #import "ANClient_Private.h"
 #import "ANObject_Private.h"
 #import "ANJSONRequestOperation.h"
 #import "NSString+ActiveSupportInflector.h"
 #import "NSError+Helpers.h"
+#import "NSData+MD5.h"
 
 @interface ANQuery ()
 
@@ -27,7 +29,8 @@
     query.type = type.lowercaseString;
     query.skip = [NSNumber numberWithInt:0];
     query.limit = [NSNumber numberWithInt:100];
-    query.orderDirection = Descending;
+    query.orderDirection = kANOrderDirectionAscending;
+    query.cachePolicy = kANCachePolicyIgnoreCache;
     
     return query;
 }
@@ -91,6 +94,33 @@
 
 -(void)fetchObjectsWithRequest:(NSURLRequest*)request block:(ObjectsResultBlock)block
 {
+    if (self.cachePolicy == kANCachePolicyIgnoreCache) {
+        [self fetchObjectsFromNetworkWithRequest:request block:block];
+    } else if (self.cachePolicy == kANCachePolicyNetworkElseCache) {
+        [self fetchObjectsFromNetworkWithRequest:request block:^(NSArray *objects, NSError *error) {
+            if (error) {
+                if (error.code == kANStatusCodeServiceUnavailable) {
+                    [self fetchObjectsFromNetworkWithRequest:request block:block];
+                } else if (block) {
+                    block(nil, error);
+                }
+            } else if (block) {
+                block(objects, nil);
+            }
+        }];
+    } else if (self.cachePolicy == kANCachePolicyCacheElseNetwork) {
+        id objects = [self fetchObjectsFromCacheWithRequest:request];
+        
+        if (objects && block) {
+            block(objects, nil);
+        } else {
+            [self fetchObjectsFromNetworkWithRequest:request block:block];
+        }
+    }
+}
+
+-(void)fetchObjectsFromNetworkWithRequest:(NSURLRequest*)request block:(ObjectsResultBlock)block
+{
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
         
@@ -118,6 +148,10 @@
         
         if (block) block(objects, error);
         
+        if (!error && self.cachePolicy != kANCachePolicyIgnoreCache) {
+            [self commitObjectsToCacheWithRequest:request objects:objects];
+        }
+        
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         if (block) block(nil, error);
     }];
@@ -125,7 +159,19 @@
     [operation start];
 }
 
--(NSData*)jsonWithPredicate:(NSPredicate*)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit orderBy:(NSString*)orderBy orderDirection:(Direction)orderDirection
+-(id)fetchObjectsFromCacheWithRequest:(NSURLRequest*)request
+{
+    NSString* cacheKey = [self cacheKeyForRequest:request];
+    return [[ANCache sharedInstance] objectForKey:cacheKey];
+}
+
+-(BOOL)commitObjectsToCacheWithRequest:(NSURLRequest*)request objects:(id<NSCoding>)objects
+{
+    NSString* cacheKey = [self cacheKeyForRequest:request];
+    return [[ANCache sharedInstance] setObject:objects forKey:cacheKey];
+}
+
+-(NSData*)jsonWithPredicate:(NSPredicate*)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit orderBy:(NSString*)orderBy orderDirection:(ANOrderDirection)orderDirection
 {
     NSError* serializationError = nil;
     NSMutableDictionary* components = [NSMutableDictionary dictionary];
@@ -136,7 +182,7 @@
     
     if (orderBy) {
         components[@"order_by"] = orderBy;
-        components[@"order_direction"] = orderDirection == Descending ? @"DESC" : @"ASC";
+        components[@"order_direction"] = orderDirection == kANOrderDirectionDescending ? @"DESC" : @"ASC";
     }
     
     if ([predicate isKindOfClass:[NSComparisonPredicate class]]) {
@@ -176,6 +222,12 @@
             @throw @"Unsupported predicate operator type";
             break;
     }
+}
+
+-(NSString*)cacheKeyForRequest:(NSURLRequest*)request;
+{
+    NSData* codedData = [NSKeyedArchiver archivedDataWithRootObject:request];
+    return [codedData MD5];
 }
 
 @end
