@@ -36,9 +36,14 @@ static ANCache* sharedCache = nil;
     self = [super init];
     
     if (self) {
+        self.maxCacheSize = 20 * 1024; // 20 mb
+        
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
         self.cachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/Anode_Object_Cache"];
-        self.maxCacheSize = 20 * 1024; // 20 mb
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:self.cachePath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
     }
     
     return self;
@@ -97,7 +102,7 @@ static ANCache* sharedCache = nil;
 
 -(NSString*)pathForStorageKey:(NSString*)key
 {    
-    NSString* filename = [NSString stringWithFormat:@"%@.plist", key];
+    NSString* filename = [NSString stringWithFormat:@"%@.obj", key];
     return [self.cachePath stringByAppendingPathComponent:filename];
 }
 
