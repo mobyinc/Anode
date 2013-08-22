@@ -1,0 +1,4 @@
+Documentation set was installed to Xcode!
+
+Path: /Users/fourtytwo/Library/Developer/Shared/Documentation/DocSets/com.builtbymoby.Anode.docset
+Time: 2013-08-22 23:07:29 +0000
