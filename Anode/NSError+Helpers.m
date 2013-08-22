@@ -7,23 +7,24 @@
 //
 
 #import "NSError+Helpers.h"
+#import "Anode.h"
 
 @implementation NSError (Helpers)
 
 +(NSError*)errorWithDescription:(NSString*)description
 {
-    return [NSError errorWithCode:0 description:description originalError:nil];
+    return [NSError errorWithCode:0 key:@"error" description:description originalError:nil];
 }
 
 +(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description
 {
-    return [NSError errorWithCode:code description:description originalError:nil];
+    return [NSError errorWithCode:code key:@"error" description:description originalError:nil];
 }
 
-+(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description originalError:(NSError*)originalError
++(NSError*)errorWithCode:(NSInteger)code key:(NSString*)key description:(NSString*)description originalError:(NSError*)originalError
 {
     if (originalError)
-        return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description, @"ANOriginalError" : originalError}];
+        return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description, ANErrorOriginalError : originalError, ANErrorKey : key}];
     else
         return [NSError errorWithDomain:@"anode" code:code userInfo:@{@"NSLocalizedDescription" : description}];
 }

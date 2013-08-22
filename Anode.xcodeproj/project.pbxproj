@@ -44,9 +44,13 @@
 		1A7F9B3317C17210000BE537 /* NSString+ActiveSupportInflector.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F9B2F17C17210000BE537 /* NSString+ActiveSupportInflector.m */; };
 		1AB04B0317C475E5003EE5F5 /* NSString+TypeDetection.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AB04B0117C475E5003EE5F5 /* NSString+TypeDetection.h */; };
 		1AB04B0417C475E5003EE5F5 /* NSString+TypeDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB04B0217C475E5003EE5F5 /* NSString+TypeDetection.m */; };
+		673788C017C545D20088ECA8 /* ANCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 673788BE17C545D20088ECA8 /* ANCache.h */; };
+		673788C117C545D20088ECA8 /* ANCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 673788BF17C545D20088ECA8 /* ANCache.m */; };
 		674F5E9417B572DC00D8A066 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 674F5E9317B572DC00D8A066 /* Foundation.framework */; };
 		674F5E9917B572DC00D8A066 /* Anode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 674F5E9817B572DC00D8A066 /* Anode.h */; };
 		674F5EA217B5739C00D8A066 /* Anode.h in Headers */ = {isa = PBXBuildFile; fileRef = 674F5E9817B572DC00D8A066 /* Anode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67A71D7A17C56D6700CBF63B /* NSData+MD5.h in Headers */ = {isa = PBXBuildFile; fileRef = 67A71D7817C56D6700CBF63B /* NSData+MD5.h */; };
+		67A71D7B17C56D6700CBF63B /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 67A71D7917C56D6700CBF63B /* NSData+MD5.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,10 +119,15 @@
 		1A7F9B2F17C17210000BE537 /* NSString+ActiveSupportInflector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ActiveSupportInflector.m"; sourceTree = "<group>"; };
 		1AB04B0117C475E5003EE5F5 /* NSString+TypeDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TypeDetection.h"; sourceTree = "<group>"; };
 		1AB04B0217C475E5003EE5F5 /* NSString+TypeDetection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+TypeDetection.m"; sourceTree = "<group>"; };
+		673788BD17C540770088ECA8 /* Anode_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anode_Private.h; sourceTree = "<group>"; };
+		673788BE17C545D20088ECA8 /* ANCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANCache.h; sourceTree = "<group>"; };
+		673788BF17C545D20088ECA8 /* ANCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANCache.m; sourceTree = "<group>"; };
 		674F5E9017B572DC00D8A066 /* libAnode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnode.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		674F5E9317B572DC00D8A066 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		674F5E9717B572DC00D8A066 /* Anode-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Anode-Prefix.pch"; sourceTree = "<group>"; };
 		674F5E9817B572DC00D8A066 /* Anode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Anode.h; sourceTree = "<group>"; };
+		67A71D7817C56D6700CBF63B /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		67A71D7917C56D6700CBF63B /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +212,7 @@
 				1A017D9F17B734B800614DE1 /* AFNetworking */,
 				674F5E9617B572DC00D8A066 /* Supporting Files */,
 				674F5E9817B572DC00D8A066 /* Anode.h */,
+				673788BD17C540770088ECA8 /* Anode_Private.h */,
 				1A017D9517B615ED00614DE1 /* Anode.m */,
 				1A03E5F517C1CB9B0011B499 /* ANClient.h */,
 				1A03E5F917C1CCED0011B499 /* ANClient_Private.h */,
@@ -214,12 +224,16 @@
 				1A017D9817B6196000614DE1 /* ANQuery.m */,
 				1A017D9B17B6238E00614DE1 /* ANUser.h */,
 				1A017D9C17B6238E00614DE1 /* ANUser.m */,
+				673788BE17C545D20088ECA8 /* ANCache.h */,
+				673788BF17C545D20088ECA8 /* ANCache.m */,
 				1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */,
 				1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */,
 				1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */,
 				1A7F9B2317BFE7D5000BE537 /* NSError+Helpers.m */,
 				1AB04B0117C475E5003EE5F5 /* NSString+TypeDetection.h */,
 				1AB04B0217C475E5003EE5F5 /* NSString+TypeDetection.m */,
+				67A71D7817C56D6700CBF63B /* NSData+MD5.h */,
+				67A71D7917C56D6700CBF63B /* NSData+MD5.m */,
 			);
 			path = Anode;
 			sourceTree = "<group>";
@@ -253,6 +267,8 @@
 				1A03E5FA17C1F5E00011B499 /* ANClient_Private.h in Headers */,
 				1A03E5FC17C1F6380011B499 /* ANObject_Private.h in Headers */,
 				1AB04B0317C475E5003EE5F5 /* NSString+TypeDetection.h in Headers */,
+				673788C017C545D20088ECA8 /* ANCache.h in Headers */,
+				67A71D7A17C56D6700CBF63B /* NSData+MD5.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,6 +366,8 @@
 				1A7F9B3317C17210000BE537 /* NSString+ActiveSupportInflector.m in Sources */,
 				1A03E5F817C1CB9B0011B499 /* ANClient.m in Sources */,
 				1AB04B0417C475E5003EE5F5 /* NSString+TypeDetection.m in Sources */,
+				673788C117C545D20088ECA8 /* ANCache.m in Sources */,
+				67A71D7B17C56D6700CBF63B /* NSData+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

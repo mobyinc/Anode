@@ -12,6 +12,6 @@
 
 +(NSError*)errorWithDescription:(NSString*)description;
 +(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description;
-+(NSError*)errorWithCode:(NSInteger)code description:(NSString*)description originalError:(NSError*)originalError;
++(NSError*)errorWithCode:(NSInteger)code key:(NSString*)key description:(NSString*)description originalError:(NSError*)originalError;
 
 @end

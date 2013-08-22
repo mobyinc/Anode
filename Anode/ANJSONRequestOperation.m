@@ -25,22 +25,25 @@
         if (failure) {
             id JSON = [(AFJSONRequestOperation *)operation responseJSON];
             NSString* description = @"unknown error";
+            NSString* key = @"error";
             int code = 0;
             
             if (JSON && JSON[@"error"]) {
                 @try {
                     description = JSON[@"error"][@"message"] ? JSON[@"error"][@"message"] : @"unspecified error";
                     code = JSON[@"error"][@"code"] ? [JSON[@"error"][@"code"] intValue] : 0;
+                    key = JSON[@"error"][@"key"] ? JSON[@"error"][@"key"] : @"error";
                 }
                 @catch (NSException *exception) {
                     NSLog(@"error parsing error response");
                 }
             } else if (error && error.code == -1004) {
                 description = @"Could not connect to server";
+                key = @"connection_error";
                 code = 503;
             }
             
-            NSError* friendlyError = [NSError errorWithCode:code description:description originalError:error];
+            NSError* friendlyError = [NSError errorWithCode:code key:key description:description originalError:error];
             
             failure(operation.request, operation.response, friendlyError, JSON);
         }

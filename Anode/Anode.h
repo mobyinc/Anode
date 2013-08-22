@@ -14,9 +14,12 @@
 #import <Anode/ANUser.h>
 #import <Anode/BlockTypes.h>
 
+FOUNDATION_EXPORT NSString *const ANErrorKey;
+FOUNDATION_EXPORT NSString *const ANErrorOriginalError;
+
 @interface Anode : NSObject
 
-+(void)setBaseUrl:(NSString*)url token:(NSString*)token;
++(void)initializeWithBaseUrl:(NSString*)url clientToken:(NSString*)token;
 +(NSURL*)baseUrl;
 +(NSString*)token;
 

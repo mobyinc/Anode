@@ -7,15 +7,12 @@
 //
 
 #import "Anode.h"
+#import "Anode_Private.h"
+
+NSString *const ANErrorKey = @"ANErrorKey";
+NSString *const ANErrorOriginalError = @"ANErrorOriginalError";
 
 static Anode* sharedAnodeInstance = nil;
-
-@interface Anode ()
-
-@property (nonatomic, retain) NSString* token;
-@property (nonatomic, retain) NSString* baseUrl;
-
-@end
 
 @implementation Anode
 
@@ -27,10 +24,14 @@ static Anode* sharedAnodeInstance = nil;
     return sharedAnodeInstance;
 }
 
-+(void)setBaseUrl:(NSString *)url token:(NSString *)token
++(void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token
 {
     [Anode sharedInstance].baseUrl = url;
-    [Anode sharedInstance].token = token;
+    [Anode sharedInstance].clientToken = token;
+    
+    if ([ANUser currentUser]) {
+        [Anode sharedInstance].userToken = [[ANUser currentUser] objectForKey:@"__token"];
+    }    
 }
 
 +(NSURL *)baseUrl
@@ -40,7 +41,9 @@ static Anode* sharedAnodeInstance = nil;
 
 +(NSString *)token
 {
-    return [Anode sharedInstance].token;
+    return [Anode sharedInstance].userToken ? [Anode sharedInstance].userToken : [Anode sharedInstance].clientToken;
 }
+
+
 
 @end

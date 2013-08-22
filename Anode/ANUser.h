@@ -15,8 +15,10 @@
 @property (nonatomic, readonly) BOOL authenticated;
 
 +(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block;
-+(void)restoreLoginWithBlock:(LoginBlock)block;
++(void)refreshLoginWithBlock:(LoginBlock)block;
++(void)registerDeviceTokenWithData:(NSData*)data;
 +(void)logout;
+
 +(ANUser*)currentUser;
 
 @end

@@ -8,7 +8,7 @@
 
 #import "ANClient.h"
 
-@interface ANObject : ANClient
+@interface ANObject : ANClient<NSCoding>
 
 @property (nonatomic, strong, readonly) NSNumber* objectId;
 @property (nonatomic, strong, readonly) NSDate* createdAt;
