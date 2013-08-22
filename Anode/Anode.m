@@ -21,10 +21,14 @@ static Anode* sharedAnodeInstance = nil;
     return sharedAnodeInstance;
 }
 
-+(void)setBaseUrl:(NSString *)url token:(NSString *)token
++(void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token
 {
     [Anode sharedInstance].baseUrl = url;
-    [Anode sharedInstance].token = token;
+    [Anode sharedInstance].clientToken = token;
+    
+    if ([ANUser currentUser]) {
+        [Anode sharedInstance].userToken = [[ANUser currentUser] objectForKey:@"__token"];
+    }    
 }
 
 +(NSURL *)baseUrl
@@ -34,7 +38,7 @@ static Anode* sharedAnodeInstance = nil;
 
 +(NSString *)token
 {
-    return [Anode sharedInstance].token;
+    return [Anode sharedInstance].userToken ? [Anode sharedInstance].userToken : [Anode sharedInstance].clientToken;
 }
 
 

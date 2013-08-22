@@ -12,7 +12,7 @@
 
 +(ANCache*)sharedInstance;
 
--(id<NSCoding>)objectForKey:(NSString*)key;
+-(id)objectForKey:(NSString*)key;
 -(BOOL)setObject:(id<NSCoding>)object forKey:(NSString*)key;
 
 @end

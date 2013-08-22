@@ -16,6 +16,26 @@ static AFHTTPClient* sharedClient = nil;
 
 @implementation ANClient
 
++(NSMutableURLRequest *)requestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters
+{
+    NSString* typeSegment = [type pluralizeString];
+    NSString* path = nil;
+    
+    if (action && objectId) {
+        path = [NSString stringWithFormat:@"%@/%@/%@", typeSegment, objectId, action];
+    } else if (objectId) {
+        path = [NSString stringWithFormat:@"%@/%@", typeSegment, objectId];
+    } else if (action) {
+        path = [NSString stringWithFormat:@"%@/%@", typeSegment, action];
+    } else {
+        path = [NSString stringWithFormat:@"%@/", typeSegment];
+    }
+    
+    NSMutableURLRequest* request = [[ANClient client] requestWithMethod:verb path:path parameters:parameters];
+    
+    return request;
+}
+
 -(id)init
 {
     self = [super init];
@@ -28,7 +48,7 @@ static AFHTTPClient* sharedClient = nil;
     return self;
 }
 
--(AFHTTPClient *)client
++(AFHTTPClient *)client
 {
     if (!sharedClient) {
         sharedClient = [[AFHTTPClient alloc] initWithBaseURL:[Anode baseUrl]];
@@ -58,22 +78,7 @@ static AFHTTPClient* sharedClient = nil;
 
 -(NSMutableURLRequest *)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters
 {
-    NSString* typeSegment = [self.type pluralizeString];
-    NSString* path = nil;
-    
-    if (action && objectId) {
-        path = [NSString stringWithFormat:@"%@/%@/%@", typeSegment, objectId, action];
-    } else if (objectId) {
-        path = [NSString stringWithFormat:@"%@/%@", typeSegment, objectId];
-    } else if (action) {
-        path = [NSString stringWithFormat:@"%@/%@", typeSegment, action];
-    } else {
-        path = [NSString stringWithFormat:@"%@/", typeSegment];
-    }    
-    
-    NSMutableURLRequest* request = [self.client requestWithMethod:verb path:path parameters:parameters];
-    
-    return request;
+    return [ANClient requestForVerb:verb type:self.type objectId:objectId action:action parameters:parameters];
 }
 
 @end

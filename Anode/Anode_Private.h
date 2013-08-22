@@ -10,7 +10,9 @@
 
 @interface Anode ()
 
-@property (nonatomic, retain) NSString* token;
+@property (nonatomic, readonly) NSString* token;
+@property (nonatomic, retain) NSString* clientToken;
+@property (nonatomic, retain) NSString* userToken;
 @property (nonatomic, retain) NSString* baseUrl;
 
 @end

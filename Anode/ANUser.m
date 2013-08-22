@@ -6,16 +6,31 @@
 //  Copyright (c) 2013 Moby, Inc. All rights reserved.
 //
 
+
 #import "ANUser.h"
+#import "ANObject_Private.h"
+#import "ANClient_Private.h"
 #import "Anode.h"
+#import "ANCache.h"
+#import "ANJSONRequestOperation.h"
+#import "NSError+Helpers.h"
 
 static ANUser* sharedCurrentUser = nil;
+
 
 @implementation ANUser
 
 +(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block
 {
+    NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"login" parameters:@{@"username": username, @"password": password}];
     
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"ok!");
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
 }
 
 +(void)refreshLoginWithBlock:(LoginBlock)block
@@ -30,6 +45,10 @@ static ANUser* sharedCurrentUser = nil;
 
 +(ANUser*)currentUser
 {
+    if (!sharedCurrentUser) {
+        sharedCurrentUser = [[ANCache sharedInstance] objectForKey:@"/user/current_user"];
+    }
+    
     return sharedCurrentUser;
 }
 

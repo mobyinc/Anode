@@ -49,7 +49,7 @@ static ANCache* sharedCache = nil;
     return self;
 }
 
--(id<NSCoding>)objectForKey:(NSString*)key
+-(id)objectForKey:(NSString*)key
 {
     NSFileManager* fileManager = [NSFileManager defaultManager];    
     NSString* path = [self pathForStorageKey:key];
