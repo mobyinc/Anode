@@ -54,5 +54,16 @@ FOUNDATION_EXPORT NSString *const ANErrorOriginalError;
  */
 +(NSString*)token;
 
+/** @name Controlling cache versioning
+ */
+
+/** Sets the current version of the cache
+ 
+ If the current cache version does not match the existing value, the cache is emptied to avoid presenting outdated cache hits.
+ 
+ @param cacheVersion The current cache version
+ */
++(void)setCacheVersion:(NSNumber*)cacheVersion;
+
 @end
 

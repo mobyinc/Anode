@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#define ANODE_CACHE_VERSION 1
+
 @interface ANCache : NSObject
+
+@property (nonatomic, copy) NSNumber* cacheVersion;
 
 +(ANCache*)sharedInstance;
 

@@ -10,6 +10,7 @@
 #import "Anode_Private.h"
 #import "ANUser_Private.h"
 #import "ANClient_Private.h"
+#import "ANCache.h"
 
 NSString *const ANErrorKey = @"ANErrorKey";
 NSString *const ANErrorOriginalError = @"ANErrorOriginalError";
@@ -45,6 +46,13 @@ static Anode* sharedAnodeInstance = nil;
 {
     return [Anode sharedInstance].userToken ? [Anode sharedInstance].userToken : [Anode sharedInstance].clientToken;
 }
+
++(void)setCacheVersion:(NSNumber*)cacheVersion
+{
+    [ANCache sharedInstance].cacheVersion = cacheVersion;
+}
+
+#pragma mark - Private
 
 -(void)setUserToken:(NSString *)userToken
 {

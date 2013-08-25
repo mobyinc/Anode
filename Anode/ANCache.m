@@ -7,6 +7,9 @@
 //
 
 #import "ANCache.h"
+#import "Anode.h"
+
+int ANCacheVersion = 1;
 
 static ANCache* sharedCache = nil;
 
@@ -82,6 +85,26 @@ static ANCache* sharedCache = nil;
     [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
 }
 
+#pragma mark - Properties
+
+-(NSNumber *)cacheVersion
+{
+    NSNumber* cacheVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"anode_cache_version"];
+    return cacheVersion ? cacheVersion : @(ANCacheVersion);
+}
+
+-(void)setCacheVersion:(NSNumber *)cacheVersion
+{
+    NSNumber* currentVersion = [self cacheVersion];
+    
+    if (![cacheVersion isEqualToNumber:currentVersion]) {
+        [self clearCache];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:cacheVersion forKey:@"anode_cache_version"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 #pragma mark - Private
 
 -(void)pruneCache
@@ -89,6 +112,11 @@ static ANCache* sharedCache = nil;
     if ([self cacheSize] > self.maxCacheSize) {
         // TODO: get rid of some baggage
     }
+}
+
+-(void)clearCache
+{
+#warning @"implement
 }
 
 -(long)cacheSize
