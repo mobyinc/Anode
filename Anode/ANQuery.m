@@ -215,15 +215,15 @@
 {
     switch (type) {
         case NSEqualToPredicateOperatorType:
-            return @"eq";
+            return @"=";
         case NSGreaterThanPredicateOperatorType:
-            return @"gt";
+            return @">";
         case NSGreaterThanOrEqualToPredicateOperatorType:
-            return @"gteq";
+            return @">=";
         case NSLessThanPredicateOperatorType:
-            return @"lt";
+            return @"<";
         case NSLessThanOrEqualToPredicateOperatorType:
-            return @"lteq";
+            return @"<=";
         default:
             @throw @"Unsupported predicate operator type";
             break;
