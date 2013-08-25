@@ -278,7 +278,9 @@
         }
     }
     
-    NSData* JSON = [NSJSONSerialization dataWithJSONObject:attributesToSend options:0 error:&serializationError];
+    NSDictionary* encapsulatedAttributes = @{self.type : attributesToSend};
+    
+    NSData* JSON = [NSJSONSerialization dataWithJSONObject:encapsulatedAttributes options:0 error:&serializationError];
     
     if (serializationError) {
         return nil;

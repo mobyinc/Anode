@@ -14,6 +14,7 @@
 @property (nonatomic, retain) NSString* password;
 @property (nonatomic, readonly) BOOL authenticated;
 
++(ANUser *)userWithUsername:(NSString*)username password:(NSString*)password;
 +(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block;
 +(void)refreshLoginWithBlock:(LoginBlock)block;
 +(void)registerDeviceTokenWithData:(NSData*)data block:(CompletionBlock)block;

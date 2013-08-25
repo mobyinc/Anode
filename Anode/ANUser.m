@@ -23,6 +23,15 @@ static ANUser* sharedCurrentUser = nil;
 
 @implementation ANUser
 
++(ANUser *)userWithUsername:(NSString*)username password:(NSString*)password
+{
+    ANUser* user = (ANUser*)[self objectWithType:@"user"];
+    [user setObject:username forKey:@"username"];
+    [user setObject:password forKey:@"password"];
+    
+    return user;
+}
+
 +(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block
 {
     NSDictionary* parameters = nil;
