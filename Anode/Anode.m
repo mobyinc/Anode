@@ -9,6 +9,7 @@
 #import "Anode.h"
 #import "Anode_Private.h"
 #import "ANUser_Private.h"
+#import "ANClient_Private.h"
 
 NSString *const ANErrorKey = @"ANErrorKey";
 NSString *const ANErrorOriginalError = @"ANErrorOriginalError";
@@ -45,6 +46,11 @@ static Anode* sharedAnodeInstance = nil;
     return [Anode sharedInstance].userToken ? [Anode sharedInstance].userToken : [Anode sharedInstance].clientToken;
 }
 
-
+-(void)setUserToken:(NSString *)userToken
+{
+    _userToken = userToken;
+    
+    [ANClient setToken:userToken];
+}
 
 @end

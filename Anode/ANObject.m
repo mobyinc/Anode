@@ -264,7 +264,8 @@
     NSMutableDictionary* attributesToSend = [NSMutableDictionary dictionaryWithDictionary:self.attributes];
     
     // strip unwanted attributes
-    [attributesToSend removeObjectForKey:@"id"];
+    [attributesToSend removeObjectForKey:@"__type"];
+    [attributesToSend removeObjectForKey:@"id"];    
     [attributesToSend removeObjectForKey:@"created_at"];
     [attributesToSend removeObjectForKey:@"updated_at"];
     

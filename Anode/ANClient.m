@@ -16,6 +16,11 @@ static AFHTTPClient* sharedClient = nil;
 
 @implementation ANClient
 
++(void)setToken:(NSString *)token
+{
+    [[self client] setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Token token=%@", token]];
+}
+
 +(NSMutableURLRequest *)requestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters
 {
     NSString* typeSegment = [type pluralizeString];

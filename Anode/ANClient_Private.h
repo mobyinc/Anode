@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSDateFormatter* dateFormatter;
 
 +(AFHTTPClient*)client;
++(void)setToken:(NSString*)token;
+
 +(NSMutableURLRequest*)requestForVerb:(NSString*)verb type:(NSString*)type objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters;
 
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
