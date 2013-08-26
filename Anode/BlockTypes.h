@@ -12,5 +12,5 @@
 typedef void (^CompletionBlock) (id object, NSError* error);
 typedef void (^ObjectResultBlock) (ANObject* object, NSError* error);
 typedef void (^ObjectsResultBlock) (NSArray* objects, NSError* error);
-typedef void (^ScalarResultBlock) (NSNumber* value, NSError* error);
+typedef void (^ScalarResultBlock) (id value, NSError* error);
 typedef void (^LoginBlock) (ANUser* user, NSError* error);

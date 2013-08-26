@@ -72,9 +72,32 @@
 
 -(void)countObjectsWithPredicate:(NSPredicate*)predicate block:(ScalarResultBlock)block
 {
+    NSMutableURLRequest* request = [self requestForVerb:@"POST" action:@"query"];
+    request.HTTPBody = [self jsonWithPredicate:predicate skip:nil limit:nil orderBy:nil orderDirection:self.orderDirection countOnly:YES];
     
+    [self fetchValuesWithRequest:request block:^(id object, NSError *error) {
+        if (object && !error && object[@"count"]) {
+            id value = object[@"count"];
+            block(value, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
 }
 
+-(void)fetchScalarWithMethod:(NSString *)methodName parameters:(NSDictionary *)parameters block:(ScalarResultBlock)block
+{
+    NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:nil action:methodName parameters:parameters];
+    
+    [self fetchValuesWithRequest:request block:^(id object, NSError *error) {
+        if (object && !error && object[@"value"]) {
+            id value = object[@"value"];
+            block(value, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
 
 #pragma mark - Private
 
@@ -84,7 +107,7 @@
     
     if (predicate || limit) {
         request = [self requestForVerb:@"POST" action:@"query"];        
-        request.HTTPBody = [self jsonWithPredicate:predicate skip:skip limit:limit orderBy:self.orderBy orderDirection:self.orderDirection];
+        request.HTTPBody = [self jsonWithPredicate:predicate skip:skip limit:limit orderBy:self.orderBy orderDirection:self.orderDirection countOnly:NO];
     } else {
         request = [self requestForVerb:@"GET"];
     }
@@ -121,6 +144,39 @@
             block(objects, nil);
         } else {
             [self fetchObjectsFromNetworkWithRequest:request block:block];
+        }
+    }
+}
+
+-(void)fetchValuesWithRequest:(NSURLRequest*)request block:(CompletionBlock)block
+{
+    if (self.cachePolicy == kANCachePolicyIgnoreCache) {
+        [self fetchValuesFromNetworkWithRequest:request block:block];
+    } else if (self.cachePolicy == kANCachePolicyNetworkElseCache) {
+        [self fetchValuesFromNetworkWithRequest:request block:^(id object, NSError *error) {
+            if (error) {
+                if (error.code == kANStatusCodeServiceUnavailable) {
+                    id object = [self fetchObjectsFromCacheWithRequest:request];
+                    
+                    if (object && block) {
+                        block(object, nil);
+                    } else if (block) {
+                        block(nil, error);
+                    }
+                } else if (block) {
+                    block(nil, error);
+                }
+            } else if (block) {
+                block(object, nil);
+            }
+        }];
+    } else if (self.cachePolicy == kANCachePolicyCacheElseNetwork) {
+        id object = [self fetchObjectsFromCacheWithRequest:request];
+        
+        if (object && block) {
+            block(object, nil);
+        } else {
+            [self fetchValuesFromNetworkWithRequest:request block:block];
         }
     }
 }
@@ -165,6 +221,27 @@
     [operation start];
 }
 
+-(void)fetchValuesFromNetworkWithRequest:(NSURLRequest*)request block:(CompletionBlock)block
+{
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSError* error = nil;
+        
+        if (![JSON isKindOfClass:[NSDictionary class]]) {
+            error = [NSError errorWithDescription:@"Unexpected root node in server response. Expected dictionary."];
+        }
+        
+        if (block) block(JSON, error);
+        
+        if (!error && self.cachePolicy != kANCachePolicyIgnoreCache) {
+            [self commitObjectsToCacheWithRequest:request objects:JSON];
+        }        
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
+}
+
 -(id)fetchObjectsFromCacheWithRequest:(NSURLRequest*)request
 {
     NSString* cacheKey = [self cacheKeyForRequest:request];
@@ -177,7 +254,7 @@
     return [[ANCache sharedInstance] setObject:objects forKey:cacheKey];
 }
 
--(NSData*)jsonWithPredicate:(NSPredicate*)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit orderBy:(NSString*)orderBy orderDirection:(ANOrderDirection)orderDirection
+-(NSData*)jsonWithPredicate:(NSPredicate*)predicate skip:(NSNumber*)skip limit:(NSNumber*)limit orderBy:(NSString*)orderBy orderDirection:(ANOrderDirection)orderDirection countOnly:(BOOL)countOnly
 {
     NSError* serializationError = nil;
     NSMutableDictionary* components = [NSMutableDictionary dictionary];
@@ -200,6 +277,10 @@
         components[@"predicate"] = @{@"left" : left,
                                      @"operator" : operator,
                                      @"right" : right};
+    }
+    
+    if (countOnly) {
+        components[@"count_only"] = @(YES);
     }
     
     JSON = [NSJSONSerialization dataWithJSONObject:components options:0 error:&serializationError];
