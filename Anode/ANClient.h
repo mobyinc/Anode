@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "BlockTypes.h"
 
+/** ANClient is the base class for all objects that communicate with the remote service.
+ */
+
 typedef enum {
     kANStatusCodeOk = 200,
     kANStatusCodeBadRequest = 400,
@@ -19,6 +22,15 @@ typedef enum {
 
 @interface ANClient : NSObject
 
+/** @name Retreiving the object type
+ */
+
+/** Returns the object type
+ 
+ All subclasses of ANObject are initialized with an object type which scopes the interactions with the service to a particular resource. This value cannot be changed once an object is initialized.
+ 
+ @return The object type
+ */
 @property (nonatomic, strong, readonly) NSString* type;
 
 @end

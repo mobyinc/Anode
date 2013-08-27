@@ -22,6 +22,9 @@
 						<NodeRef refid="9"/>
 						<NodeRef refid="10"/>
 						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
 						
 					</Subnodes>
 				</Node>
@@ -31,7 +34,7 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="12"/>
+						<NodeRef refid="15"/>
 						
 					</Subnodes>
 				</Node>
@@ -41,7 +44,7 @@
 					<Name>Protocols</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="13"/>
+						<NodeRef refid="16"/>
 						
 					</Subnodes>
 				</Node>
@@ -88,20 +91,32 @@
 			<Path>Classes/AFXMLRequestOperation.html</Path>
 		</Node>
 		<Node id="10">
+			<Name>ANClient</Name>
+			<Path>Classes/ANClient.html</Path>
+		</Node>
+		<Node id="11">
 			<Name>ANJSONRequestOperation</Name>
 			<Path>Classes/ANJSONRequestOperation.html</Path>
 		</Node>
-		<Node id="11">
+		<Node id="12">
+			<Name>ANObject</Name>
+			<Path>Classes/ANObject.html</Path>
+		</Node>
+		<Node id="13">
+			<Name>ANQuery</Name>
+			<Path>Classes/ANQuery.html</Path>
+		</Node>
+		<Node id="14">
 			<Name>Anode</Name>
 			<Path>Classes/Anode.html</Path>
 		</Node>
 		
-		<Node id="12">
+		<Node id="15">
 			<Name>UIImageView(AFNetworking)</Name>
 			<Path>Categories/UIImageView+AFNetworking.html</Path>
 		</Node>
 		
-		<Node id="13">
+		<Node id="16">
 			<Name>AFMultipartFormData</Name>
 			<Path>Protocols/AFMultipartFormData.html</Path>
 		</Node>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/Anode.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/Anode</TokenIdentifier>
+			<Abstract type="html">The Anode framwork aims to capture the primary patterns used when connecting apps to remote services.</Abstract>
+			<DeclaredIn>Anode.h</DeclaredIn>
+			
+			<NodeRef refid="14"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/Anode/initializeWithBaseUrl:clientToken:</TokenIdentifier>
+			<Abstract type="html">Initialize the framework with base url and client token.</Abstract>
+			<DeclaredIn>Anode.h</DeclaredIn>			
+			
+			<Declaration>+ (void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">A string representing the root of the remote service</Abstract>
+				</Parameter><Parameter>
+					<Name>token</Name>
+					<Abstract type="html">The client token is shared between all clients and is used for anonymous access</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initializeWithBaseUrl:clientToken:</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/Anode/baseUrl</TokenIdentifier>
+			<Abstract type="html">Returns the current base URL</Abstract>
+			<DeclaredIn>Anode.h</DeclaredIn>			
+			
+			<Declaration>+ (NSURL *)baseUrl</Declaration>
+			
+			<ReturnValue><Abstract type="html">The current base URL</Abstract></ReturnValue>
+			<Anchor>//api/name/baseUrl</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/Anode/token</TokenIdentifier>
+			<Abstract type="html">Returns the current token used for requests</Abstract>
+			<DeclaredIn>Anode.h</DeclaredIn>			
+			
+			<Declaration>+ (NSString *)token</Declaration>
+			
+			<ReturnValue><Abstract type="html">The current token</Abstract></ReturnValue>
+			<Anchor>//api/name/token</Anchor>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/Anode/setCacheVersion:</TokenIdentifier>
+			<Abstract type="html">Sets the current version of the cache</Abstract>
+			<DeclaredIn>Anode.h</DeclaredIn>			
+			
+			<Declaration>+ (void)setCacheVersion:(NSNumber *)cacheVersion</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cacheVersion</Name>
+					<Abstract type="html">The current cache version</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setCacheVersion:</Anchor>
+		</Token>
+		
+	</File>
+</Tokens>
