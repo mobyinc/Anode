@@ -19,6 +19,8 @@ FOUNDATION_EXPORT NSString *const ANErrorOriginalError;
 
 /** The Anode framwork aims to capture the primary patterns used when connecting apps to remote services.
  
+ TODO: Installation instructions
+ 
  Include this file in your project's prefix header for easy access to all Anode classes anywhere in your code.
  */
 

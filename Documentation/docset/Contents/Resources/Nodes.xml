@@ -15,39 +15,11 @@
 						<NodeRef refid="2"/>
 						<NodeRef refid="3"/>
 						<NodeRef refid="4"/>
-						<NodeRef refid="5"/>
-						<NodeRef refid="6"/>
-						<NodeRef refid="7"/>
-						<NodeRef refid="8"/>
-						<NodeRef refid="9"/>
-						<NodeRef refid="10"/>
-						<NodeRef refid="11"/>
-						<NodeRef refid="12"/>
-						<NodeRef refid="13"/>
-						<NodeRef refid="14"/>
 						
 					</Subnodes>
 				</Node>
 				
 				
-				<Node type="folder">
-					<Name>Categories</Name>
-					<Path>index.html</Path>
-					<Subnodes>
-						<NodeRef refid="15"/>
-						
-					</Subnodes>
-				</Node>
-				
-				
-				<Node type="folder">
-					<Name>Protocols</Name>
-					<Path>index.html</Path>
-					<Subnodes>
-						<NodeRef refid="16"/>
-						
-					</Subnodes>
-				</Node>
 				
 			</Subnodes>
         </Node>
@@ -55,71 +27,23 @@
 	<Library>
 		
 		<Node id="1">
-			<Name>AFHTTPClient</Name>
-			<Path>Classes/AFHTTPClient.html</Path>
-		</Node>
-		<Node id="2">
-			<Name>AFHTTPRequestOperation</Name>
-			<Path>Classes/AFHTTPRequestOperation.html</Path>
-		</Node>
-		<Node id="3">
-			<Name>AFImageRequestOperation</Name>
-			<Path>Classes/AFImageRequestOperation.html</Path>
-		</Node>
-		<Node id="4">
-			<Name>AFJSONRequestOperation</Name>
-			<Path>Classes/AFJSONRequestOperation.html</Path>
-		</Node>
-		<Node id="5">
-			<Name>AFNetworkActivityIndicatorManager</Name>
-			<Path>Classes/AFNetworkActivityIndicatorManager.html</Path>
-		</Node>
-		<Node id="6">
-			<Name>AFPropertyListRequestOperation</Name>
-			<Path>Classes/AFPropertyListRequestOperation.html</Path>
-		</Node>
-		<Node id="7">
-			<Name>AFStreamingMultipartFormData</Name>
-			<Path>Classes/AFStreamingMultipartFormData.html</Path>
-		</Node>
-		<Node id="8">
-			<Name>AFURLConnectionOperation</Name>
-			<Path>Classes/AFURLConnectionOperation.html</Path>
-		</Node>
-		<Node id="9">
-			<Name>AFXMLRequestOperation</Name>
-			<Path>Classes/AFXMLRequestOperation.html</Path>
-		</Node>
-		<Node id="10">
 			<Name>ANClient</Name>
 			<Path>Classes/ANClient.html</Path>
 		</Node>
-		<Node id="11">
-			<Name>ANJSONRequestOperation</Name>
-			<Path>Classes/ANJSONRequestOperation.html</Path>
-		</Node>
-		<Node id="12">
+		<Node id="2">
 			<Name>ANObject</Name>
 			<Path>Classes/ANObject.html</Path>
 		</Node>
-		<Node id="13">
+		<Node id="3">
 			<Name>ANQuery</Name>
 			<Path>Classes/ANQuery.html</Path>
 		</Node>
-		<Node id="14">
+		<Node id="4">
 			<Name>Anode</Name>
 			<Path>Classes/Anode.html</Path>
 		</Node>
 		
-		<Node id="15">
-			<Name>UIImageView(AFNetworking)</Name>
-			<Path>Categories/UIImageView+AFNetworking.html</Path>
-		</Node>
 		
-		<Node id="16">
-			<Name>AFMultipartFormData</Name>
-			<Path>Protocols/AFMultipartFormData.html</Path>
-		</Node>
 		
 	</Library>
 </DocSetNodes>

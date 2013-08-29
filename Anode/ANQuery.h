@@ -33,6 +33,9 @@ typedef enum {
 @property (nonatomic, readonly) BOOL isRelationship;
 
 +(ANQuery*)queryWithType:(NSString*)type;
+
+/** Returns an ANQuery intialized for a relationship query.
+ */
 +(ANQuery*)queryWithType:(NSString*)type belongingToType:(NSString*)belongsToType throughRelationshipNamed:(NSString*)relationshipName withObjectId:(NSNumber*)objectId;
 
 -(void)findAllObjectsWithBlock:(ObjectsResultBlock)block;

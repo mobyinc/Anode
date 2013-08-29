@@ -27,7 +27,7 @@ typedef enum {
 
 /** Returns the object type
  
- All subclasses of ANObject are initialized with an object type which scopes the interactions with the service to a particular resource. This value cannot be changed once an object is initialized.
+ All subclasses of ANClient are initialized with an object type which scopes the interactions with the service to a particular resource. This value cannot be changed once an object is initialized.
  
  @return The object type
  */

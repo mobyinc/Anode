@@ -38,6 +38,11 @@
 	
 	
 	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/objectId">&nbsp;&nbsp;&nbsp;&nbsp;objectId</option>
+	
+	
 	
 	
 	<option value="class_methods">Class Methods</option>
@@ -47,6 +52,15 @@
 	<option value="//api/name/objectWithType:objectId:">&nbsp;&nbsp;&nbsp;&nbsp;+ objectWithType:objectId:</option>
 	
 	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/queryForRelationshipNamed:type:">&nbsp;&nbsp;&nbsp;&nbsp;- queryForRelationshipNamed:type:</option>
+	
+	<option value="//api/name/removeObjectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- removeObjectForKey:</option>
+	
+	<option value="//api/name/setObject:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setObject:forKey:</option>
 	
 	
 	
@@ -66,11 +80,23 @@
 	
 	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Initialization">Initialization</a></span></li>
 	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Accessing special attributes">Accessing special attributes</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Inspection and modification of attributes">Inspection and modification of attributes</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Obtaining a relationship query">Obtaining a relationship query</a></span></li>
+	
 </ul></li>
 
 
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/objectId">objectId</a></span></li>
+	
+</ul></li>
 
 
 
@@ -83,6 +109,16 @@
 </ul></li>
 
 
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queryForRelationshipNamed:type:">queryForRelationshipNamed:type:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeObjectForKey:">removeObjectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setObject:forKey:">setObject:forKey:</a></span></li>
+	
+</ul></li>
 
 
 			</ul>
@@ -135,8 +171,8 @@
 						
 						
 						<a title="Initialization" name="task_Initialization"></a>
-						
-<h3 class="subsubtitle task-title">Initialization</h3>
+						<h3 class="subsubtitle task-title">Initialization</h3>
+
 						<ul class="task-list">
 							<li>
 	<span class="tooltip">
@@ -148,7 +184,59 @@
 </li><li>
 	<span class="tooltip">
 		<code><a href="#//api/name/objectWithType:objectId:">+&nbsp;objectWithType:objectId:</a></code>
-		<span class="tooltip"><p>Initialize a new object with an object type and object Id</p></span>
+		<span class="tooltip"><p>Initialize a new object with an object type and <a href="#//api/name/objectId">objectId</a></p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Accessing special attributes" name="task_Accessing special attributes"></a>
+						<h3 class="subsubtitle task-title">Accessing special attributes</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/objectId">&nbsp;&nbsp;objectId</a></code>
+		<span class="tooltip"><p>Returns the objectId</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Inspection and modification of attributes" name="task_Inspection and modification of attributes"></a>
+						<h3 class="subsubtitle task-title">Inspection and modification of attributes</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setObject:forKey:">&ndash;&nbsp;setObject:forKey:</a></code>
+		<span class="tooltip"><p>Sets an object for an attribute with name key</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeObjectForKey:">&ndash;&nbsp;removeObjectForKey:</a></code>
+		<span class="tooltip"><p>Clears an attribute</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Obtaining a relationship query" name="task_Obtaining a relationship query"></a>
+						<h3 class="subsubtitle task-title">Obtaining a relationship query</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/queryForRelationshipNamed:type:">&ndash;&nbsp;queryForRelationshipNamed:type:</a></code>
+		<span class="tooltip"><p>Returns an <a href="../Classes/ANQuery.html">ANQuery</a> initalized with a releationship that exists on the object instance.</p></span>
 	</span>
 	
 	
@@ -160,6 +248,53 @@
 					
 					
 					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/objectId" title="objectId"></a>
+	<h3 class="subsubtitle method-title">objectId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns the objectId</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSNumber *objectId</code></div>
+
+    
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The objectId represents the primary key field for all resources.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">ANObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
 					
 					
 					
@@ -238,7 +373,7 @@ A model stored in a products table, and represented by the Product class, would 
 	
 	
 	<div class="method-subsection brief-description">
-		<p>Initialize a new object with an object type and object Id</p>
+		<p>Initialize a new object with an object type and <a href="#//api/name/objectId">objectId</a></p>
 	</div>		
 	
     
@@ -295,6 +430,212 @@ A model stored in a products table, and represented by the Product class, would 
 					
 					
 					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/queryForRelationshipNamed:type:" title="queryForRelationshipNamed:type:"></a>
+	<h3 class="subsubtitle method-title">queryForRelationshipNamed:type:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns an <a href="../Classes/ANQuery.html">ANQuery</a> initalized with a releationship that exists on the object instance.</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (ANQuery *)queryForRelationshipNamed:(NSString *)<em>relationshipName</em> type:(NSString *)<em>type</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>relationshipName</em></dt>
+			<dd><p>The name of the has-many relationship</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>type</em></dt>
+			<dd><p>The object type to be returned from the relationship</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>An <a href="../Classes/ANQuery.html">ANQuery</a> initialized to return objects through the specified relationshipName</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>This is a shortcut for calling <a href="../Classes/ANQuery.html#//api/name/queryWithType:belongingToType:throughRelationshipNamed:withObjectId:">[ANQuery queryWithType:belongingToType:throughRelationshipNamed:withObjectId:]</a></p>
+
+<p>An <a href="../Classes/ANQuery.html">ANQuery</a> initialized in this way is appropriate for returning objects from a has-many relationship. The resuting query will return objects of the object type associated with the relationship, which should match the type parameter. Additionally, the <a href="../Classes/ANQuery.html">ANQuery</a> is scoped to the <a href="#//api/name/objectId">objectId</a> of the object instance.</p>
+
+<pre><code>For example:
+Assume a company which has many employees. The follow code will fetch all employeees of a specific company.
+
+ANObject* company = [ANObject objectWithType:@"company" objectId:@(1)];
+ANQuery* employees = [company queryForRelationshipNamed:@"employees" type:@"user"];
+[employees findAllObjectsWithBlock:^(NSArray *objects, NSError *error) {
+    NSLog(@"There are %@ employees.", @(objects.count)];
+}];
+</code></pre>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p><a href="../Classes/ANQuery.html#//api/name/queryWithType:belongingToType:throughRelationshipNamed:withObjectId:">[ANQuery queryWithType:belongingToType:throughRelationshipNamed:withObjectId:]</a></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">ANObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeObjectForKey:" title="removeObjectForKey:"></a>
+	<h3 class="subsubtitle method-title">removeObjectForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Clears an attribute</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)removeObjectForKey:(NSString *)<em>key</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The name of the attribute to clear</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Rather than delete the entry from the internal dictionary, the value is stored as NSNull so it can be passed to the service.</p>
+
+<p>Passing nil to [setObject: forKey:] has the same effect.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">ANObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setObject:forKey:" title="setObject:forKey:"></a>
+	<h3 class="subsubtitle method-title">setObject:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets an object for an attribute with name key</p>
+	</div>		
+	
+    
+
+	<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+
+    
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The value to set</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The name of the attribute</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Objects accepted include:</p>
+
+<ul>
+<li>NSString</li>
+<li>NSNumber</li>
+<li>NSDate</li>
+</ul>
+
+
+<p>Attempts to modify special <a href="#//api/name/attributes">attributes</a> are ignored.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">ANObject.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
 					
 				</div>
 				<div class="main-navigation navigation-bottom">
@@ -306,7 +647,7 @@ A model stored in a products table, and represented by the Product class, would 
 				<div id="footer">
 					<hr />
 					<div class="footer-copyright">
-						<p><span class="copyright">&copy; 2013 Moby. All rights reserved. (Last updated: 2013-08-27)</span><br />
+						<p><span class="copyright">&copy; 2013 Moby. All rights reserved. (Last updated: 2013-08-28)</span><br />
 						
 						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.1 (build 840)</a>.</span></p>
 						

@@ -33,7 +33,7 @@
  */
 +(ANObject*)objectWithType:(NSString*)type;
 
-/** Initialize a new object with an object type and object Id
+/** Initialize a new object with an object type and objectId
  
  Similar to objectWithType:, this method builds an empty object with the added objectId attribute. 
  
@@ -51,14 +51,44 @@
  All ANObjects include objectId, createdAt, and updatedAt in the attributes list. These special attributes may be accessed via read-only propertiesof the same name.
  */
 
+/** Returns the objectId
+
+ The objectId represents the primary key field for all resources.
+ */
 @property (nonatomic, strong, readonly) NSNumber* objectId;
 @property (nonatomic, strong, readonly) NSDate* createdAt;
 @property (nonatomic, strong, readonly) NSDate* updatedAt;
 
 /** @name Inspection and modification of attributes
+ 
+ The attributes of an ANObject usaully have a 1:1 relationship with the attributes of the resource. However, it is up to the remote service to determine which attributes are returned and which it will accept.
+ */
+
+/** Sets an object for an attribute with name key
+ 
+ Objects accepted include:
+ 
+ - NSString
+ - NSNumber
+ - NSDate
+
+ Attempts to modify special attributes are ignored.
+ @param object The value to set
+ @param key The name of the attribute
  */
 -(void)setObject:(id)object forKey:(NSString*)key;
+
+/** Clears an attribute
+ 
+ Rather than delete the entry from the internal dictionary, the value is stored as NSNull so it can be passed to the service.
+
+ Passing nil to [setObject: forKey:] has the same effect.
+ 
+ @param key The name of the attribute to clear
+ */
 -(void)removeObjectForKey:(NSString*)key;
+
+
 -(id)objectForKey:(NSString*)key;
 
 /** @name Commiting and refreshing changes 
@@ -74,15 +104,25 @@
 /** @name Obtaining a relationship query
  */
 
-/** Returns an ANQuery initalized with a releationship that exists on the current.
+/** Returns an ANQuery initalized with a releationship that exists on the object instance.
  
- This is a shortcut for calling [ANQuery queryWithType: belongingToType: throughRelationshipNamed: withObjectId:];
+ This is a shortcut for calling [ANQuery queryWithType:belongingToType:throughRelationshipNamed:withObjectId:]
  
- An ANQuery initialized in this way is appropriate for returning objects from a has-many relationship. The resuting query will return objects of the object type associated with the relationship, which should match the type parameter.
+ An ANQuery initialized in this way is appropriate for returning objects from a has-many relationship. The resuting query will return objects of the object type associated with the relationship, which should match the type parameter. Additionally, the ANQuery is scoped to the objectId of the object instance.
+ 
+    For example:
+    Assume a company which has many employees. The follow code will fetch all employeees of a specific company.
+ 
+    ANObject* company = [ANObject objectWithType:@"company" objectId:@(1)];
+    ANQuery* employees = [company queryForRelationshipNamed:@"employees" type:@"user"];
+    [employees findAllObjectsWithBlock:^(NSArray *objects, NSError *error) {
+        NSLog(@"There are %@ employees.", @(objects.count)];
+    }];
  
  @param relationshipName The name of the has-many relationship
  @param type The object type to be returned from the relationship
  @returns An ANQuery initialized to return objects through the specified relationshipName
+ @see [ANQuery queryWithType:belongingToType:throughRelationshipNamed:withObjectId:]
  */
 -(ANQuery*)queryForRelationshipNamed:(NSString*)relationshipName type:(NSString*)type;
 
