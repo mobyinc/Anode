@@ -7,6 +7,7 @@
 //
 
 #import "ANClient.h"
+#import "ANQuery.h"
 
 /** ANObject is the primary interface used for inspection and modification of remote objects.
  */
@@ -69,5 +70,19 @@
 -(void)reloadWithBlock:(CompletionBlock)block;
 -(void)destroy;
 -(void)destroyWithBlock:(CompletionBlock)block;
+
+/** @name Obtaining a relationship query
+ */
+
+/** Returns an ANQuery initalized with a releationship that exists on the current.
+ 
+ This is a shortcut for calling [ANQuery queryWithType: belongingToType: throughRelationshipNamed: withObjectId:];
+ 
+ An ANQuery initialized in this way is appropriate for returning objects in a has-many relationship. The resuting query will return objects of the object type associated with the relationship.
+ 
+ @param relationshipName The name of the has-many relationship
+ @returns An ANQuery initialized to return objects of type relationshipName which belong to the current object
+ */
+-(ANQuery*)queryForRelationshipNamed:(NSString*)relationshipName;
 
 @end

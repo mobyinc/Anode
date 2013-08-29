@@ -18,6 +18,9 @@
 @interface ANQuery ()
 
 @property (nonatomic, strong) NSString* type;
+@property (nonatomic, strong) NSString* belongsToType;
+@property (nonatomic, strong) NSString* belongsToRelationshipName;
+@property (nonatomic, strong) NSNumber* belongsToObjectId;
 
 @end
 
@@ -31,6 +34,16 @@
     query.limit = [NSNumber numberWithInt:100];
     query.orderDirection = kANOrderDirectionAscending;
     query.cachePolicy = kANCachePolicyIgnoreCache;
+    
+    return query;
+}
+
++(ANQuery *)queryWithType:(NSString *)type belongingToType:(NSString *)belongsToType throughRelationshipNamed:(NSString *)relationshipName withObjectId:(NSNumber *)objectId
+{
+    ANQuery* query = [ANQuery queryWithType:type];
+    query.belongsToType = belongsToType;
+    query.belongsToRelationshipName = relationshipName;
+    query.belongsToObjectId = objectId;
     
     return query;
 }
@@ -277,6 +290,12 @@
         components[@"predicate"] = @{@"left" : left,
                                      @"operator" : operator,
                                      @"right" : right};
+    }
+    
+    if (self.belongsToType && self.belongsToRelationshipName && self.belongsToObjectId) {
+        components[@"relationship"] = @{@"type" : self.belongsToType,
+                                        @"name" : self.belongsToRelationshipName,
+                                        @"object_id" : self.belongsToObjectId};
     }
     
     if (countOnly) {

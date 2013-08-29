@@ -8,6 +8,9 @@
 
 #import "ANClient.h"
 
+/** Use instances of ANQuery to fetch objects from the remote service.
+ */
+
 typedef enum {
     kANOrderDirectionDescending,
     kANOrderDirectionAscending
@@ -29,6 +32,7 @@ typedef enum {
 @property (nonatomic, assign) ANCachePolicy cachePolicy;
 
 +(ANQuery*)queryWithType:(NSString*)type;
++(ANQuery*)queryWithType:(NSString*)type belongingToType:(NSString*)belongsToType throughRelationshipNamed:(NSString*)relationshipName withObjectId:(NSNumber*)objectId;
 
 -(void)findAllObjectsWithBlock:(ObjectsResultBlock)block;
 -(void)findObjectsWithBlock:(ObjectsResultBlock)block;
