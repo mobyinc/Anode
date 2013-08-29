@@ -30,6 +30,7 @@ typedef enum {
 @property (nonatomic, strong) NSString* orderBy;
 @property (nonatomic, assign) ANOrderDirection orderDirection;
 @property (nonatomic, assign) ANCachePolicy cachePolicy;
+@property (nonatomic, readonly) BOOL isRelationship;
 
 +(ANQuery*)queryWithType:(NSString*)type;
 +(ANQuery*)queryWithType:(NSString*)type belongingToType:(NSString*)belongsToType throughRelationshipNamed:(NSString*)relationshipName withObjectId:(NSNumber*)objectId;

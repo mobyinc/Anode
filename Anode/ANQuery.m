@@ -48,6 +48,11 @@
     return query;
 }
 
+-(BOOL)isRelationship
+{
+    return self.belongsToType != nil;
+}
+
 -(void)findAllObjectsWithBlock:(ObjectsResultBlock)block
 {
     [self findObjectsWithPredicate:nil skip:nil limit:nil block:block];
@@ -60,6 +65,10 @@
 
 -(void)findObjectWithId:(NSNumber *)objectId block:(ObjectResultBlock)block
 {
+    if (self.isRelationship) {
+        NSLog(@"%@: Relationship ignored for findObjectWithId: %@", self.type, objectId);
+    }
+    
     NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:objectId action:nil parameters:nil];
     
     [self fetchObjectsWithRequest:request block:^(NSArray *objects, NSError *error) {
@@ -78,6 +87,10 @@
 
 -(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block
 {
+    if (self.isRelationship) {
+        NSLog(@"%@: Relationship ignored for findObjectsWithMethod: %@", self.type, methodName);
+    }
+    
     NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:nil action:methodName parameters:parameters];
     
     [self fetchObjectsWithRequest:request block:block];
@@ -100,6 +113,10 @@
 
 -(void)fetchScalarWithMethod:(NSString *)methodName parameters:(NSDictionary *)parameters block:(ScalarResultBlock)block
 {
+    if (self.isRelationship) {
+        NSLog(@"%@: Relationship ignored for fetchScalarWithMethod: %@", self.type, methodName);
+    }
+    
     NSMutableURLRequest* request = [self requestForVerb:@"GET" objectId:nil action:methodName parameters:parameters];
     
     [self fetchValuesWithRequest:request block:^(id object, NSError *error) {
@@ -118,7 +135,7 @@
 {
     NSMutableURLRequest* request = nil;
     
-    if (predicate || limit) {
+    if (predicate || limit || self.isRelationship) {
         request = [self requestForVerb:@"POST" action:@"query"];        
         request.HTTPBody = [self jsonWithPredicate:predicate skip:skip limit:limit orderBy:self.orderBy orderDirection:self.orderDirection countOnly:NO];
     } else {

@@ -78,11 +78,12 @@
  
  This is a shortcut for calling [ANQuery queryWithType: belongingToType: throughRelationshipNamed: withObjectId:];
  
- An ANQuery initialized in this way is appropriate for returning objects in a has-many relationship. The resuting query will return objects of the object type associated with the relationship.
+ An ANQuery initialized in this way is appropriate for returning objects from a has-many relationship. The resuting query will return objects of the object type associated with the relationship, which should match the type parameter.
  
  @param relationshipName The name of the has-many relationship
- @returns An ANQuery initialized to return objects of type relationshipName which belong to the current object
+ @param type The object type to be returned from the relationship
+ @returns An ANQuery initialized to return objects through the specified relationshipName
  */
--(ANQuery*)queryForRelationshipNamed:(NSString*)relationshipName;
+-(ANQuery*)queryForRelationshipNamed:(NSString*)relationshipName type:(NSString*)type;
 
 @end

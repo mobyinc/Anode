@@ -169,6 +169,11 @@
     }];
 }
 
+-(ANQuery *)queryForRelationshipNamed:(NSString *)relationshipName type:(NSString *)type
+{
+    return [ANQuery queryWithType:type belongingToType:self.type throughRelationshipNamed:relationshipName withObjectId:self.objectId];
+}
+
 #pragma mark - Special Attributes
 
 -(NSNumber*)objectId
