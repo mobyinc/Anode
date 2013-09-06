@@ -80,6 +80,11 @@
     }];
 }
 
+-(void)findObjectsWithIds:(NSArray*)objectIds block:(ObjectsResultBlock)block
+{
+    [self findObjectsWithPredicate:[NSPredicate predicateWithFormat:@"id IN %@", objectIds] block:block];
+}
+
 -(void)findObjectsWithPredicate:(NSPredicate *)predicate block:(ObjectsResultBlock)block
 {
     [self findObjectsWithPredicate:predicate skip:self.skip limit:self.limit block:block];
@@ -341,6 +346,8 @@
             return @"<";
         case NSLessThanOrEqualToPredicateOperatorType:
             return @"<=";
+        case NSInPredicateOperatorType:
+            return @"in";
         default:
             @throw @"Unsupported predicate operator type";
             break;
