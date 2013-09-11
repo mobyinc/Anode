@@ -45,8 +45,25 @@ static ANUser* sharedCurrentUser = nil;
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
         ANUser* user = (ANUser*)[ANUser objectWithJSON:JSON error:&error];
-        [[ANCache sharedInstance] setObject:user forKey:CURRENT_USER_CACHE_KEY];
-        [Anode sharedInstance].userToken = [user token];
+        [ANUser setCurrentUser:user];
+        
+        if (block) block(user, nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
+}
+
++(void)loginWithTwitterId:(NSString *)twitterId token:(NSString *)token secret:(NSString *)secret block:(LoginBlock)block
+{
+    NSDictionary* parameters = @{@"twitter_id": twitterId, @"twitter_token":token, @"twitter_secret":secret};    
+    NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"login_or_create_twitter" parameters:parameters];
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSError* error = nil;
+        ANUser* user = (ANUser*)[ANUser objectWithJSON:JSON error:&error];
+        [ANUser setCurrentUser:user];
         
         if (block) block(user, nil);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
@@ -63,7 +80,16 @@ static ANUser* sharedCurrentUser = nil;
         return;
     }
     
-    [ANUser loginWithUsername:nil password:nil block:block];
+    NSString* provider = [[ANUser currentUser] objectForKey:@"__provider"];
+
+    // TODO: use respective providers
+    if ([provider isEqualToString:@"twitter"]) {
+        [ANUser loginWithUsername:nil password:nil block:block];
+    } else if ([provider isEqualToString:@"facebook"]) {
+        [ANUser loginWithUsername:nil password:nil block:block];
+    } else {
+        [ANUser loginWithUsername:nil password:nil block:block];
+    }
 }
 
 +(void)registerDeviceTokenWithData:(NSData *)data block:(CompletionBlock)block
@@ -129,6 +155,12 @@ static ANUser* sharedCurrentUser = nil;
 -(NSString *)token
 {
     return [self.attributes objectForKey:@"__token"];
+}
+
++(void)setCurrentUser:(ANUser*)user
+{
+    [[ANCache sharedInstance] setObject:user forKey:CURRENT_USER_CACHE_KEY];
+    [Anode sharedInstance].userToken = [user token];
 }
 
 @end
