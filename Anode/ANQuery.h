@@ -65,6 +65,7 @@ typedef enum {
  */
 -(void)findObjectsWithIds:(NSArray*)objectIds block:(ObjectsResultBlock)block;
 -(void)findObjectsWithPredicate:(NSPredicate*)predicate block:(ObjectsResultBlock)block;
+-(void)findFirstObjectWithPredicate:(NSPredicate*)predicate block:(ObjectResultBlock)block;
 -(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block;
 -(void)countObjectsWithPredicate:(NSPredicate*)predicate block:(ScalarResultBlock)block;
 -(void)fetchScalarWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ScalarResultBlock)block;

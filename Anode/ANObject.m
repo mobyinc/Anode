@@ -70,6 +70,7 @@
         self.dirty = NO;
         self.emptyObject = NO;
         self.attributes = [[decoder decodeObjectForKey:@"attributes"] mutableCopy];
+        self.type = self.attributes[@"__type"];
     }
     return self;
 }
@@ -167,6 +168,19 @@
         
         if (block) block(self, error);
     }];
+}
+
+-(void)callMethod:(NSString *)methodName parameters:(NSDictionary *)parameters block:(CompletionBlock)block
+{
+    NSMutableURLRequest* request = [self requestForVerb:@"POST" objectId:self.objectId action:methodName parameters:parameters];
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {        
+        if (block) block(JSON, nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
 }
 
 -(ANQuery *)queryForRelationshipNamed:(NSString *)relationshipName type:(NSString *)type

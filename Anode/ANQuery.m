@@ -90,6 +90,17 @@
     [self findObjectsWithPredicate:predicate skip:self.skip limit:self.limit block:block];
 }
 
+-(void)findFirstObjectWithPredicate:(NSPredicate *)predicate block:(ObjectResultBlock)block
+{
+    [self findObjectsWithPredicate:predicate skip:self.skip limit:@(1) block:^(NSArray *objects, NSError *error) {
+        if (objects && objects.count >= 1) {
+            block(objects[0], nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
+
 -(void)findObjectsWithMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(ObjectsResultBlock)block
 {
     if (self.isRelationship) {

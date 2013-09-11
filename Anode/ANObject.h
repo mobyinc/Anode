@@ -101,6 +101,21 @@
 -(void)destroy;
 -(void)destroyWithBlock:(CompletionBlock)block;
 
+/** @name Calling custom remote methods
+ */
+
+/** Invokes a remote method passing the current objectId and any supplied parameters
+ 
+ The objectId and methodName will be used to build the request url.
+ 
+ The response, if any, is returned as an NSDictionary.
+ 
+ @param methodName The name of the remote method
+ @param parameters Optional key/value parameters
+ @param block A block object to executed with the results of the method call
+ */
+-(void)callMethod:(NSString*)methodName parameters:(NSDictionary*)parameters block:(CompletionBlock)block;
+
 /** @name Obtaining a relationship query
  */
 
