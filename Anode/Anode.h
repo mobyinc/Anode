@@ -13,6 +13,7 @@
 #import <Anode/ANQuery.h>
 #import <Anode/ANUser.h>
 #import <Anode/ANCache.h>
+#import <Anode/ANFile.h>
 #import <Anode/BlockTypes.h>
 
 FOUNDATION_EXPORT NSString *const ANErrorKey;

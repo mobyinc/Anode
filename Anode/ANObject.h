@@ -9,6 +9,8 @@
 #import "ANClient.h"
 #import "ANQuery.h"
 
+@class ANFile;
+
 /** ANObject is the primary interface used for inspection and modification of remote objects.
  */
 
@@ -90,6 +92,16 @@
 
 
 -(id)objectForKey:(NSString*)key;
+
+/** Returns an ANFile object initialized with the value of the specified key
+ 
+ @param key A key containing a valid remote url from which the file should be fetched
+ @param version The version of the file to fetch (optional)
+ @returns An ANFile initialized with the remote url
+ */
+-(ANFile*)fileForKey:(NSString*)key version:(NSString*)version;
+
+-(ANFile*)fileForKey:(NSString *)key;
 
 /** @name Commiting and refreshing changes 
  */

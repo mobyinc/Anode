@@ -113,6 +113,26 @@
     return object;
 }
 
+-(ANFile *)fileForKey:(NSString *)key
+{
+    return [self fileForKey:key version:nil];
+}
+
+-(ANFile*)fileForKey:(NSString *)key version:(NSString *)version
+{
+    id object = [self objectForKey:key];
+    
+    if (version) object = object[version];    
+    
+    if (object && [object isKindOfClass:[NSString class]]) {
+        ANFile* file = [ANFile fileWithUrl:object];
+        return file;
+    }else {
+        NSLog(@"Invalid object for file");
+        return nil;
+    }
+}
+
 -(void)save
 {
     [self saveWithBlock:nil];

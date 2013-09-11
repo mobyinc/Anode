@@ -45,6 +45,8 @@
 		1A03E5F817C1CB9B0011B499 /* ANClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A03E5F617C1CB9B0011B499 /* ANClient.m */; };
 		1A03E5FA17C1F5E00011B499 /* ANClient_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5F917C1CCED0011B499 /* ANClient_Private.h */; };
 		1A03E5FC17C1F6380011B499 /* ANObject_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A03E5FB17C1F6100011B499 /* ANObject_Private.h */; };
+		1A10493D17E0F740007BA2EB /* ANFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A10493B17E0F73F007BA2EB /* ANFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A10493E17E0F740007BA2EB /* ANFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A10493C17E0F73F007BA2EB /* ANFile.m */; };
 		1A7F9B1C17BFE2B9000BE537 /* ANJSONRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */; };
 		1A7F9B1D17BFE2B9000BE537 /* ANJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */; };
 		1A7F9B2417BFE7D5000BE537 /* NSError+Helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */; };
@@ -119,6 +121,8 @@
 		1A03E5F617C1CB9B0011B499 /* ANClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANClient.m; sourceTree = "<group>"; };
 		1A03E5F917C1CCED0011B499 /* ANClient_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANClient_Private.h; sourceTree = "<group>"; };
 		1A03E5FB17C1F6100011B499 /* ANObject_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANObject_Private.h; sourceTree = "<group>"; };
+		1A10493B17E0F73F007BA2EB /* ANFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANFile.h; sourceTree = "<group>"; };
+		1A10493C17E0F73F007BA2EB /* ANFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANFile.m; sourceTree = "<group>"; };
 		1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANJSONRequestOperation.h; sourceTree = "<group>"; };
 		1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANJSONRequestOperation.m; sourceTree = "<group>"; };
 		1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Helpers.h"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				1A017D9C17B6238E00614DE1 /* ANUser.m */,
 				673788BE17C545D20088ECA8 /* ANCache.h */,
 				673788BF17C545D20088ECA8 /* ANCache.m */,
+				1A10493B17E0F73F007BA2EB /* ANFile.h */,
+				1A10493C17E0F73F007BA2EB /* ANFile.m */,
 				1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */,
 				1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */,
 				1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */,
@@ -282,6 +288,7 @@
 				1AB04B0317C475E5003EE5F5 /* NSString+TypeDetection.h in Headers */,
 				673788C017C545D20088ECA8 /* ANCache.h in Headers */,
 				67A71D7A17C56D6700CBF63B /* NSData+MD5.h in Headers */,
+				1A10493D17E0F740007BA2EB /* ANFile.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +402,7 @@
 				1AB04B0417C475E5003EE5F5 /* NSString+TypeDetection.m in Sources */,
 				673788C117C545D20088ECA8 /* ANCache.m in Sources */,
 				67A71D7B17C56D6700CBF63B /* NSData+MD5.m in Sources */,
+				1A10493E17E0F740007BA2EB /* ANFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
