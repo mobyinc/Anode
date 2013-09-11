@@ -17,6 +17,7 @@
 +(ANUser *)userWithUsername:(NSString*)username password:(NSString*)password;
 +(void)loginWithUsername:(NSString*)username password:(NSString*)password block:(LoginBlock)block;
 +(void)loginWithTwitterId:(NSString*)twitterId token:(NSString*)token secret:(NSString*)secret block:(LoginBlock)block;
++(void)loginWithFacebookId:(NSString*)facebookId token:(NSString*)token block:(LoginBlock)block;
 +(void)refreshLoginWithBlock:(LoginBlock)block;
 +(void)registerDeviceTokenWithData:(NSData*)data block:(CompletionBlock)block;
 +(void)logout;

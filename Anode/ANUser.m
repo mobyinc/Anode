@@ -73,6 +73,24 @@ static ANUser* sharedCurrentUser = nil;
     [operation start];
 }
 
++(void)loginWithFacebookId:(NSString *)facebookId token:(NSString *)token block:(LoginBlock)block
+{
+    NSDictionary* parameters = @{@"facebook_id": facebookId, @"facebook_token":token};
+    NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"login_or_create_facebook" parameters:parameters];
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSError* error = nil;
+        ANUser* user = (ANUser*)[ANUser objectWithJSON:JSON error:&error];
+        [ANUser setCurrentUser:user];
+        
+        if (block) block(user, nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
+}
+
 +(void)refreshLoginWithBlock:(LoginBlock)block
 {
     if (![ANUser currentUser]) {
