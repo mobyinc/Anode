@@ -18,9 +18,11 @@
 
 +(NSMutableURLRequest*)requestForVerb:(NSString*)verb type:(NSString*)type objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters;
 
++(NSMutableURLRequest*)multipartRequestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters formBodyData:(NSData*)formBodyData files:(NSArray*)files;
+
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb;
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber*)objectId;
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb action:(NSString*)action;
 -(NSMutableURLRequest*)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters;
-
+-(NSMutableURLRequest*)multipartRequestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters formBodyData:(NSData*)formBodyData files:(NSDictionary*)files;
 @end

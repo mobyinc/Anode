@@ -8,14 +8,9 @@
 
 #import "ANFile.h"
 #import "ANClient_Private.h"
+#import "ANFile_Private.h"
 #import "NSError+Helpers.h"
 #import "AFHTTPRequestOperation.h"
-
-@interface ANFile ()
-
-@property (nonatomic, assign) BOOL isLoaded;
-
-@end
 
 @implementation ANFile
 
@@ -41,7 +36,7 @@
     self = [super init];
     
     if (self) {
-        self.isLoaded = NO;
+        self.loaded = NO;
     }
     
     return self;

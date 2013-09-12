@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL emptyObject;
 @property (nonatomic, assign) BOOL dirty;
 @property (nonatomic, strong) NSMutableDictionary* attributes;
+@property (nonatomic, strong) NSMutableDictionary* files;
 
 +(ANObject*)objectWithJSON:(NSDictionary*)node error:(NSError**)error;
 +(void)applyAttributesWithDictionary:(NSDictionary*)node toObject:(ANObject*)object error:(NSError**)error;

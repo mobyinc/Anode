@@ -75,6 +75,7 @@
  - NSDate
 
  Attempts to modify special attributes are ignored.
+ 
  @param object The value to set
  @param key The name of the attribute
  */

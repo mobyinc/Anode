@@ -9,6 +9,7 @@
 #import "ANObject.h"
 #import "ANClient_Private.h"
 #import "ANObject_Private.h"
+#import "ANFile_Private.h"
 #import "Anode.h"
 #import "ANJSONRequestOperation.h"
 #import "NSError+Helpers.h"
@@ -57,6 +58,7 @@
         self.dirty = NO;
         self.emptyObject = NO;
         self.attributes = [NSMutableDictionary dictionaryWithCapacity:10];
+        self.files = [NSMutableDictionary dictionary];
     }
     
     return self;
@@ -124,11 +126,18 @@
     
     if (version) object = object[version];    
     
-    if (object && [object isKindOfClass:[NSString class]]) {
+    if (!object) {
+        NSLog(@"Warning: nil object for file");
+        return nil;
+    }
+    
+    if ([object isKindOfClass:[NSString class]]) {
         ANFile* file = [ANFile fileWithUrl:object];
         return file;
-    }else {
-        NSLog(@"Invalid object for file");
+    } else if ([object isKindOfClass:[ANFile class]]) {
+        return object;
+    } else {
+        NSLog(@"Warning: invalid object type for file.");
         return nil;
     }
 }
@@ -151,7 +160,7 @@
     NSString* verb = self.objectId ? @"PUT" : @"POST";
     NSData* httpBody = [self attributesToJSON];
     
-    [self performRequestWithVerb:verb httpBody:httpBody block:block];
+    [self performRequestWithVerb:verb httpBody:httpBody block:block];    
 }
 
 -(void)reload
@@ -234,8 +243,15 @@
 
 -(void)performRequestWithVerb:(NSString*)verb httpBody:(NSData*)httpBody block:(CompletionBlock)block
 {
-    NSMutableURLRequest* request = [self requestForVerb:verb objectId:self.objectId];
-    request.HTTPBody = httpBody;
+    NSMutableURLRequest* request = nil;
+    
+    if (self.files.count == 0) {
+        request = [self requestForVerb:verb objectId:self.objectId];
+        request.HTTPBody = httpBody;
+    } else {
+        request = [self multipartRequestForVerb:verb objectId:self.objectId action:nil parameters:nil formBodyData:httpBody files:self.files];
+//        request.HTTPBody = httpBody;
+    }
     
     ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSError* error = nil;
@@ -275,6 +291,8 @@
         if ([value isKindOfClass:[NSString class]]) {
             if ([value isDate]) {
                 value = [object.dateFormatter dateFromString:value];
+            } else if ([value isNil]) {
+                value = nil;
             }
         } else if ([value isKindOfClass:[NSArray class]]) {
             NSMutableArray* newArray = [NSMutableArray arrayWithCapacity:[value count]];
@@ -289,11 +307,18 @@
             }
             
             value = newArray;
+        } else if ([value isKindOfClass:[NSNull class]]) {
+            value = nil;
         }
         
         if (*error) return;
         
-        object.attributes[key] = value;
+        if (value) {
+            object.attributes[key] = value;
+        } else {
+            [object.attributes removeObjectForKey:key];
+        }
+            
     }
 }
 
@@ -306,7 +331,9 @@
     [attributesToSend removeObjectForKey:@"__type"];
     [attributesToSend removeObjectForKey:@"id"];    
     [attributesToSend removeObjectForKey:@"created_at"];
-    [attributesToSend removeObjectForKey:@"updated_at"];
+    [attributesToSend removeObjectForKey:@"updated_at"];    
+    
+    self.files = [NSMutableDictionary dictionary];
     
     // handle special data types
     for (id key in attributesToSend.allKeys) {
@@ -315,6 +342,9 @@
         if ([value isKindOfClass:[NSDate class]]) {
             NSString* dateString = [self.dateFormatter stringFromDate:value];
             [attributesToSend setObject:dateString forKey:key];
+        } else if ([value isKindOfClass:[ANFile class]]) {
+            [attributesToSend removeObjectForKey:key];
+            self.files[key] = value; // will be sent as muti-part form data separately
         }
     }
     

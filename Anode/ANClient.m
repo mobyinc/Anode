@@ -21,7 +21,7 @@ static AFHTTPClient* sharedClient = nil;
     [[self client] setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Token token=%@", token]];
 }
 
-+(NSMutableURLRequest *)requestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters
++(NSString*)pathForType:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action
 {
     NSString* typeSegment = [type pluralizeString];
     NSString* path = nil;
@@ -36,7 +36,34 @@ static AFHTTPClient* sharedClient = nil;
         path = [NSString stringWithFormat:@"%@/", typeSegment];
     }
     
+    return path;
+}
+
++(NSMutableURLRequest *)requestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters
+{
+    NSString* path = [ANClient pathForType:type objectId:objectId action:action];
     NSMutableURLRequest* request = [[ANClient client] requestWithMethod:verb path:path parameters:parameters];
+    
+    return request;
+}
+
++(NSMutableURLRequest*)multipartRequestForVerb:(NSString *)verb type:(NSString *)type objectId:(NSNumber *)objectId action:(NSString *)action parameters:(NSDictionary *)parameters formBodyData:(NSData*)formBodyData files:(NSDictionary*)files
+{
+    NSString* path = [ANClient pathForType:type objectId:objectId action:action];
+    
+    NSMutableURLRequest *request = [[ANClient client] multipartFormRequestWithMethod:verb
+                                                                                path:path
+                                                                          parameters:parameters
+                                                           constructingBodyWithBlock: ^(id <AFMultipartFormData> formData)
+        {
+            [formData appendPartWithFormData:formBodyData name:@"DATA"];
+            
+            for (NSString* key in files.allKeys) {
+                ANFile* file = files[key];
+                NSString* name = [NSString stringWithFormat:@"%@[%@]", type, key];
+                [formData appendPartWithFileData:file.data name:name fileName:file.fileName mimeType:@"image/png"];
+            }
+        }];
     
     return request;
 }
@@ -84,6 +111,10 @@ static AFHTTPClient* sharedClient = nil;
 -(NSMutableURLRequest *)requestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters
 {
     return [ANClient requestForVerb:verb type:self.type objectId:objectId action:action parameters:parameters];
+}
+
+-(NSMutableURLRequest*)multipartRequestForVerb:(NSString*)verb objectId:(NSNumber *)objectId action:(NSString*)action parameters:(NSDictionary*)parameters formBodyData:(NSData*)formBodyData files:(NSDictionary*)files {
+    return [ANClient multipartRequestForVerb:verb type:self.type objectId:objectId action:action parameters:parameters formBodyData:formBodyData files:files];
 }
 
 @end

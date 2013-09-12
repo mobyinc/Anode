@@ -123,6 +123,7 @@
 		1A03E5FB17C1F6100011B499 /* ANObject_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANObject_Private.h; sourceTree = "<group>"; };
 		1A10493B17E0F73F007BA2EB /* ANFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANFile.h; sourceTree = "<group>"; };
 		1A10493C17E0F73F007BA2EB /* ANFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANFile.m; sourceTree = "<group>"; };
+		1A10495717E15369007BA2EB /* ANFile_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ANFile_Private.h; sourceTree = "<group>"; };
 		1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANJSONRequestOperation.h; sourceTree = "<group>"; };
 		1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANJSONRequestOperation.m; sourceTree = "<group>"; };
 		1A7F9B2217BFE7D5000BE537 /* NSError+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Helpers.h"; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 				673788BE17C545D20088ECA8 /* ANCache.h */,
 				673788BF17C545D20088ECA8 /* ANCache.m */,
 				1A10493B17E0F73F007BA2EB /* ANFile.h */,
+				1A10495717E15369007BA2EB /* ANFile_Private.h */,
 				1A10493C17E0F73F007BA2EB /* ANFile.m */,
 				1A7F9B1A17BFE2B9000BE537 /* ANJSONRequestOperation.h */,
 				1A7F9B1B17BFE2B9000BE537 /* ANJSONRequestOperation.m */,

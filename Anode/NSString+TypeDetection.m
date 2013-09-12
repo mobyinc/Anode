@@ -17,4 +17,19 @@
     return [pre evaluateWithObject:self];
 }
 
+-(BOOL)isFileUrl
+{
+    NSURL* url = [NSURL URLWithString:self];
+    if (url == nil) {
+        return NO;
+    } else {
+        return [[[url absoluteURL] path] pathExtension].length > 0;
+    }
+}
+
+-(BOOL)isNil
+{
+    return [self isEqualToString:@"<null>"];
+}
+
 @end

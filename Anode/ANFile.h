@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSString* url;
 @property (nonatomic, strong) NSData* data;
 @property (nonatomic, strong) NSString* fileName;
-@property (nonatomic, readonly) BOOL isLoaded;
+@property (nonatomic, readonly) BOOL loaded;
 
 /** @name Initialization
  */

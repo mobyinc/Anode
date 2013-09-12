@@ -11,5 +11,7 @@
 @interface NSString (TypeDetection)
 
 -(BOOL)isDate;
+-(BOOL)isFileUrl;
+-(BOOL)isNil;
 
 @end
