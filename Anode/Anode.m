@@ -58,7 +58,10 @@ static Anode* sharedAnodeInstance = nil;
 {
     _userToken = userToken;
     
-    [ANClient setToken:userToken];
+    if (_userToken)
+        [ANClient setToken:userToken];
+    else
+        [ANClient setToken:self.clientToken];    
 }
 
 @end
