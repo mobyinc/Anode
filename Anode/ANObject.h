@@ -60,6 +60,8 @@
 @property (nonatomic, strong, readonly) NSNumber* objectId;
 @property (nonatomic, strong, readonly) NSDate* createdAt;
 @property (nonatomic, strong, readonly) NSDate* updatedAt;
+@property (nonatomic, readonly) BOOL isNew;
+@property (nonatomic, assign) BOOL destroyOnSave;
 
 /** @name Inspection and modification of attributes
  
@@ -113,6 +115,10 @@
 -(void)reloadWithBlock:(CompletionBlock)block;
 -(void)destroy;
 -(void)destroyWithBlock:(CompletionBlock)block;
+
+/** Marks the object as dirty to force a save which may be usful if modifying nested objects
+ */
+-(void)touch;
 
 /** @name Calling custom remote methods
  */

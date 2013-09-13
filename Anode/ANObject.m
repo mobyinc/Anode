@@ -57,6 +57,7 @@
     if (self) {
         self.dirty = NO;
         self.emptyObject = NO;
+        self.destroyOnSave = NO;
         self.attributes = [NSMutableDictionary dictionaryWithCapacity:10];
         self.files = [NSMutableDictionary dictionary];
     }
@@ -149,6 +150,11 @@
 
 -(void)saveWithBlock:(CompletionBlock)block
 {
+    if (self.destroyOnSave) {
+        [self destroyWithBlock:block];
+        return;
+    }
+    
     if (!_dirty) {
         if (block) block(self, nil);
         return;
@@ -193,10 +199,16 @@
     [self performRequestWithVerb:@"DELETE" httpBody:nil block:^(id object, NSError *error) {
         if (!error) {
             [self.attributes removeObjectForKey:@"id"];
+            self.destroyOnSave = NO;
         }
         
         if (block) block(self, error);
     }];
+}
+
+-(void)touch
+{
+    self.dirty = YES;
 }
 
 -(void)callMethod:(NSString *)methodName parameters:(NSDictionary *)parameters block:(CompletionBlock)block
@@ -237,6 +249,18 @@
 -(NSDate*)updatedAt
 {
     return [self objectForKey:@"updated_at"];
+}
+
+-(BOOL)isNew
+{
+    return self.objectId == nil;
+}
+
+-(void)setDestroyOnSave:(BOOL)destroyOnSave
+{
+    _destroyOnSave = destroyOnSave;
+    
+    self.attributes[@"_destroy"] = @(_destroyOnSave);
 }
 
 #pragma mark - Private
@@ -325,13 +349,27 @@
 -(NSData*)attributesToJSON
 {
     NSError* serializationError = nil;
+    NSDictionary* attributesToSend = [self dictionaryRepresentation];
+    NSDictionary* encapsulatedAttributes = @{self.type : attributesToSend};
+    
+    NSData* JSON = [NSJSONSerialization dataWithJSONObject:encapsulatedAttributes options:0 error:&serializationError];
+    
+    if (serializationError) {
+        return nil;
+    } else {
+        return JSON;
+    }
+}
+
+-(NSDictionary*)dictionaryRepresentation
+{
     NSMutableDictionary* attributesToSend = [NSMutableDictionary dictionaryWithDictionary:self.attributes];
     
     // strip unwanted attributes
     [attributesToSend removeObjectForKey:@"__type"];
-    [attributesToSend removeObjectForKey:@"id"];    
+//    [attributesToSend removeObjectForKey:@"id"];
     [attributesToSend removeObjectForKey:@"created_at"];
-    [attributesToSend removeObjectForKey:@"updated_at"];    
+    [attributesToSend removeObjectForKey:@"updated_at"];
     
     self.files = [NSMutableDictionary dictionary];
     
@@ -345,18 +383,26 @@
         } else if ([value isKindOfClass:[ANFile class]]) {
             [attributesToSend removeObjectForKey:key];
             self.files[key] = value; // will be sent as muti-part form data separately
+        } else if ([value isKindOfClass:[NSArray class]]) {
+            // recursively convert nested objects into a format Rails understands
+            NSArray* array = value;            
+            NSMutableDictionary* dicitonary = [NSMutableDictionary dictionary];
+            
+            if (array.count > 0 && [array[0] isKindOfClass:[ANObject class]]) {    
+                for (int i=0; i<array.count; i++) {
+                    ANObject* object = array[i];
+                    NSString* key = object.isNew ? [NSString stringWithFormat:@"%d", i+100000000] : [NSString stringWithFormat:@"%d", i];
+                    [dicitonary setObject:[object dictionaryRepresentation] forKey:key];
+                }
+            }
+            
+
+            [attributesToSend setObject:dicitonary forKey:[key stringByAppendingString:@"_attributes"]];
+            [attributesToSend removeObjectForKey:key];
         }
     }
-    
-    NSDictionary* encapsulatedAttributes = @{self.type : attributesToSend};
-    
-    NSData* JSON = [NSJSONSerialization dataWithJSONObject:encapsulatedAttributes options:0 error:&serializationError];
-    
-    if (serializationError) {
-        return nil;
-    } else {
-        return JSON;
-    }
+
+    return attributesToSend;
 }
 
 @end
