@@ -211,6 +211,14 @@
     self.dirty = YES;
 }
 
+-(ANObject *)clone
+{
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    ANObject* clonedCopy = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    return clonedCopy;
+}
+
 -(void)callMethod:(NSString *)methodName parameters:(NSDictionary *)parameters block:(CompletionBlock)block
 {
     NSMutableURLRequest* request = [self requestForVerb:@"POST" objectId:self.objectId action:methodName parameters:parameters];

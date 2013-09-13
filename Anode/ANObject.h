@@ -120,6 +120,10 @@
  */
 -(void)touch;
 
+/** Makes copy of the object through NSCoding. The resulting object will be memory-independent of the original, but will idential field values.
+ */
+-(ANObject*)clone;
+
 /** @name Calling custom remote methods
  */
 
