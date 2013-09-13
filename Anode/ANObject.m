@@ -339,6 +339,11 @@
             }
             
             value = newArray;
+        } else if ([value isKindOfClass:[NSDictionary class]]) {
+            NSDictionary* dictionary = value;
+            if ([dictionary objectForKey:@"__type"]) {
+                value = [ANObject objectWithJSON:dictionary error:error];
+            }
         } else if ([value isKindOfClass:[NSNull class]]) {
             value = nil;
         }
@@ -394,19 +399,28 @@
         } else if ([value isKindOfClass:[NSArray class]]) {
             // recursively convert nested objects into a format Rails understands
             NSArray* array = value;            
-            NSMutableDictionary* dicitonary = [NSMutableDictionary dictionary];
+            NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
             
             if (array.count > 0 && [array[0] isKindOfClass:[ANObject class]]) {    
                 for (int i=0; i<array.count; i++) {
                     ANObject* object = array[i];
                     NSString* key = object.isNew ? [NSString stringWithFormat:@"%d", i+100000000] : [NSString stringWithFormat:@"%d", i];
-                    [dicitonary setObject:[object dictionaryRepresentation] forKey:key];
+                    [dictionary setObject:[object dictionaryRepresentation] forKey:key];
                 }
             }
             
 
-            [attributesToSend setObject:dicitonary forKey:[key stringByAppendingString:@"_attributes"]];
+            [attributesToSend setObject:dictionary forKey:[key stringByAppendingString:@"_attributes"]];
             [attributesToSend removeObjectForKey:key];
+        } else if ([value isKindOfClass:[ANObject class]]) {
+            // this implies a belongs_to relationship, substitute for just the id if it exists
+            [attributesToSend removeObjectForKey:key];
+            
+            ANObject* object = value;
+            
+            if (!object.isNew) {
+                [attributesToSend setObject:object.objectId forKey:[key stringByAppendingString:@"_id"]];
+            }
         }
     }
 
