@@ -21,6 +21,7 @@
 +(void)refreshLoginWithBlock:(LoginBlock)block;
 +(void)registerDeviceTokenWithData:(NSData*)data block:(CompletionBlock)block;
 +(void)logout;
++(void)resetPasswordWithUsername:(NSString*)username block:(CompletionBlock)block;
 
 +(ANUser*)currentUser;
 

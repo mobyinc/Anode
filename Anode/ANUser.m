@@ -137,6 +137,19 @@ static ANUser* sharedCurrentUser = nil;
     [[ANCache sharedInstance] clearObjectForKey:CURRENT_USER_CACHE_KEY];
 }
 
++(void)resetPasswordWithUsername:(NSString *)username block:(CompletionBlock)block
+{
+    NSURLRequest* request = [ANClient requestForVerb:@"POST" type:@"user" objectId:nil action:@"reset_password" parameters:@{@"username":username}];
+    
+    ANJSONRequestOperation *operation = [ANJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        if (block) block(nil, nil);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        if (block) block(nil, error);
+    }];
+    
+    [operation start];
+}
+
 +(ANUser*)currentUser
 {
     if (!sharedCurrentUser) {
