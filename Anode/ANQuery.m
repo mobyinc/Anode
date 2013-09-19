@@ -33,7 +33,7 @@
     query.skip = [NSNumber numberWithInt:0];
     query.limit = [NSNumber numberWithInt:100];
     query.orderDirection = kANOrderDirectionAscending;
-    query.cachePolicy = kANCachePolicyIgnoreCache;
+    query.cachePolicy = kANCachePolicyNetworkElseCache;
     
     return query;
 }
@@ -44,6 +44,8 @@
     query.belongsToType = belongsToType;
     query.belongsToRelationshipName = relationshipName;
     query.belongsToObjectId = objectId;
+    query.orderDirection = kANOrderDirectionAscending;
+    query.cachePolicy = kANCachePolicyNetworkElseCache;
     
     return query;
 }
@@ -151,7 +153,7 @@
 {
     NSMutableURLRequest* request = nil;
     
-    if (predicate || limit || self.isRelationship) {
+    if (predicate || limit || self.isRelationship || self.orderBy) {
         request = [self requestForVerb:@"POST" action:@"query"];        
         request.HTTPBody = [self jsonWithPredicate:predicate skip:skip limit:limit orderBy:self.orderBy orderDirection:self.orderDirection countOnly:NO];
     } else {

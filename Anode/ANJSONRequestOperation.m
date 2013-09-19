@@ -37,7 +37,7 @@
                 @catch (NSException *exception) {
                     NSLog(@"error parsing error response");
                 }
-            } else if (error && error.code == -1004) {
+            } else if (error && (error.code == -1004 || error.code == -1009)) {
                 description = @"Could not connect to server";
                 key = @"connection_error";
                 code = 503;
