@@ -39,7 +39,7 @@ static ANCache* sharedCache = nil;
     self = [super init];
     
     if (self) {
-        self.maxCacheSize = 20 * 1024; // 20 mb
+        self.maxCacheSize = 5 * 1024 * 1024; // 5 MB
         
         NSArray* paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
         self.cachePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/Anode_Object_Cache"];
@@ -109,14 +109,68 @@ static ANCache* sharedCache = nil;
 
 -(void)pruneCache
 {
-    if ([self cacheSize] > self.maxCacheSize) {
-        // TODO: get rid of some baggage
+    long cacheSize = [self cacheSize];
+    
+    if (cacheSize < self.maxCacheSize) return;
+
+    NSError* error = nil;
+    
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSArray* files = [fm contentsOfDirectoryAtPath:self.cachePath error:&error];
+    NSMutableArray* filesAndProperties = [NSMutableArray arrayWithCapacity:[files count]];
+    
+    // get all files and their modified date
+    for (NSString* fileName in files) {
+        BOOL isDirectory;
+        NSString* fullPath = [self.cachePath stringByAppendingPathComponent:fileName];
+        NSDictionary* properties = [fm attributesOfItemAtPath:fullPath error:&error];
+        NSDate* modifiedDate = [properties objectForKey:NSFileModificationDate];
+        NSNumber* size = [properties objectForKey:NSFileSize];
+        
+        if (!error && [fm fileExistsAtPath:fullPath isDirectory:&isDirectory] && !isDirectory) {
+            [filesAndProperties addObject:@{@"path" : fullPath, @"modified" : modifiedDate, @"size" : size}];
+        }
+    }
+    
+    // sort
+    NSArray* sortedFiles = [filesAndProperties sortedArrayUsingComparator:^(id file1, id file2)
+    {
+        NSComparisonResult comp = [[file1 objectForKey:@"modified"] compare:[file2 objectForKey:@"modified"]];
+        if (comp == NSOrderedDescending) {
+            comp = NSOrderedAscending;
+        } else if(comp == NSOrderedAscending) {
+            comp = NSOrderedDescending;
+        }
+        return comp;
+    }];
+    
+    float needToRemove = cacheSize - self.maxCacheSize;
+    error = nil;
+    
+    for (int i = 0; i < sortedFiles.count; i++) {
+        if (needToRemove <= 0) return;
+        
+        NSDictionary* fileInfo = sortedFiles[i];
+        NSNumber* size = fileInfo[@"size"];
+        
+        [fm removeItemAtPath:fileInfo[@"path"] error:&error];
+        needToRemove -= size.longValue;
     }
 }
 
 -(void)clearCache
 {
-#warning @"implement
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSError *error = nil;
+    
+    for (NSString* fileName in [fm contentsOfDirectoryAtPath:self.cachePath error:&error]) {
+        BOOL isDirectory;
+        NSString* fullPath = [self.cachePath stringByAppendingPathComponent:fileName];
+        
+        if ([fm fileExistsAtPath:fullPath isDirectory:&isDirectory] && !isDirectory) {
+            [fm removeItemAtPath:fullPath error:&error];
+        }
+    }
 }
 
 -(long)cacheSize
@@ -131,7 +185,7 @@ static ANCache* sharedCache = nil;
         if (fileDictionary) fileSize += [fileDictionary fileSize];
     }
         
-    return fileSize / 1024;
+    return fileSize;
 }
 
 -(NSString*)pathForStorageKey:(NSString*)key
