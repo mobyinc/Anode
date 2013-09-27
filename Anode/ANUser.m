@@ -190,6 +190,7 @@ static ANUser* sharedCurrentUser = nil;
 
 +(void)setCurrentUser:(ANUser*)user
 {
+    sharedCurrentUser = user;
     [[ANCache sharedInstance] setObject:user forKey:CURRENT_USER_CACHE_KEY];
     [Anode sharedInstance].userToken = [user token];
 }
