@@ -7,6 +7,7 @@
 //
 
 #import <Anode/Anode.h>
+#import <UIKit/UIKit.h>
 
 /** ANObject is wrapper for dealing with file downloads and uploads.
  */

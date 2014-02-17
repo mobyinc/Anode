@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		34AB936918B2A7CA009305CF /* UniversalLib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 34AB936C18B2A7CA009305CF /* Build configuration list for PBXAggregateTarget "UniversalLib" */;
+			buildPhases = (
+				34AB936D18B2A87F009305CF /* Run Script - Build Platform Static Libraries */,
+				34AB936E18B2AFE4009305CF /* Run Script - Build Universal Library */,
+			);
+			dependencies = (
+			);
+			name = UniversalLib;
+			productName = UniversalLib;
+		};
 		674F5EA817B5766900D8A066 /* Framework */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 674F5EA917B5766900D8A066 /* Build configuration list for PBXAggregateTarget "Framework" */;
@@ -305,7 +317,6 @@
 				674F5E8D17B572DC00D8A066 /* Frameworks */,
 				674F5E8E17B572DC00D8A066 /* CopyFiles */,
 				674F5EA117B5739200D8A066 /* Headers */,
-				674F5EA317B574BC00D8A066 /* Prepare Framework */,
 			);
 			buildRules = (
 			);
@@ -340,24 +351,39 @@
 				674F5E8F17B572DC00D8A066 /* Anode */,
 				674F5EA817B5766900D8A066 /* Framework */,
 				67DB38DD17C6CD4C003F8E0A /* Documentation */,
+				34AB936918B2A7CA009305CF /* UniversalLib */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		674F5EA317B574BC00D8A066 /* Prepare Framework */ = {
+		34AB936D18B2A87F009305CF /* Run Script - Build Platform Static Libraries */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Prepare Framework";
+			name = "Run Script - Build Platform Static Libraries";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"";
+			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -target ${PROJECT_NAME} -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -target ${PROJECT_NAME} -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos";
+		};
+		34AB936E18B2AFE4009305CF /* Run Script - Build Universal Library */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Build Universal Library";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" &&\nHEADERS_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/AnodeHeaders\" &&\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\" &&\nUNIVERSAL_LIBRARY_PATH=\"${UNIVERSAL_LIBRARY_DIR}/${PRODUCT_NAME}\" &&\n\nmkdir -p \"${UNIVERSAL_LIBRARY_DIR}\" &&\n\n# Generate universal binary for the device and simulator.\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\" &&\n\ncp -r \"${HEADERS_PATH}\" \"${UNIVERSAL_LIBRARY_DIR}\"\n";
 		};
 		674F5EAE17B5769100D8A066 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -419,6 +445,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		34AB936A18B2A7CA009305CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = libAnodeUniversal.a;
+			};
+			name = Debug;
+		};
+		34AB936B18B2A7CA009305CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = libAnodeUniversal.a;
+			};
+			name = Release;
+		};
 		674F5E9C17B572DC00D8A066 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -481,6 +521,7 @@
 		674F5E9F17B572DC00D8A066 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/Anode.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anode/Anode-Prefix.pch";
@@ -488,12 +529,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
 		};
 		674F5EA017B572DC00D8A066 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				DSTROOT = /tmp/Anode.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Anode/Anode-Prefix.pch";
@@ -501,6 +545,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "$(PROJECT_NAME)Headers";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Release;
 		};
@@ -535,6 +581,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		34AB936C18B2A7CA009305CF /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34AB936A18B2A7CA009305CF /* Debug */,
+				34AB936B18B2A7CA009305CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		674F5E8B17B572DC00D8A066 /* Build configuration list for PBXProject "Anode" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

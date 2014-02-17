@@ -7,6 +7,7 @@
 //
 
 #import "ANClient.h"
+#import "AFNetworking.h"
 
 @interface ANClient ()
 
