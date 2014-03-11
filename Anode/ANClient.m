@@ -88,6 +88,10 @@ static AFHTTPClient* sharedClient = nil;
         [sharedClient setDefaultHeader:@"Accept" value:@"application/json"];
         [sharedClient setDefaultHeader:@"Content-Type" value:@"application/json"];
         [sharedClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Token token=%@", [Anode token]]];
+        
+        if ([Anode appId] != nil) {
+            [sharedClient setDefaultHeader:@"AppId" value:[Anode appId]];
+        }
     }
     
     return sharedClient;

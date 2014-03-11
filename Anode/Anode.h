@@ -42,6 +42,17 @@ FOUNDATION_EXPORT NSString *const ANErrorOriginalError;
  */
 +(void)initializeWithBaseUrl:(NSString*)url clientToken:(NSString*)token;
 
+/** Initialize the framework with base url, client token and appId.
+ 
+ In addition to setting parameters, this method handles automatically re-establishing the user session from the cache, if any exists.
+ 
+ This method should be called as early as possible in the App Delegate.
+ 
+ @param url A string representing the root of the remote service
+ @param token The client token is shared between all clients and is used for anonymous access
+ */
++(void)initializeWithBaseUrl:(NSString*)url clientToken:(NSString*)token appId:(NSNumber*)appId;
+
 /** @name Getting properties
  */
 
@@ -57,6 +68,12 @@ FOUNDATION_EXPORT NSString *const ANErrorOriginalError;
  @return The current token
  */
 +(NSString*)token;
+
+/** Returns the current appId used for requests
+ 
+ @return The current appId (or nil)
+ */
++(NSString*)appId;
 
 /** @name Controlling cache versioning
  */

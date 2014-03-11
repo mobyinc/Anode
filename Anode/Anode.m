@@ -27,10 +27,17 @@ static Anode* sharedAnodeInstance = nil;
     return sharedAnodeInstance;
 }
 
-+(void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token
++(void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token {
+    [Anode initializeWithBaseUrl:url
+                     clientToken:token
+                           appId:nil];
+}
+
++(void)initializeWithBaseUrl:(NSString *)url clientToken:(NSString *)token appId:(NSNumber*)appId
 {
     [Anode sharedInstance].baseUrl = url;
     [Anode sharedInstance].clientToken = token;
+    [Anode sharedInstance].appId = appId;
     
     if ([ANUser currentUser]) {
         [Anode sharedInstance].userToken = [[ANUser currentUser] token];
@@ -45,6 +52,11 @@ static Anode* sharedAnodeInstance = nil;
 +(NSString *)token
 {
     return [Anode sharedInstance].userToken ? [Anode sharedInstance].userToken : [Anode sharedInstance].clientToken;
+}
+
++(NSString *)appId
+{
+    return [Anode sharedInstance].appId ? [Anode sharedInstance].appId : nil;
 }
 
 +(void)setCacheVersion:(NSNumber*)cacheVersion

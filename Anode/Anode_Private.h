@@ -12,6 +12,7 @@
 
 @property (nonatomic, readonly) NSString* token;
 @property (nonatomic, retain) NSString* clientToken;
+@property (nonatomic, retain) NSNumber* appId;
 @property (nonatomic, retain) NSString* userToken;
 @property (nonatomic, retain) NSString* baseUrl;
 
