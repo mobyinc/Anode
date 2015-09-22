@@ -1,0 +1,6 @@
+framework module Anode {
+  umbrella header "Anode-umbrella.h"
+
+  export *
+  module * { export * }
+}

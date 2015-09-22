@@ -1,14 +1,29 @@
-Anode
-=====
+# Anode
 
-Connect iOS apps to backend services using repeatable patterns.
+[![CI Status](http://img.shields.io/travis/cdann/Anode.svg?style=flat)](https://travis-ci.org/cdann/Anode)
+[![Version](https://img.shields.io/cocoapods/v/Anode.svg?style=flat)](http://cocoapods.org/pods/Anode)
+[![License](https://img.shields.io/cocoapods/l/Anode.svg?style=flat)](http://cocoapods.org/pods/Anode)
+[![Platform](https://img.shields.io/cocoapods/p/Anode.svg?style=flat)](http://cocoapods.org/pods/Anode)
 
+## Usage
 
-Building Universal Static Library
-=================================
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-* Open Anode.xcodeproj and select the UniversalLib target
+## Requirements
 
-* From the Product menu, select "Build For -> Profiling". This will build the library with the Release configuration.
+## Installation
 
-* The static library will be built and copied with the public header files to the "Build/Products/Release-iphoneuniversal" folder
+Anode is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "Anode"
+```
+
+## Author
+
+cdann, cdann@lintmachine.com
+
+## License
+
+Anode is available under the MIT license. See the LICENSE file for more info.
