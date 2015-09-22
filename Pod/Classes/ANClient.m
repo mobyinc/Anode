@@ -60,7 +60,7 @@ static AFHTTPClient* sharedClient = nil;
             
             for (NSString* key in files.allKeys) {
                 ANFile* file = files[key];
-                NSString* name = [NSString stringWithFormat:@"%@[%@]", type, key];
+                NSString* name = [NSString stringWithFormat:@"%@%@", type, key];
                 [formData appendPartWithFileData:file.data name:name fileName:file.fileName mimeType:@"image/png"];
             }
         }];

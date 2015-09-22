@@ -393,24 +393,34 @@
         if ([value isKindOfClass:[NSDate class]]) {
             NSString* dateString = [self.dateFormatter stringFromDate:value];
             [attributesToSend setObject:dateString forKey:key];
-        } else if ([value isKindOfClass:[ANFile class]]) {
+        }
+        else if ([value isKindOfClass:[ANFile class]]) {
             [attributesToSend removeObjectForKey:key];
-            self.files[key] = value; // will be sent as muti-part form data separately
-        } else if ([value isKindOfClass:[NSArray class]]) {
+            NSString* fileKey = [NSString stringWithFormat:@"[%@]", key];
+            self.files[fileKey] = value; // will be sent as muti-part form data separately
+        }
+        else if ([value isKindOfClass:[NSArray class]]) {
+            
             // recursively convert nested objects into a format Rails understands
-            NSArray* array = value;            
+            NSArray* array = value;
+            NSString* arrayKey = [key stringByAppendingString:@"_attributes"];
+            
             NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
             
             if (array.count > 0 && [array[0] isKindOfClass:[ANObject class]]) {    
                 for (int i=0; i<array.count; i++) {
                     ANObject* object = array[i];
-                    NSString* key = object.isNew ? [NSString stringWithFormat:@"%d", i+100000000] : [NSString stringWithFormat:@"%d", i];
-                    [dictionary setObject:[object dictionaryRepresentation] forKey:key];
+                    NSString* index = object.isNew ? [NSString stringWithFormat:@"%d", i+100000000] : [NSString stringWithFormat:@"%d", i];
+                    [dictionary setObject:[object dictionaryRepresentation] forKey:index];
+                    
+                    [object.files enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull nestedKey, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                        NSString* fileKey = [NSString stringWithFormat:@"[%@][%@]%@", arrayKey, index, nestedKey];
+                        [self.files setObject:obj forKey:fileKey];
+                    }];
                 }
             }
-            
 
-            [attributesToSend setObject:dictionary forKey:[key stringByAppendingString:@"_attributes"]];
+            [attributesToSend setObject:dictionary forKey:arrayKey];
             [attributesToSend removeObjectForKey:key];
         } else if ([value isKindOfClass:[ANObject class]]) {
             // this implies a belongs_to relationship, substitute for just the id if it exists
