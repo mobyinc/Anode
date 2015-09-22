@@ -22,8 +22,4 @@ pod "Anode"
 
 ## Author
 
-cdann, cdann@lintmachine.com
-
-## License
-
-Anode is available under the MIT license. See the LICENSE file for more info.
+mobyjames, james@mobyinc.com
