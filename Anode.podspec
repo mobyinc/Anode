@@ -2,7 +2,7 @@
 # valid spec before submitting.
 Pod::Spec.new do |s|
   s.name             = "Anode"
-  s.version          = "0.1.0"
+  s.version          = "1.1.0"
   s.summary          = "Connect iOS apps to backend services using repeatable patterns."
 
   s.description      = <<-DESC
