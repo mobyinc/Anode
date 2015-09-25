@@ -1,0 +1,26 @@
+PODS:
+  - ActiveSupportInflector (0.0.1)
+  - AFNetworking (1.3.4)
+  - Anode (0.1.0):
+    - ActiveSupportInflector (~> 0.0)
+    - AFNetworking (~> 1.3)
+  - Expecta (1.0.3)
+  - Specta (1.0.3)
+
+DEPENDENCIES:
+  - Anode (from `../`)
+  - Expecta
+  - Specta
+
+EXTERNAL SOURCES:
+  Anode:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ActiveSupportInflector: a6683770e236556d74d3480cd38dce4635d867f8
+  AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
+  Anode: 752b70796e38d6a64285df11f9efdd7fc606a755
+  Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
+  Specta: cf3e4188cf35375c3ee2cd03f8db8f1f4ef98234
+
+COCOAPODS: 0.38.2

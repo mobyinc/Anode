@@ -1,0 +1,1 @@
+../../../ActiveSupportInflector/ActiveSupportInflector.h

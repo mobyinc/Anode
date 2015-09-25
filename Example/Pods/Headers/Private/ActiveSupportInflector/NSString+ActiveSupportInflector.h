@@ -1,0 +1,1 @@
+../../../ActiveSupportInflector/NSString+ActiveSupportInflector.h

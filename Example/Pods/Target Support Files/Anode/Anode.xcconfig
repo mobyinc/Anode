@@ -1,0 +1,1 @@
+ANODE_OTHER_LDFLAGS = -framework "Foundation" -framework "MobileCoreServices" -framework "SystemConfiguration"
