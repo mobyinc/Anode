@@ -1,6 +1,0 @@
-framework module ActiveSupportInflector {
-  umbrella header "ActiveSupportInflector-umbrella.h"
-
-  export *
-  module * { export * }
-}

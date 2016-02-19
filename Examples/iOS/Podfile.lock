@@ -1,0 +1,20 @@
+PODS:
+  - ActiveSupportInflector (0.0.1)
+  - AFNetworking (1.3.4)
+  - Anode (1.1.0):
+    - ActiveSupportInflector (~> 0.0)
+    - AFNetworking (~> 1.3)
+
+DEPENDENCIES:
+  - Anode (from `../../`)
+
+EXTERNAL SOURCES:
+  Anode:
+    :path: "../../"
+
+SPEC CHECKSUMS:
+  ActiveSupportInflector: a6683770e236556d74d3480cd38dce4635d867f8
+  AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
+  Anode: dd6d7709bd7714780024c6ddef395bab8769bde4
+
+COCOAPODS: 0.39.0
