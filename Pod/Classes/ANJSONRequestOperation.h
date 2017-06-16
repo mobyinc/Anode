@@ -6,7 +6,8 @@
 //  Copyright (c) 2013 Moby, Inc. All rights reserved.
 //
 
-#import "AFJSONRequestOperation.h"
+//#import "AFJSONRequestOperation.h"
+@import AFNetworking;
 
 @interface ANJSONRequestOperation : AFJSONRequestOperation
 

@@ -2,11 +2,10 @@
 # valid spec before submitting.
 Pod::Spec.new do |s|
   s.name             = "Anode"
-  s.version          = "1.1.0"
-  s.summary          = "Connect iOS apps to backend services using repeatable patterns."
+  s.version          = "1.1.1"
+  s.summary          = "Connect mobile apps to backend services using simple middleware and native plugins."
 
-  s.description      = <<-DESC
-                       DESC
+  s.description      = "Connect mobile apps to backend services using simple middleware and native plugins. Anode comes with an example Rails project that shows how to setup your backend and connector SDKs for iOS and Android."
 
   s.homepage         = "https://github.com/mobyinc/Anode"
   s.license          = 'COMERCIAL'
@@ -14,7 +13,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/mobyinc/Anode.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/builtbymoby'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
